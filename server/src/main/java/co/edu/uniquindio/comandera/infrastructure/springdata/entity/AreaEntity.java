@@ -3,7 +3,7 @@ package co.edu.uniquindio.comandera.infrastructure.springdata.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import co.edu.uniquindio.comandera.domain.model.enums.AreaType;
+import co.edu.uniquindio.comandera.domain.model.enums.Area;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +26,7 @@ public class AreaEntity {
     
     private String name;
 
-    private AreaType type;
+    private Area type;
     
     @OneToMany
     @JoinColumn(name = "preparation_area")
@@ -40,7 +40,7 @@ public class AreaEntity {
         this.workers = new HashSet<>();
     }
 
-    public AreaEntity(String name, AreaType type) {
+    public AreaEntity(String name, Area type) {
         this();
         this.name = name;
         this.type = type;
@@ -62,11 +62,11 @@ public class AreaEntity {
         this.name = name;
     }
 
-    public AreaType getType() {
+    public Area getType() {
         return type;
     }
 
-    public void setType(AreaType type) {
+    public void setType(Area type) {
         this.type = type;
     }
 

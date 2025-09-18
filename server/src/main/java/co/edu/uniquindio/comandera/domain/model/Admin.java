@@ -1,7 +1,9 @@
 package co.edu.uniquindio.comandera.domain.model;
 
-public record Admin(
-    User user
-) {
-    // 
+
+public class Admin extends User {
+    public Admin(String name, String email, String password) {
+        super(name, email, password);
+    }
+
 }

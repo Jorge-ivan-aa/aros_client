@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public record Order(
     Integer id,
-    Worker worker,
+    Worker responsable,
     Table table,
     LocalDateTime creation,
     Float total
