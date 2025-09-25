@@ -2,5 +2,5 @@
 .vscode/
 .data/
 target/
-
+src/main/resources/data.sql
 .env

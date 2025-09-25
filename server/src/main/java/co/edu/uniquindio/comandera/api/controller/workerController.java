@@ -8,10 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/worker")
@@ -29,5 +26,54 @@ public class workerController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
+    
+    
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getWorkerById(@PathVariable("id") Long id){
+        if (id == null || id <= 0) {
+            return ResponseEntity.badRequest().body("El id proporcionado no es válido.");
+        }
+        try {
+            var worker = workerService.getWorkerById(id); // Debe devolver el DTO o la entidad correspondiente
+            return ResponseEntity.ok(worker);
+        } catch (jakarta.persistence.EntityNotFoundException ex) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.NOT_FOUND)
+                    .body("No se encontró un trabajador con id " + id);
+        } catch (Exception ex) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ocurrió un error al consultar el trabajador.");
+        }
+    }
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllWorkers() {
+        try {
+            java.util.List<WorkerResponseDTO> workers = workerService.findAllWorkers();
+            if (workers == null || workers.isEmpty()) {
+                return ResponseEntity.status(org.springframework.http.HttpStatus.NO_CONTENT).build();
+            }
+            return ResponseEntity.ok(workers);
+        } catch (Exception ex) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ocurrió un error al consultar los trabajadores.");
+        }
+    }
 
+    @GetMapping("/identification/{identification}")
+    public ResponseEntity<?> getWorkerByIdentification(@PathVariable("identification") String identification) {
+        if (identification == null || identification.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("La identificación proporcionada no es válida.");
+        }
+
+        try {
+            WorkerResponseDTO worker = workerService.getWorkerByIdentification(identification.trim());
+            return ResponseEntity.ok(worker);
+        } catch (jakarta.persistence.EntityNotFoundException ex) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.NOT_FOUND)
+                    .body("No se encontró un trabajador con la identificación " + identification);
+        } catch (Exception ex) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ocurrió un error al consultar el trabajador por identificación.");
+        }
+    }
 }
