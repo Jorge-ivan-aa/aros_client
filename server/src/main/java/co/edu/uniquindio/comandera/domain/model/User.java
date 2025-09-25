@@ -17,4 +17,15 @@ public abstract class User {
         return hasher.matches(rawPassword, this.passwordHash);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
 }
