@@ -1,11 +1,12 @@
 package co.edu.uniquindio.comandera.domain.util;
 
-import co.edu.uniquindio.comandera.domain.model.User;
+import java.time.LocalDateTime;
 
 public record RefreshToken(
-    Integer id,
-    User user,
-    String token
+    String id,
+    String hash,
+    LocalDateTime createdAt,
+    LocalDateTime expiredAt,
+    Long userId
 ) {
-    
 }
