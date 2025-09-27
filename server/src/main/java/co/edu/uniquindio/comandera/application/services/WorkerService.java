@@ -1,10 +1,12 @@
 package co.edu.uniquindio.comandera.application.services;
 
+import co.edu.uniquindio.comandera.api.dto.AreaDTO;
 import co.edu.uniquindio.comandera.api.dto.WorkerRequestDTO;
 import co.edu.uniquindio.comandera.api.dto.WorkerResponseDTO;
 import co.edu.uniquindio.comandera.domain.model.Worker;
 
 import co.edu.uniquindio.comandera.infrastructure.springdata.entity.AreaEntity;
+import co.edu.uniquindio.comandera.infrastructure.springdata.entity.ProductEntity;
 import co.edu.uniquindio.comandera.infrastructure.springdata.entity.WorkerEntity;
 import co.edu.uniquindio.comandera.repostories.AreaRepository;
 import jakarta.transaction.Transactional;
@@ -18,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 // WorkerService.java
 @Service
@@ -100,6 +103,7 @@ public class WorkerService {
 
     private WorkerResponseDTO convertToDTO(WorkerEntity worker) {
         WorkerResponseDTO dto = new WorkerResponseDTO();
+       dto.setId(worker.getId());
         dto.setIdentification(worker.getIdentification());
         dto.setIdentification(worker.getIdentification());
         dto.setName(worker.getName());
@@ -108,6 +112,18 @@ public class WorkerService {
         dto.setAddress(worker.getAddress());
         dto.setObservations(worker.getObservations());
         dto.setEnable(worker.getEnable());
+
+        Set<AreaDTO> areaDTOs = worker.getAreas().stream()
+                .map(area -> new AreaDTO(
+                        area.getId(),
+                        area.getName(),
+                        area.getType(),
+                        area.getProducts().stream().map(ProductEntity::getId).collect(Collectors.toSet()),
+                        area.getWorkers().stream().map(WorkerEntity::getId).collect(Collectors.toSet())
+                ))
+                .collect(Collectors.toSet());
+
+        dto.setAreas(areaDTOs);
 
         return dto;
     }

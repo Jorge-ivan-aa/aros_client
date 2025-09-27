@@ -2,7 +2,7 @@ package co.edu.uniquindio.comandera.infrastructure.springdata.entity;
 
 import java.util.HashSet;
 import java.util.Set;
-import co.edu.uniquindio.comandera.domain.model.enums.Area;
+
 import jakarta.persistence.*;
 
 @Entity

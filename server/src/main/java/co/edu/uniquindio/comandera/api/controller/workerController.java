@@ -23,7 +23,6 @@ public class workerController {
         return ResponseEntity.ok(updated);
     }
 
-
     @PostMapping
     public ResponseEntity<?> createWorker(@Valid @RequestBody WorkerRequestDTO workerDTO) {
         try {
