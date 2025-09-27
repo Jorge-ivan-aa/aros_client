@@ -95,15 +95,35 @@ public class WorkerService {
         return convertToDTO(savedWorker);
     }
     
-    public WorkerResponseDTO getWorkerById(String id) {
-        WorkerEntity worker = workerRepository.findByIdentification(id)
+    public WorkerResponseDTO getWorkerById(Long id) {
+        WorkerEntity worker = workerRepository.findById(id)
                 .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("No se encontró un trabajador con id " + id));
         return convertToDTO(worker);
     }
 
+    public WorkerResponseDTO getWorkerByIdentification(String identification) {
+        if (identification == null || identification.isBlank()) {
+            throw new IllegalArgumentException("La identificación no puede estar vacía.");
+        }
+        WorkerEntity worker = workerRepository.findByIdentification(identification)
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException(
+                        "No se encontró un trabajador con la identificación " + identification));
+        return convertToDTO(worker);
+    }
+
+    public java.util.List<WorkerResponseDTO> findAllWorkers() {
+        java.util.List<WorkerEntity> workers = (java.util.List<WorkerEntity>) workerRepository.findAll();
+        if (workers == null || workers.isEmpty()) {
+            return java.util.Collections.emptyList();
+        }
+        return workers.stream()
+                .map(this::convertToDTO)
+                .toList();
+    }
+
     private WorkerResponseDTO convertToDTO(WorkerEntity worker) {
         WorkerResponseDTO dto = new WorkerResponseDTO();
-       dto.setId(worker.getId());
+        dto.setId(worker.getId());
         dto.setIdentification(worker.getIdentification());
         dto.setIdentification(worker.getIdentification());
         dto.setName(worker.getName());
@@ -128,23 +148,4 @@ public class WorkerService {
         return dto;
     }
 
-    public WorkerResponseDTO getWorkerByIdentification(String identification) {
-        if (identification == null || identification.isBlank()) {
-            throw new IllegalArgumentException("La identificación no puede estar vacía.");
-        }
-        WorkerEntity worker = workerRepository.findByIdentification(identification)
-                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException(
-                        "No se encontró un trabajador con la identificación " + identification));
-        return convertToDTO(worker);
-    }
-
-    public java.util.List<WorkerResponseDTO> findAllWorkers() {
-        java.util.List<WorkerEntity> workers = (java.util.List<WorkerEntity>) workerRepository.findAll();
-        if (workers == null || workers.isEmpty()) {
-            return java.util.Collections.emptyList();
-        }
-        return workers.stream()
-                .map(this::convertToDTO)
-                .toList();
-    }
 }
