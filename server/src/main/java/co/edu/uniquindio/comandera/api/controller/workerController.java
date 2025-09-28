@@ -17,9 +17,9 @@ public class workerController {
     @Autowired
     private WorkerService workerService;
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateWorker(@PathVariable("id") String id, @Valid @RequestBody WorkerRequestDTO workerDTO) {
-        WorkerResponseDTO updated = workerService.updateWorker(id, workerDTO);
+    @PutMapping("/{identification}")
+    public ResponseEntity<?> updateWorker(@PathVariable("identification") String identification, @Valid @RequestBody WorkerRequestDTO workerDTO) {
+        WorkerResponseDTO updated = workerService.updateWorker(identification, workerDTO);
         return ResponseEntity.ok(updated);
     }
 

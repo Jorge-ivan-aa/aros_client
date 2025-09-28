@@ -3,7 +3,6 @@ package co.edu.uniquindio.comandera.application.services;
 import co.edu.uniquindio.comandera.api.dto.AreaDTO;
 import co.edu.uniquindio.comandera.api.dto.WorkerRequestDTO;
 import co.edu.uniquindio.comandera.api.dto.WorkerResponseDTO;
-import co.edu.uniquindio.comandera.domain.model.Worker;
 
 import co.edu.uniquindio.comandera.infrastructure.springdata.entity.AreaEntity;
 import co.edu.uniquindio.comandera.infrastructure.springdata.entity.ProductEntity;
@@ -16,10 +15,7 @@ import org.springframework.stereotype.Service;
 import co.edu.uniquindio.comandera.repostories.WorkerRepository;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 // WorkerService.java
@@ -33,8 +29,8 @@ public class WorkerService {
     private AreaRepository areaRepository;
 
     @Transactional
-    public WorkerResponseDTO updateWorker(String id, WorkerRequestDTO workerDTO) {
-        WorkerEntity worker = workerRepository.findByIdentification(id)
+    public WorkerResponseDTO updateWorker(String identification, WorkerRequestDTO workerDTO) {
+        WorkerEntity worker = workerRepository.findByIdentification(identification)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Worker no encontrado"));
 
         if(workerDTO.getName()!=null && !workerDTO.getName().isBlank()){
@@ -57,9 +53,20 @@ public class WorkerService {
         }
 
         Set<Long> areaIds = workerDTO.getAreaIds();
+
         if (areaIds != null) {
-            if (!areaIds.isEmpty()) {
-                Set<AreaEntity> areas = new HashSet<>((Collection<? extends AreaEntity>) areaRepository.findAllById(areaIds));
+            if (areaIds.isEmpty()) {
+                worker.setAreas(new HashSet<>());
+            } else {
+                Iterable<AreaEntity> found = areaRepository.findAllById(areaIds);
+                Set<AreaEntity> areas = new HashSet<>();
+                found.forEach(areas::add);
+
+
+                if (areas.size() != areaIds.size()) {
+                    throw new IllegalArgumentException("Some area IDs do not exist");
+                }
+
                 worker.setAreas(areas);
             }
         }
@@ -69,6 +76,10 @@ public class WorkerService {
     }
 
     public WorkerResponseDTO createWorker(WorkerRequestDTO workerDTO) {
+
+        if(workerRepository.existsByIdentification(workerDTO.getIdentification())){
+            throw new IllegalArgumentException("The identification already exist");
+        }
 
         WorkerEntity worker = new WorkerEntity(
                 workerDTO.getIdentification(),

@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface WorkerRepository extends CrudRepository<WorkerEntity, Long> {
 
+    boolean existsByIdentification(String identification);
     Optional<WorkerEntity> findByIdentification(String identification);
+
 
 }

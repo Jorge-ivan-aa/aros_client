@@ -1,5 +1,6 @@
 package co.edu.uniquindio.comandera.api.dto;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class WorkerRequestDTO {
@@ -11,7 +12,7 @@ public class WorkerRequestDTO {
     private String address;
     private String observations;
     private Boolean enable;
-    private Set<Long> areaIds;
+    private Set<Long> areaIds = new HashSet<>();
 
     public String getIdentification() { return identification; }
     public void setIdentification(String identification) { this.identification = identification; }
@@ -38,6 +39,7 @@ public class WorkerRequestDTO {
     public void setEnable(Boolean enable) { this.enable = enable; }
 
     public Set<Long> getAreaIds() { return areaIds; }
+
     public void setAreaIds(Set<Long> areaIds) { this.areaIds = areaIds; }
 
 
