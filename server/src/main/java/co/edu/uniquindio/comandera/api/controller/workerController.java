@@ -33,6 +33,15 @@ public class workerController {
         }
     }
 
+    @DeleteMapping("/{identification}")
+    public ResponseEntity<?> deleteWorker(@PathVariable("identification") String identification) {
+        try{
+            workerService.deletWorkerByIdentification(identification);
+            return ResponseEntity.ok("The Worker "+identification+ " has successfully deleted.");
+        }catch (RuntimeException ex){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
+    }
     //Search workers by ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getWorkerById(@PathVariable("id") Long id){

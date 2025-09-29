@@ -18,8 +18,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// WorkerService.java
+
 @Service
+@Transactional
 public class WorkerService {
 
     @Autowired
@@ -28,7 +29,7 @@ public class WorkerService {
     @Autowired
     private AreaRepository areaRepository;
 
-    @Transactional
+
     public WorkerResponseDTO updateWorker(String identification, WorkerRequestDTO workerDTO) {
         WorkerEntity worker = workerRepository.findByIdentification(identification)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Worker no encontrado"));
@@ -132,6 +133,13 @@ public class WorkerService {
                 .toList();
     }
 
+    public void  deletWorkerByIdentification (String identification){
+        if(!workerRepository.existsByIdentification(identification)){
+            throw new IllegalArgumentException("The identification "+identification + "does not exist");
+        }
+        workerRepository.deleteByIdentification(identification);
+    }
+
     private WorkerResponseDTO convertToDTO(WorkerEntity worker) {
         WorkerResponseDTO dto = new WorkerResponseDTO();
         dto.setId(worker.getId());
@@ -158,5 +166,6 @@ public class WorkerService {
 
         return dto;
     }
+
 
 }

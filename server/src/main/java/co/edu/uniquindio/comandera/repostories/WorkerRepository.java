@@ -13,6 +13,6 @@ public interface WorkerRepository extends CrudRepository<WorkerEntity, Long> {
 
     boolean existsByIdentification(String identification);
     Optional<WorkerEntity> findByIdentification(String identification);
-
+    void deleteByIdentification(String identification);
 
 }
