@@ -1,9 +1,6 @@
 package co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
@@ -11,22 +8,10 @@ import jakarta.persistence.Table;
 @Table(name = "administrators")
 @PrimaryKeyJoinColumn(name = "id")
 public class AdminEntity extends UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
     public AdminEntity() {
     }
 
-    public AdminEntity(String name, String password) {
-        super(name, password);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public AdminEntity(Long id, String name, String email, String password) {
+        super(id, name, email, password);
     }
 }

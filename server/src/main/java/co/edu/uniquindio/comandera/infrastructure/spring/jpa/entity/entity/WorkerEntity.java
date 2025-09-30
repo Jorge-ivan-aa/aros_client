@@ -44,8 +44,10 @@ public class WorkerEntity extends UserEntity {
     }
 
     public WorkerEntity(
+        Long id,
         String identification,
         String name,
+        String email,
         String password,
         String phone,
         String image,
@@ -53,7 +55,7 @@ public class WorkerEntity extends UserEntity {
         String observations,
         Boolean enable
     ) {
-        super(name, password);
+        super(id, name, email, password);
         this.identification = identification;
         this.phone = phone;
         this.image = image;

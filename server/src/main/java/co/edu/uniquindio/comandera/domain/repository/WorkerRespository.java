@@ -18,11 +18,20 @@ public interface WorkerRespository {
     /**
      * find a employee using his identification
      *
-     * @param identification user's identification
+     * @param identification employee's identification
      *
      * @return finded worker
      */
     public Optional<Worker> findByIdentification(String identification);
+    
+    /**
+     * find a employee using his email
+     *
+     * @param email employee's email
+     *
+     * @return finded employee
+     */
+    public Optional<Worker> findByEmail(String email);
     
     /**
      * get all the employees/workers
@@ -36,7 +45,7 @@ public interface WorkerRespository {
      * 
      * @return info of worker created
      */
-    public Worker create(Worker user);
+    public Worker create(Worker worker);
     
     /**
      * update the info of a worker

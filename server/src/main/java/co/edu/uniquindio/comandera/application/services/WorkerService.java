@@ -3,10 +3,7 @@ package co.edu.uniquindio.comandera.application.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.edu.uniquindio.comandera.infrastructure.spring.jpa.repository.WorkerRepository;
+import co.edu.uniquindio.comandera.infrastructure.spring.jpa.repository.JpaWorkerRepository;
 
-@Service
 public class WorkerService {
-    @Autowired
-    private WorkerRepository repository;
 }

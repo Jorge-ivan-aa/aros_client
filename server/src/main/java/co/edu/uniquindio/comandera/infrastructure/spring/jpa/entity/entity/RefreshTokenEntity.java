@@ -1,7 +1,6 @@
 package co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.entity;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -28,7 +27,7 @@ public class RefreshTokenEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
-
+    
     private String hash;
     
     private LocalDateTime createdAt;
@@ -36,19 +35,23 @@ public class RefreshTokenEntity {
     @Column(nullable = true)
     private LocalDateTime expiredAt;
     
+    private LocalDateTime revokedAt;
+    
     public RefreshTokenEntity() {
     }
 
     public RefreshTokenEntity(
-        UserEntity user,
+        String id,
         String hash,
         LocalDateTime createdAt,
-        LocalDateTime expiredAt
+        LocalDateTime expiredAt,
+        LocalDateTime revokedAt
     ) {
-        this.user = Objects.requireNonNull(user);
+        this.id = id;
         this.hash = hash;
         this.createdAt = createdAt;
         this.expiredAt = expiredAt;
+        this.revokedAt = revokedAt;
     }
 
     public String getId() {
@@ -89,5 +92,13 @@ public class RefreshTokenEntity {
 
     public void setExpiredAt(LocalDateTime expiredAt) {
         this.expiredAt = expiredAt;
+    }
+
+    public LocalDateTime getRevokedAt() {
+        return revokedAt;
+    }
+
+    public void setRevokedAt(LocalDateTime revokedAt) {
+        this.revokedAt = revokedAt;
     }
 }
