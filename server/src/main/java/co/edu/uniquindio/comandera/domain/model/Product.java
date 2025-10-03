@@ -26,6 +26,8 @@ public class Product
 
     private Set<Category> categories;
 
+    private Integer quantity;
+
     public Product() {}
 
     public Product(
@@ -136,5 +138,15 @@ public class Product
     public void setCategories(Set<Category> categories)
     {
         this.categories = categories;
+    }
+
+    public Integer getQuantity()
+    {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity)
+    {
+        this.quantity = quantity;
     }
 }
