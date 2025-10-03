@@ -1,5 +1,10 @@
 package co.edu.uniquindio.comandera.domain.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import co.edu.uniquindio.comandera.domain.model.enums.Area;
+
 public class Worker extends User
 {
     private String identification;
@@ -13,6 +18,8 @@ public class Worker extends User
     private String observations;
 
     private boolean enable;
+    
+    private Set<Area> areas;
 
     public Worker(Long id, String name, String email, String password)
     {
@@ -38,6 +45,7 @@ public class Worker extends User
         this.address = address;
         this.observations = observations;
         this.enable = enable;
+        this.areas = new HashSet<>();
     }
 
     public String getIdentification() {
@@ -86,5 +94,13 @@ public class Worker extends User
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public Set<Area> getAreas() {
+        return areas;
+    }
+
+    public void setAreas(Set<Area> areas) {
+        this.areas = areas;
     }
 }

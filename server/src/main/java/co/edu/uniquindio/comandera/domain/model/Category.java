@@ -1,7 +1,7 @@
 package co.edu.uniquindio.comandera.domain.model;
 
 public record Category(
-    Integer id,
+    Long id,
     String name
 ) {
 }
