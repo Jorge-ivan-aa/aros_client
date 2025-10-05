@@ -3,7 +3,6 @@ package co.edu.uniquindio.comandera.domain.model;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-import co.edu.uniquindio.comandera.domain.model.enums.Area;
 import co.edu.uniquindio.comandera.domain.model.enums.ProductStatus;
 
 public class Product

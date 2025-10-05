@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.entity.CategoryEntity;
 
 @Repository
-public interface CategoryRepository extends CrudRepository<CategoryEntity, Long> {
+public interface JpaCategoryRepository extends CrudRepository<CategoryEntity, Long>
+{
     // 
 }

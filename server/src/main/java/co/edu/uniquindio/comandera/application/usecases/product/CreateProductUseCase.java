@@ -3,9 +3,9 @@ package co.edu.uniquindio.comandera.application.usecases.product;
 import java.util.Set;
 
 import co.edu.uniquindio.comandera.application.dto.product.CreateProductRequestDto;
+import co.edu.uniquindio.comandera.domain.model.Area;
 import co.edu.uniquindio.comandera.domain.model.Category;
 import co.edu.uniquindio.comandera.domain.model.Product;
-import co.edu.uniquindio.comandera.domain.model.enums.Area;
 import co.edu.uniquindio.comandera.domain.repository.AreaRepository;
 import co.edu.uniquindio.comandera.domain.repository.CategoryRepository;
 import co.edu.uniquindio.comandera.domain.repository.ProductRepository;
@@ -17,6 +17,16 @@ public class CreateProductUseCase
     private AreaRepository areaRepository;
 
     private CategoryRepository categoryRepository;
+
+    public CreateProductUseCase(
+        ProductRepository productRepository,
+        AreaRepository areaRepository,
+        CategoryRepository categoryRepository
+    ) {
+        this.productRepository = productRepository;
+        this.areaRepository = areaRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
     public void execute(CreateProductRequestDto request)
     {

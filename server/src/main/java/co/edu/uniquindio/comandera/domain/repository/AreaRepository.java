@@ -3,7 +3,8 @@ package co.edu.uniquindio.comandera.domain.repository;
 import java.util.List;
 import java.util.Optional;
 
-import co.edu.uniquindio.comandera.domain.model.enums.Area;
+import co.edu.uniquindio.comandera.domain.model.Area;
+import co.edu.uniquindio.comandera.domain.model.enums.AreaType;
 
 public interface AreaRepository {
     /**
@@ -22,14 +23,5 @@ public interface AreaRepository {
      *
      * @return areas with the type
      */
-    public List<Area> findByType(Area type);
-
-    /**
-     * check if the categories exists
-     * 
-     * @param ids categories ids
-     * 
-     * @return all the categories exists
-     */
-    public boolean exists(Long ...ids);
+    public List<Area> findByType(AreaType type);
 }

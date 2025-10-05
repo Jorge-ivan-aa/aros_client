@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.entity.ProductEntity;
 
 @Repository
-public interface JpaProductRepository extends CrudRepository<ProductEntity, Long> {
+public interface JpaProductRepository extends CrudRepository<ProductEntity, Long>
+{
     // 
 }

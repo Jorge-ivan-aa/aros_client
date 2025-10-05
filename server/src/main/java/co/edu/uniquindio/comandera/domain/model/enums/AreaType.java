@@ -1,5 +1,5 @@
 package co.edu.uniquindio.comandera.domain.model.enums;
 
-public enum Area {
+public enum AreaType {
     KITCHEN, BAR, SERVICE
 }
