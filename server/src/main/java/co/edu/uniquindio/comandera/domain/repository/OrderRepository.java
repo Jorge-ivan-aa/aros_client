@@ -1,13 +1,7 @@
 package co.edu.uniquindio.comandera.domain.repository;
 
-import co.edu.uniquindio.comandera.domain.model.Order;
-import co.edu.uniquindio.comandera.domain.model.Product;
-import co.edu.uniquindio.comandera.domain.model.enums.Area;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.entity.OrderEntity;
-
-
 import java.util.List;
-import java.util.Queue;
 
 public interface OrderRepository {
 
