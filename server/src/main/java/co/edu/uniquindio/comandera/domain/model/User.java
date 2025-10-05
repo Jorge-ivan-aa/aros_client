@@ -3,10 +3,13 @@ package co.edu.uniquindio.comandera.domain.model;
 import co.edu.uniquindio.comandera.domain.model.services.PasswordHasher;
 
 public class User {
-    private final Long id;
-    private final String name;
-    private final String email;
-    private final String passwordHash;
+    private Long id;
+    private String name;
+    private String email;
+    private String passwordHash;
+
+    public User() {
+    }
 
     public User(Long id, String name, String email, String passwordHash) {
         this.id = id;

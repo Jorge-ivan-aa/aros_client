@@ -41,16 +41,16 @@ public class LoginTokenUseCase
     
     public AuthTokenReponseDto execute(AuthRequestDto request) throws InvalidCredentialsException
     {
-        User worker = this.userRepository
+        User user = this.userRepository
             .findByEmail(request.getUsername())
             .orElseThrow(() -> new InvalidCredentialsException());
         
-        if (! worker.passwordMatches(request.getPassword(), this.passwordHasher)) {
+        if (! user.passwordMatches(request.getPassword(), this.passwordHasher)) {
             throw new InvalidCredentialsException();
         }
 
-        String refreshToken = this.tokenService.generateRefreshToken(worker);
-        String accessToken = this.tokenService.generateAccessToken(worker);
+        String refreshToken = this.tokenService.generateRefreshToken(user);
+        String accessToken = this.tokenService.generateAccessToken(user);
         
         this.tokenRepository.create(new RefreshToken(
             UUID.randomUUID().toString(),
@@ -58,7 +58,7 @@ public class LoginTokenUseCase
             LocalDateTime.now(),
             LocalDateTime.now().plusHours(refreshTokenDuration),
             null,
-            worker.getId()
+            user.getId()
         ));
 
         return new AuthTokenReponseDto(refreshToken, accessToken);

@@ -19,6 +19,9 @@ public class Worker extends User
     
     private Set<Area> areas;
 
+    public Worker() {
+    }
+
     public Worker(Long id, String name, String email, String password)
     {
         super(id, name, email, password);

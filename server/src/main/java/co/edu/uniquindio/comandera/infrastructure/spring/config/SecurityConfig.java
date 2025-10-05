@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -60,15 +59,14 @@ public class SecurityConfig
     ) {
         // AuthenticationProvider provider = new TokenAuthenticatorProvider(
         // );
-
+        
         return new TokenFilter(provider, exceptionResolver);
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider(
-        TokenService tokenService,
-        UserDetailsService userService
+        TokenService tokenService
     ) {
-        return new TokenAuthenticatorProvider(tokenService, userService);
+        return new TokenAuthenticatorProvider(tokenService);
     }
 }
