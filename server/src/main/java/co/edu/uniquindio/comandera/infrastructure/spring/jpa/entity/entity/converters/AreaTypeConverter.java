@@ -1,18 +1,18 @@
 package co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.entity.converters;
 
-import co.edu.uniquindio.comandera.domain.model.enums.Area;
+import co.edu.uniquindio.comandera.domain.model.enums.AreaType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
-public class AreaTypeConverter implements AttributeConverter<Area, String> {
+public class AreaTypeConverter implements AttributeConverter<AreaType, String> {
     @Override
-    public String convertToDatabaseColumn(Area attribute) {
+    public String convertToDatabaseColumn(AreaType attribute) {
         return attribute.name();
     }
 
     @Override
-    public Area convertToEntityAttribute(String dbData) {
-        return Area.valueOf(dbData);
+    public AreaType convertToEntityAttribute(String dbData) {
+        return AreaType.valueOf(dbData);
     }
 }

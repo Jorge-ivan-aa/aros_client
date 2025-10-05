@@ -15,7 +15,7 @@ import jakarta.persistence.UniqueConstraint;
     name = "daymenu_products",
     uniqueConstraints = @UniqueConstraint(columnNames = { "daymenu_id", "product_id" })
 )
-public class DayMenuProduct {
+public class DayMenuProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,16 +27,13 @@ public class DayMenuProduct {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductEntity product;
-
-    private Integer quantity;
     
-    public DayMenuProduct() {
+    public DayMenuProductEntity() {
     }
 
-    public DayMenuProduct(DayMenuEntity dayMenu, ProductEntity product, Integer quantity) {
+    public DayMenuProductEntity(DayMenuEntity dayMenu, ProductEntity product, Integer quantity) {
         this.dayMenu = dayMenu;
         this.product = product;
-        this.quantity = quantity;
     }
 
     public Long getId() {
@@ -53,14 +50,6 @@ public class DayMenuProduct {
 
     public void setDayMenu(DayMenuEntity dayMenu) {
         this.dayMenu = dayMenu;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
     }
 
     public ProductEntity getProduct() {

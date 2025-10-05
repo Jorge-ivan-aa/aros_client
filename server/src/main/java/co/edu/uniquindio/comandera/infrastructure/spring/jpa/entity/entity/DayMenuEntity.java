@@ -6,23 +6,18 @@ import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "daymenus")
-public class DayMenuEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
+@PrimaryKeyJoinColumn(name = "id")
+public class DayMenuEntity extends ProductEntity {
     private LocalDateTime creation;
     
     @OneToMany(mappedBy = "dayMenu", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<DayMenuProduct> products;
+    private Set<DayMenuProductEntity> products;
     
     public DayMenuEntity() {
         this.products = new HashSet<>();
@@ -33,14 +28,6 @@ public class DayMenuEntity {
         this.creation = creation;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public LocalDateTime getCreation() {
         return creation;
     }
@@ -49,11 +36,11 @@ public class DayMenuEntity {
         this.creation = creation;
     }
 
-    public Set<DayMenuProduct> getProducts() {
+    public Set<DayMenuProductEntity> getProducts() {
         return products;
     }
 
-    public void setProducts(Set<DayMenuProduct> products) {
+    public void setProducts(Set<DayMenuProductEntity> products) {
         this.products = products;
     }
 }

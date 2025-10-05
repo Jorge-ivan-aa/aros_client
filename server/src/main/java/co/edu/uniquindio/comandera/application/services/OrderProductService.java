@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.repository.OrderProductRepository;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.repository.OrderRepository;
-import co.edu.uniquindio.comandera.infrastructure.spring.jpa.repository.ProductRepository;
+import co.edu.uniquindio.comandera.infrastructure.spring.jpa.repository.JpaProductRepository;
 
 @Service
 public class OrderProductService {
@@ -13,7 +13,7 @@ public class OrderProductService {
     private OrderRepository orders;
     
     @Autowired
-    private ProductRepository products;
+    private JpaProductRepository products;
 
     @Autowired
     private OrderProductRepository repository;
