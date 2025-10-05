@@ -6,6 +6,7 @@ import co.edu.uniquindio.comandera.application.dto.product.CreateProductRequestD
 import co.edu.uniquindio.comandera.domain.model.Area;
 import co.edu.uniquindio.comandera.domain.model.Category;
 import co.edu.uniquindio.comandera.domain.model.Product;
+import co.edu.uniquindio.comandera.domain.model.enums.ProductStatus;
 import co.edu.uniquindio.comandera.domain.repository.AreaRepository;
 import co.edu.uniquindio.comandera.domain.repository.CategoryRepository;
 import co.edu.uniquindio.comandera.domain.repository.ProductRepository;
@@ -37,10 +38,16 @@ public class CreateProductUseCase
     {
         Area area = this.areaRepository
             .findById(request.getAreaId())
-            .orElseThrow();
+            // .get();
+            .orElseThrow(() -> new RuntimeException("Not Found area"));
 
-        Set<Category> categories = this.categoryRepository
-            .findAllById(request.getCategoriesId().toArray(new Long[0]));
+        
+        Set<Category> categories = null;
+
+        if (request.getCategoriesId() != null) {
+            categories = this.categoryRepository
+                .findAllById(request.getCategoriesId().toArray(new Long[0]));
+        }
 
         Product product = new Product();
 
@@ -50,6 +57,7 @@ public class CreateProductUseCase
         product.setEstimatedTime(request.getEstimateTime());
         product.setPreparationArea(area);
         product.setCategories(categories);
+        // product.setPreparationStatus(ProductStatus.PREPARED);
 
         return product;
     }

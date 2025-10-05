@@ -19,6 +19,14 @@ public class TokenAuthenticatorProvider implements AuthenticationProvider
     @Autowired
     private UserDetailsService userService;
 
+    public TokenAuthenticatorProvider() {
+    }
+
+    public TokenAuthenticatorProvider(TokenService tokenService, UserDetailsService userService) {
+        this.service = tokenService;
+        this.userService = userService;
+    }
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException
     {

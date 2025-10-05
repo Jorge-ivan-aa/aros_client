@@ -8,12 +8,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
+import co.edu.uniquindio.comandera.domain.service.TokenService;
 import co.edu.uniquindio.comandera.infrastructure.spring.filters.TokenFilter;
 import co.edu.uniquindio.comandera.infrastructure.spring.security.TokenAuthenticatorProvider;
 import co.edu.uniquindio.comandera.infrastructure.spring.security.entrypoint.TokenAuthenticationEntryPoint;
@@ -51,10 +53,20 @@ public class SecurityConfig
     
     @Bean
     public TokenFilter tokenFilter(
-        @Qualifier("handlerExceptionResolver") HandlerExceptionResolver exceptionResolver
+        @Qualifier("handlerExceptionResolver") HandlerExceptionResolver exceptionResolver,
+        AuthenticationProvider provider
     ) {
-        AuthenticationProvider provider = new TokenAuthenticatorProvider();
+        // AuthenticationProvider provider = new TokenAuthenticatorProvider(
+        // );
 
         return new TokenFilter(provider, exceptionResolver);
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider(
+        TokenService tokenService,
+        UserDetailsService userService
+    ) {
+        return new TokenAuthenticatorProvider(tokenService, userService);
     }
 }

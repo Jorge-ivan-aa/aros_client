@@ -25,11 +25,11 @@ public class CreateProductController
         @RequestBody
         CreateProductRequestDto productCreationDto
     ) {
-        try {
+        // try {
             this.createProduct.execute(productCreationDto);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        // } catch (Exception e) {
+        //     return ResponseEntity.badRequest().build();
+        // }
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

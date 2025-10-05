@@ -46,7 +46,7 @@ public class ProductEntity {
     @JoinColumn(name = "preparation_area")
     private AreaEntity preparationArea;
 
-    private ProductStatus status;
+    // private ProductStatus status;
     
     @Column(name = "prepare_for", nullable = true)
     private LocalDateTime prepararationDate;
@@ -68,9 +68,6 @@ public class ProductEntity {
     @OneToMany(mappedBy = "product")
     private Set<OrderProductEntity> orders;
 
-    @OneToMany(mappedBy = "orderProduct")
-    private Set<OrderSubProductsEntity> subProducts;
-
     public ProductEntity() {
         this.menus = new HashSet<>();
         this.orders = new HashSet<>();
@@ -83,7 +80,7 @@ public class ProductEntity {
         String description,
         Integer estimateTime,
         AreaEntity preparationArea,
-        ProductStatus status,
+        // ProductStatus status,
         LocalDateTime prepararationDate,
         String image
     ) {
@@ -93,7 +90,7 @@ public class ProductEntity {
         this.description = description;
         this.estimateTime = estimateTime;
         this.preparationArea = Objects.requireNonNull(preparationArea);
-        this.status = Objects.requireNonNull(status);
+        // this.status = Objects.requireNonNull(status);
         this.prepararationDate = prepararationDate;
         this.image = image;
     }
@@ -146,13 +143,13 @@ public class ProductEntity {
         this.preparationArea = preparationArea;
     }
 
-    public ProductStatus getStatus() {
-        return status;
-    }
+    // public ProductStatus getStatus() {
+    //     return status;
+    // }
 
-    public void setStatus(ProductStatus status) {
-        this.status = status;
-    }
+    // public void setStatus(ProductStatus status) {
+    //     this.status = status;
+    // }
 
     public LocalDateTime getPrepararationDate() {
         return prepararationDate;
@@ -192,13 +189,5 @@ public class ProductEntity {
 
     public void setOrders(Set<OrderProductEntity> orders) {
         this.orders = orders;
-    }
-
-    public Set<OrderSubProductsEntity> getSubProducts() {
-        return subProducts;
-    }
-
-    public void setSubProducts(Set<OrderSubProductsEntity> subProducts) {
-        this.subProducts = subProducts;
     }
 }
