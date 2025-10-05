@@ -3,6 +3,7 @@ package co.edu.uniquindio.comandera.infrastructure.jwt;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -12,9 +13,11 @@ import co.edu.uniquindio.comandera.domain.model.User;
 import co.edu.uniquindio.comandera.domain.model.Worker;
 import co.edu.uniquindio.comandera.domain.service.TokenService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.swagger.v3.core.util.Json;
 
 public class JwtService implements TokenService
 {
@@ -37,14 +40,23 @@ public class JwtService implements TokenService
             accessTokenSecrect.getBytes(StandardCharsets.UTF_8)
         );
         
-        return Jwts
+        JwtBuilder builder = Jwts
             .builder()
+            .claim("user.data", user)
             .claim("user.type", this.inferType(user))
             .subject(user.getEmail())
             .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 15))
             .signWith(signKey)
-            .compact()
+            // .compact()
         ;
+
+        if (user instanceof Worker wo) {
+            builder.claim("user.areas", wo.getAreas());
+        } else {
+            builder.claim("user.areas", Collections.EMPTY_SET);
+        }
+
+        return builder.compact();
     }
     
     /**
@@ -88,6 +100,18 @@ public class JwtService implements TokenService
     public String extractUsername(String token)
     {
         return this.extractClaimsAccessToken(token).getSubject();
+    }
+
+    @Override
+    public User extractUserInfo(String token)
+    {
+        Claims claims = this.extractClaimsAccessToken(token);
+
+        if (claims.get("user.type").equals("worker")) {
+            return Json.mapper().convertValue(claims.get("user.data"), Worker.class);
+        } else {
+            return Json.mapper().convertValue(claims.get("user.data"), User.class);
+        }
     }
     
     /**

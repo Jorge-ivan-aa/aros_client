@@ -1,5 +1,6 @@
 package co.edu.uniquindio.comandera.infrastructure.spring.repositories;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,9 +11,12 @@ import co.edu.uniquindio.comandera.domain.model.Worker;
 import co.edu.uniquindio.comandera.domain.repository.WorkerRespository;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.entity.WorkerEntity;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.repository.JpaWorkerRepository;
+import co.edu.uniquindio.comandera.infrastructure.spring.mappers.AreaJpaMapper;
 import co.edu.uniquindio.comandera.infrastructure.spring.mappers.WorkerJpaMapper;
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class WorkerJpaAdapter implements WorkerRespository
 {
     @Autowired
@@ -23,7 +27,7 @@ public class WorkerJpaAdapter implements WorkerRespository
     {
         return WorkerJpaMapper.toDomain(this.internal.save(
             WorkerJpaMapper.toEntity(worker)
-        ));
+        ), null);
     }
     
     @Override
@@ -55,7 +59,11 @@ public class WorkerJpaAdapter implements WorkerRespository
 
         if (entity.isEmpty()) return Optional.empty();
 
-        return Optional.of(WorkerJpaMapper.toDomain(entity.get()));
+        Worker domain = WorkerJpaMapper.toDomain(entity.get(), new HashSet<>(
+            entity.get().getAreas().stream().map(AreaJpaMapper::toDomain).toList()
+        ));
+
+        return Optional.of(domain);
     }
 
     @Override

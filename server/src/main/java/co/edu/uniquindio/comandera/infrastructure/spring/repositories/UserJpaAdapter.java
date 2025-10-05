@@ -10,8 +10,10 @@ import co.edu.uniquindio.comandera.domain.repository.UserRepository;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.entity.UserEntity;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.repository.JpaUserRepository;
 import co.edu.uniquindio.comandera.infrastructure.spring.mappers.UserJpaMapper;
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class UserJpaAdapter implements UserRepository
 {
     @Autowired
@@ -27,7 +29,7 @@ public class UserJpaAdapter implements UserRepository
     public Optional<User> findByEmail(String email)
     {
         Optional<UserEntity> entity = this.internal.findByEmail(email);
-        
+
         if (entity.isEmpty()) {
             return Optional.empty();
         }

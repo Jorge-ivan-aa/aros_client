@@ -5,12 +5,13 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import co.edu.uniquindio.comandera.domain.model.enums.ProductStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -20,17 +21,15 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(
-    name = "products",
-    uniqueConstraints = @UniqueConstraint(columnNames = { "name" })
-)
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = { "name" }))
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
-    
+
     private Float price;
 
     @Column(nullable = true)
@@ -38,30 +37,26 @@ public class ProductEntity {
 
     @Column(nullable = true)
     private Integer estimateTime;
-    
+
     @ManyToOne
     @JoinColumn(name = "preparation_area")
     private AreaEntity preparationArea;
 
-    private ProductStatus status;
-    
+    // private ProductStatus status;
+
     @Column(name = "prepare_for", nullable = true)
     private LocalDateTime prepararationDate;
-    
+
     @Column(nullable = true)
     private String image;
-    
+
     @ManyToMany
-    @JoinTable(
-        name = "product_categories",
-        joinColumns = @JoinColumn(name = "product_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
+    @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<CategoryEntity> categories;
-    
+
     @OneToMany(mappedBy = "product")
-    private Set<DayMenuProduct> menus;
-    
+    private Set<DayMenuProductEntity> menus;
+
     @OneToMany(mappedBy = "product")
     private Set<OrderProductEntity> orders;
 
@@ -72,22 +67,21 @@ public class ProductEntity {
     }
 
     public ProductEntity(
-        String name,
-        Float price,
-        String description,
-        Integer estimateTime,
-        AreaEntity preparationArea,
-        ProductStatus status,
-        LocalDateTime prepararationDate,
-        String image
-    ) {
+            String name,
+            Float price,
+            String description,
+            Integer estimateTime,
+            AreaEntity preparationArea,
+            // ProductStatus status,
+            LocalDateTime prepararationDate,
+            String image) {
         this();
         this.name = Objects.requireNonNull(name);
         this.price = Objects.requireNonNull(price);
         this.description = description;
         this.estimateTime = estimateTime;
         this.preparationArea = Objects.requireNonNull(preparationArea);
-        this.status = Objects.requireNonNull(status);
+        // this.status = Objects.requireNonNull(status);
         this.prepararationDate = prepararationDate;
         this.image = image;
     }
@@ -140,13 +134,13 @@ public class ProductEntity {
         this.preparationArea = preparationArea;
     }
 
-    public ProductStatus getStatus() {
-        return status;
-    }
+    // public ProductStatus getStatus() {
+    // return status;
+    // }
 
-    public void setStatus(ProductStatus status) {
-        this.status = status;
-    }
+    // public void setStatus(ProductStatus status) {
+    // this.status = status;
+    // }
 
     public LocalDateTime getPrepararationDate() {
         return prepararationDate;
@@ -172,11 +166,11 @@ public class ProductEntity {
         this.categories = categories;
     }
 
-    public Set<DayMenuProduct> getMenus() {
+    public Set<DayMenuProductEntity> getMenus() {
         return menus;
     }
 
-    public void setMenus(Set<DayMenuProduct> menus) {
+    public void setMenus(Set<DayMenuProductEntity> menus) {
         this.menus = menus;
     }
 

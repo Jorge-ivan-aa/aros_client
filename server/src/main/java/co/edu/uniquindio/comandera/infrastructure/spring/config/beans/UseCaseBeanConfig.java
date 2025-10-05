@@ -6,7 +6,11 @@ import org.springframework.context.annotation.Configuration;
 
 import co.edu.uniquindio.comandera.application.usecases.auth.LoginTokenUseCase;
 import co.edu.uniquindio.comandera.application.usecases.auth.RefreshTokenUseCase;
+import co.edu.uniquindio.comandera.application.usecases.product.CreateProductUseCase;
 import co.edu.uniquindio.comandera.domain.model.services.PasswordHasher;
+import co.edu.uniquindio.comandera.domain.repository.AreaRepository;
+import co.edu.uniquindio.comandera.domain.repository.CategoryRepository;
+import co.edu.uniquindio.comandera.domain.repository.ProductRepository;
 import co.edu.uniquindio.comandera.domain.repository.RefreshTokenRepository;
 import co.edu.uniquindio.comandera.domain.repository.UserRepository;
 import co.edu.uniquindio.comandera.domain.service.TokenService;
@@ -41,6 +45,19 @@ public class UseCaseBeanConfig
             refreshTokenRepository,
             workerRespository,
             tokenService
+        );
+    }
+
+    @Bean
+    public CreateProductUseCase createProductUseCase(
+        ProductRepository productRepository,
+        AreaRepository areaRepository,
+        CategoryRepository categoryRepository
+    ) {
+        return new CreateProductUseCase(
+            productRepository,
+            areaRepository,
+            categoryRepository
         );
     }
 }

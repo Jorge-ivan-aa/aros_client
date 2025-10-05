@@ -1,11 +1,14 @@
 package co.edu.uniquindio.comandera.infrastructure.spring.mappers;
 
+import java.util.Set;
+
+import co.edu.uniquindio.comandera.domain.model.Area;
 import co.edu.uniquindio.comandera.domain.model.Worker;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.entity.WorkerEntity;
 
 public class WorkerJpaMapper
 {
-    public static Worker toDomain(WorkerEntity entity)
+    public static Worker toDomain(WorkerEntity entity, Set<Area> areas)
     {
         Worker model = new Worker(
             entity.getId(),
@@ -20,6 +23,7 @@ public class WorkerJpaMapper
         model.setObservations(entity.getObservations());
         model.setPhone(entity.getPhone());
         model.setEnable(entity.getEnable());
+        model.setAreas(areas);
         
         return model;
     }

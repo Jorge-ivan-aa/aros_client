@@ -5,7 +5,8 @@ import java.util.Collection;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+
+import co.edu.uniquindio.comandera.domain.model.User;
 
 public class AuthenticationToken extends AbstractAuthenticationToken
 {
@@ -22,7 +23,7 @@ public class AuthenticationToken extends AbstractAuthenticationToken
     }
     
     public AuthenticationToken(
-        UserDetails principal,
+        User principal,
         String token,
         Collection<? extends GrantedAuthority> authorities
     ) {

@@ -5,7 +5,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import co.edu.uniquindio.comandera.domain.service.TokenService;
 import co.edu.uniquindio.comandera.infrastructure.spring.security.tokens.AuthenticationToken;
@@ -15,9 +14,13 @@ public class TokenAuthenticatorProvider implements AuthenticationProvider
 {
     @Autowired
     private TokenService service;
-    
-    @Autowired
-    private UserDetailsService userService;
+
+    public TokenAuthenticatorProvider() {
+    }
+
+    public TokenAuthenticatorProvider(TokenService tokenService) {
+        this.service = tokenService;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException
@@ -25,10 +28,8 @@ public class TokenAuthenticatorProvider implements AuthenticationProvider
         String token = (String) authentication.getCredentials();
 
         if (this.service.validateAccessToken(token)) {
-            String username = this.service.extractUsername(token);
-
             return new AuthenticationToken(
-                userService.loadUserByUsername(username),
+                this.service.extractUserInfo(token),
                 token,
                 Collections.emptyList()
             );

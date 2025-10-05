@@ -47,4 +47,13 @@ public interface TokenService {
      * @return extracted username
      */
     public String extractUsername(String token);
+
+    /**
+     * extact the user info from access token
+     * 
+     * @param token token with the info
+     * 
+     * @return user's info
+     */
+    public User extractUserInfo(String token);
 }
