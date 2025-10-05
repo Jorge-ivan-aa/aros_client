@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import co.edu.uniquindio.comandera.domain.model.enums.ProductStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,17 +22,14 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(
-    name = "products",
-    uniqueConstraints = @UniqueConstraint(columnNames = { "name" })
-)
+@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = { "name" }))
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
-    
+
     private Float price;
 
     @Column(nullable = true)
@@ -41,30 +37,26 @@ public class ProductEntity {
 
     @Column(nullable = true)
     private Integer estimateTime;
-    
+
     @ManyToOne
     @JoinColumn(name = "preparation_area")
     private AreaEntity preparationArea;
 
     // private ProductStatus status;
-    
+
     @Column(name = "prepare_for", nullable = true)
     private LocalDateTime prepararationDate;
-    
+
     @Column(nullable = true)
     private String image;
-    
+
     @ManyToMany
-    @JoinTable(
-        name = "product_categories",
-        joinColumns = @JoinColumn(name = "product_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
+    @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<CategoryEntity> categories;
-    
+
     @OneToMany(mappedBy = "product")
     private Set<DayMenuProductEntity> menus;
-    
+
     @OneToMany(mappedBy = "product")
     private Set<OrderProductEntity> orders;
 
@@ -75,15 +67,14 @@ public class ProductEntity {
     }
 
     public ProductEntity(
-        String name,
-        Float price,
-        String description,
-        Integer estimateTime,
-        AreaEntity preparationArea,
-        // ProductStatus status,
-        LocalDateTime prepararationDate,
-        String image
-    ) {
+            String name,
+            Float price,
+            String description,
+            Integer estimateTime,
+            AreaEntity preparationArea,
+            // ProductStatus status,
+            LocalDateTime prepararationDate,
+            String image) {
         this();
         this.name = Objects.requireNonNull(name);
         this.price = Objects.requireNonNull(price);
@@ -144,11 +135,11 @@ public class ProductEntity {
     }
 
     // public ProductStatus getStatus() {
-    //     return status;
+    // return status;
     // }
 
     // public void setStatus(ProductStatus status) {
-    //     this.status = status;
+    // this.status = status;
     // }
 
     public LocalDateTime getPrepararationDate() {

@@ -9,5 +9,5 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize(value = "authentication.type == Admin")
+@PreAuthorize("authentication.principal.type == 'Admin'")
 public @interface MustBeAdmin {}

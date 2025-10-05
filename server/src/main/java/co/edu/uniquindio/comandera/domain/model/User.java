@@ -2,7 +2,7 @@ package co.edu.uniquindio.comandera.domain.model;
 
 import co.edu.uniquindio.comandera.domain.model.services.PasswordHasher;
 
-public abstract class User {
+public class User {
     private final Long id;
     private final String name;
     private final String email;
