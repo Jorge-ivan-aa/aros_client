@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.uniquindio.comandera.application.dto.product.CreateProductRequestDto;
 import co.edu.uniquindio.comandera.application.usecases.product.CreateProductUseCase;
+import co.edu.uniquindio.comandera.infrastructure.spring.security.authorization.MustBeAdmin;
 
 @RestController
 @RequestMapping(path = "/api/")
@@ -19,6 +20,7 @@ public class CreateProductController
     private CreateProductUseCase createProduct;
 
     @PostMapping(path = "product")
+    @MustBeAdmin
     public ResponseEntity<?> createProduct(
         @RequestBody
         CreateProductRequestDto productCreationDto
