@@ -24,7 +24,7 @@ public class CategoryRepositoryJpaAdapter implements CategoryRepository
         Set<Category> categories = new HashSet<>();
 
         this.internal.findAllById(List.of(ids)).forEach(
-            (c) -> CategoryJpaMapper.toDomain(c)
+            (c) -> categories.add(CategoryJpaMapper.toDomain(c))
         );
 
         return categories;

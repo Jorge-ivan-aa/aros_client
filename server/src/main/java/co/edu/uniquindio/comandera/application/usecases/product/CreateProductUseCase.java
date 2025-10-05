@@ -1,5 +1,6 @@
 package co.edu.uniquindio.comandera.application.usecases.product;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import co.edu.uniquindio.comandera.application.dto.product.CreateProductRequestDto;
@@ -40,11 +41,11 @@ public class CreateProductUseCase
             .findById(request.getAreaId())
             .orElseThrow(() -> new NotFoundAreaException());
         
-        Set<Category> categories = null;
+        Set<Category> categories = new HashSet<>();
 
-        if (request.getCategoriesId() != null) {
+        if (request.getCategoriesId() != null && ! request.getCategoriesId().isEmpty()) {
             categories = this.categoryRepository
-                .findAllById(request.getCategoriesId().toArray(new Long[0]));
+                .findAllById(request.getCategoriesId().toArray(new Long[2]));
         }
 
         Product product = new Product();
