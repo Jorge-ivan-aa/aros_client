@@ -28,7 +28,9 @@ public class OrderEntity {
     private Float total;
     
     private LocalDateTime creation;
-    
+    private Boolean completed;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "worker_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
@@ -48,14 +50,16 @@ public class OrderEntity {
 
     public OrderEntity(
         WorkerEntity worker,
-        co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.entity.TableEntity table,
+        TableEntity table,
         Float total,
+        Boolean completed,
         LocalDateTime creation
     ) {
         this();
         this.total = total;
         this.worker = worker;
         this.table = table;
+        this.completed = completed;
         this.creation = creation;
     }
 

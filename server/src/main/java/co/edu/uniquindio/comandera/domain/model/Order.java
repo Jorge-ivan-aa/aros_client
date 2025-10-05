@@ -6,7 +6,8 @@ public record Order(
     Integer id,
     Worker responsable,
     Table table,
+    boolean isCompleted,
     LocalDateTime creation,
     Float total
 ) {
-}
+}// obtengo todas las orders completadas,
