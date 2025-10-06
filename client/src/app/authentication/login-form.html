@@ -1,8 +1,38 @@
-<h2>Login form</h2>
+<div class="w-4/12 mx-auto my-4">
+  <div class="shadow p-4 rounded-xl bg-white">
+    <div>
+      <div class="text-xl font-bold">Login form</div>
+    </div>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <input type="text" placeholder="username" formControlName="email">
-    <input type="password" name="" placeholder="password" formControlName="password">
-    
-    <button type="submit" [disabled]="formStatus == 'Occuped'">login</button>
-</form>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="my-5">
+        <div class="mb-4">
+          <input
+            type="text"
+            name="username"
+            placeholder="username"
+            formControlName="email"
+            class="border border-gray-300 px-3 py-1.5 w-full rounded-md placeholder:text-gray-500"
+          />
+        </div>
+        <div class="mb-4">
+          <input
+            type="password"
+            name="password"
+            placeholder="password"
+            formControlName="password"
+            class="border border-gray-300 px-3 py-1.5 w-full rounded-md placeholder:text-gray-500"
+          />
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="bg-slate-800 px-4 py-2 w-full font-bold text-white rounded-xl"
+        [disabled]="formStatus == 'Occuped'"
+      >
+        login
+      </button>
+    </form>
+  </div>
+</div>

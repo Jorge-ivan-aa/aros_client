@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'product-creation-form',
@@ -12,6 +12,7 @@ export class ProductCreationForm implements OnInit {
     name: new FormControl(''),
     price: new FormControl(''),
     description: new FormControl(''),
+    estimateTime: new FormControl(0),
     preparationArea: new FormControl(1),
   });
 
@@ -23,7 +24,9 @@ export class ProductCreationForm implements OnInit {
     { id: 2, name: 'Bar' },
   ];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // this.preparationAreas = 
+  }
 
   ngOnInit(): void {
     // 
@@ -34,11 +37,15 @@ export class ProductCreationForm implements OnInit {
       name: this.form.get('name')?.value,
       price: this.form.get('price')?.value,
       description: this.form.get('description')?.value,
-      estimateTime: 3,
-      "areaId": this.form.get('preparationArea')?.value,
+      estimateTime: this.form.get('estimateTime')?.value,
+      areaId: this.form.get('preparationArea')?.value,
     }).subscribe({
       next: (r) => console.log(r),
       error: (er) => console.log(er)
     });
+  }
+
+  private fetchForAreas() {
+    // 
   }
 }

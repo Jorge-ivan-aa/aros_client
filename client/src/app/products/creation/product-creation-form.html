@@ -2,21 +2,41 @@
 <div class="my-4"></div>
 
 <div class="m-5">
-    <form action="" [formGroup]="form" (ngSubmit)="createProduct()">
-        <input type="text" placeholder="name" class="" formControlName="name" class="border rounded p-1 mb-2">
-        <br>
-        <input type="number" placeholder="price" formControlName="price" class="border rounded p-1 mb-2">
-        <br>
-        <textarea name="description" placeholder="description" formControlName="description" class="border rounded p-1 mb-2"></textarea>
-        <br>
-        <select name="preparationArea"  formControlName="preparationArea" class="border rounded p-1 mb-2">
-            @for (item of preparationAreas; track $index) {
-                <option value="{{ item.id }}">{{ item.name }}</option>
-            }
-        </select>
-        <br>
-        <button type="submit" class="rounded-xl px-4 py-1 bg-slate-800 text-white min-w-30">
-            Send
-        </button>
-    </form>
+  <form action="" [formGroup]="form" (ngSubmit)="createProduct()">
+    <input
+      type="text"
+      placeholder="name"
+      class=""
+      formControlName="name"
+      class="border rounded p-1 mb-2"
+    />
+    <br />
+    <input
+      type="number"
+      placeholder="price"
+      formControlName="price"
+      class="border rounded p-1 mb-2"
+    />
+    <br />
+    <textarea
+      name="description"
+      placeholder="description"
+      formControlName="description"
+      class="border rounded p-1 mb-2"
+    ></textarea>
+    <br />
+    <select
+      name="preparationArea"
+      formControlName="preparationArea"
+      class="border rounded p-1 mb-2"
+    >
+      @for (item of preparationAreas; track $index) {
+      <option value="{{ item.id }}">{{ item.name }}</option>
+      }
+    </select>
+    <br />
+    <button type="submit" class="rounded-xl px-4 py-1 bg-slate-800 text-white min-w-30">
+      Send
+    </button>
+  </form>
 </div>
