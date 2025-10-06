@@ -40,7 +40,8 @@ public class SecurityConfig
             )
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers(new String[] { "/api/login", "/api/refresh" }).permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
+                // .anyRequest().authenticated()
             )
             .build()
         ;

@@ -17,7 +17,7 @@ import jakarta.persistence.UniqueConstraint;
 @Entity
 @Table(
     name = "refresh_tokens",
-    uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "token" })
+    uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "hash" })
 )
 public class RefreshTokenEntity {
     @Id

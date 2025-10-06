@@ -29,12 +29,6 @@ public class UserDetailsServiceAdapter implements UserDetailsService
         User user = this.userRepository.findByEmail(username)
             .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        Set<Area> areas = new HashSet<>();
-
-        if (user instanceof Worker wo) {
-            areas = wo.getAreas();
-        }
-
-        return new UserDetailsAdapter(user, areas);
+        return new UserDetailsAdapter(user);
     }
 }

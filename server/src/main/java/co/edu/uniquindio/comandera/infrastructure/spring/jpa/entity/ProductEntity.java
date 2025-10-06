@@ -43,7 +43,7 @@ public class ProductEntity {
     @JoinColumn(name = "preparation_area")
     private AreaEntity preparationArea;
 
-    private ProductStatus status;
+    // private ProductStatus status;
 
     @Column(name = "prepare_for", nullable = true)
     private LocalDateTime prepararationDate;
@@ -143,9 +143,9 @@ public class ProductEntity {
     // this.status = status;
     // }
 
-    public void setStatus(ProductStatus status) {
-        this.status = status;
-    }
+    // public void setStatus(ProductStatus status) {
+    //     this.status = status;
+    // }
 
     public LocalDateTime getPrepararationDate() {
         return prepararationDate;
@@ -187,7 +187,7 @@ public class ProductEntity {
         this.orders = orders;
     }
 
-    public ProductStatus getStatus() {
-        return this.status;
-    }
+    // public ProductStatus getStatus() {
+    //     return this.status;
+    // }
 }

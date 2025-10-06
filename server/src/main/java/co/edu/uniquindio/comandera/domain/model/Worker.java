@@ -49,6 +49,9 @@ public class Worker extends User
         this.areas = new HashSet<>();
     }
 
+    public Worker(Object o, String identification, String name, String password, String phone, String image, String address, String observations, boolean b) {
+    }
+
     public String getIdentification() {
         return identification;
     }

@@ -40,7 +40,7 @@ public class UserJpaAdapter implements UserRepository
     @Override
     public Optional<User> findById(Long id)
     {
-        Optional<UserEntity> entity = this.internal.findById(id);
+        Optional<UserEntity> entity = this.internal.findByIdWithSubClass(id);
         
         if (entity.isEmpty()) {
             return Optional.empty();

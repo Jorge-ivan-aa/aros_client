@@ -23,7 +23,7 @@ public class CreateProductController
     @Autowired
     private CreateProductUseCase createProduct;
 
-    @PostMapping(path = "product")
+    @PostMapping(path = "products")
     @MustBeAdmin
     public ResponseEntity<?> createProduct(
         @RequestBody

@@ -2,13 +2,16 @@ package co.edu.uniquindio.comandera.domain.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+import co.edu.uniquindio.comandera.application.dto.area.AreaDTO;
 import co.edu.uniquindio.comandera.domain.model.Area;
 import co.edu.uniquindio.comandera.domain.model.enums.AreaType;
+import jakarta.validation.Valid;
 
 public interface AreaRepository {
     /**
-     * find a area using his id
+     * find an area using his id
      * 
      * @param id area's id
      *
@@ -24,4 +27,15 @@ public interface AreaRepository {
      * @return areas with the type
      */
     public List<Area> findByType(AreaType type);
+
+    /**
+     *
+     * @param areaIds
+     * @return
+     */
+    int findAllByIds(Set<Long> areaIds);
+
+    AreaDTO create(@Valid AreaDTO request);
+
+    List<AreaDTO> getAll();
 }

@@ -10,6 +10,7 @@ import co.edu.uniquindio.comandera.domain.repository.RefreshTokenRepository;
 import co.edu.uniquindio.comandera.domain.repository.UserRepository;
 import co.edu.uniquindio.comandera.domain.service.TokenService;
 import co.edu.uniquindio.comandera.domain.util.RefreshToken;
+import jakarta.persistence.EntityManager;
 
 public class RefreshTokenUseCase
 {
@@ -18,15 +19,19 @@ public class RefreshTokenUseCase
     private UserRepository userRepository;
     
     private TokenService tokenService;
+
+    private EntityManager manager;
     
     public RefreshTokenUseCase(
         RefreshTokenRepository tokenRepository,
         UserRepository userRepository,
-        TokenService tokenService
+        TokenService tokenService,
+        EntityManager manager
     ) {
         this.tokenRepository = tokenRepository;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
+        this.manager = manager;
     }
     
     public AuthTokenReponseDto execute(String token) throws InvalidTokenException
@@ -42,11 +47,18 @@ public class RefreshTokenUseCase
         ) {
             throw new InvalidTokenException();
         }
+
+        manager.clear();
         
-        User user = this.userRepository.findById(refreshToken.getUserId())
+        User user = this.userRepository
+            .findById(refreshToken.getUserId())
             .orElseThrow(() -> new RuntimeException("not found user"));
         
         this.tokenRepository.revokeToken(refreshToken.getId());
+
+        System.out.println("---------------------------------------------");
+        System.out.println(user.getClass());
+        System.out.println("---------------------------------------------");
         
         String newRefreshToken = this.tokenService.generateRefreshToken(user);
         String newAccessToken = this.tokenService.generateAccessToken(user);

@@ -1,6 +1,7 @@
 package co.edu.uniquindio.comandera.infrastructure.spring.security;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -8,38 +9,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import co.edu.uniquindio.comandera.domain.model.Area;
 import co.edu.uniquindio.comandera.domain.model.User;
+import co.edu.uniquindio.comandera.domain.model.Worker;
 
 public class UserDetailsAdapter implements UserDetails
 {
-    private String name;
-    
-    private String email;
-    
-    private String password;
+    private User data;
 
-    private String type; // User|Admin|Worker
+    private String type;
 
-    private Set<Area> areas;
-
-    public UserDetailsAdapter(User user, Set<Area> areas)
+    public UserDetailsAdapter(User user)
     {
-        this.name = user.getName();
-        this.email = user.getEmail();
-        this.password = user.getPasswordHash();
+        this.data = user;
         this.type = user.getClass().getSimpleName();
-        this.areas = areas;
     }
     
     @Override
     public String getUsername()
     {
-        return this.email;
+        return this.data.getEmail();
     }
     
     @Override
     public String getPassword()
     {
-        return this.password;
+        return this.data.getPasswordHash();
     }
     
     @Override
@@ -48,6 +41,11 @@ public class UserDetailsAdapter implements UserDetails
         return null;
     }
     
+    public User getData()
+    {
+        return data;
+    }
+
     public String getType()
     {
         return this.type;
@@ -55,16 +53,20 @@ public class UserDetailsAdapter implements UserDetails
     
     public String getEmail()
     {
-        return this.email;
+        return this.data.getEmail();
     }
     
     public String getName()
     {
-        return this.name;
+        return this.data.getName();
     }
 
     public Set<Area> getAreas()
     {
-        return this.areas;
+        if (this.data instanceof Worker wo) {
+            return wo.getAreas();
+        } else {
+            return Collections.emptySet();
+        }
     }
 }

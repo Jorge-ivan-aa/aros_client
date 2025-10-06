@@ -29,7 +29,7 @@ public class TokenAuthenticatorProvider implements AuthenticationProvider
 
         if (this.service.validateAccessToken(token)) {
             return new AuthenticationToken(
-                this.service.extractUserInfo(token),
+                new UserDetailsAdapter(this.service.extractUserInfo(token)),
                 token,
                 Collections.emptyList()
             );

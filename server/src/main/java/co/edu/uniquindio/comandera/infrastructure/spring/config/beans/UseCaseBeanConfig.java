@@ -14,6 +14,7 @@ import co.edu.uniquindio.comandera.domain.repository.ProductRepository;
 import co.edu.uniquindio.comandera.domain.repository.RefreshTokenRepository;
 import co.edu.uniquindio.comandera.domain.repository.UserRepository;
 import co.edu.uniquindio.comandera.domain.service.TokenService;
+import jakarta.persistence.EntityManager;
 
 @Configuration
 public class UseCaseBeanConfig
@@ -39,12 +40,14 @@ public class UseCaseBeanConfig
     public RefreshTokenUseCase refreshTokenUseCase(
         UserRepository workerRespository,
         RefreshTokenRepository refreshTokenRepository,
-        TokenService tokenService
+        TokenService tokenService,
+        EntityManager manager
     ) {
         return new RefreshTokenUseCase(
             refreshTokenRepository,
             workerRespository,
-            tokenService
+            tokenService,
+            manager
         );
     }
 

@@ -1,5 +1,6 @@
 package co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
@@ -8,6 +9,9 @@ import jakarta.persistence.Table;
 @Table(name = "administrators")
 @PrimaryKeyJoinColumn(name = "id")
 public class AdminEntity extends UserEntity {
+    @Column(nullable = true)
+    private Boolean active;
+
     public AdminEntity() {
     }
 

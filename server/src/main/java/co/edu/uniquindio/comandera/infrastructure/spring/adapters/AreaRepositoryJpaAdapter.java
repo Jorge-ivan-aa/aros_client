@@ -2,7 +2,9 @@ package co.edu.uniquindio.comandera.infrastructure.spring.adapters;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+import co.edu.uniquindio.comandera.application.dto.area.AreaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +30,20 @@ public class AreaRepositoryJpaAdapter implements AreaRepository
     public List<Area> findByType(AreaType type)
     {
         return this.internal.findByType(type);
+    }
+
+    @Override
+    public int findAllByIds(Set<Long> areaIds) {
+        return 0;
+    }
+
+    @Override
+    public AreaDTO create(AreaDTO request) {
+        return null;
+    }
+
+    @Override
+    public List<AreaDTO> getAll() {
+        return List.of();
     }
 }

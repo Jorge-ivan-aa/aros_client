@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import co.edu.uniquindio.comandera.domain.model.Worker;
 
-public interface WorkerRespository {
+public interface WorkerRepository {
     /**
      * find a employee/worker using user's id
      * 
@@ -62,4 +62,19 @@ public interface WorkerRespository {
      * @param id worker's id
      */
     public void deleteById(Integer id);
+
+    /**
+     *
+     * @param identification
+     * @return
+     */
+    boolean existsByIdentification(String identification);
+
+
+    /**
+     *
+     * @param worker
+     * @return
+     */
+    Worker save(Worker worker);
 }

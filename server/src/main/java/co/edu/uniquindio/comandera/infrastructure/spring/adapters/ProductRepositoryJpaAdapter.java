@@ -31,17 +31,16 @@ public class ProductRepositoryJpaAdapter implements ProductRepository
                 return CategoryJpaMapper.toEntity(c, null);
             }).toList());
         }
-//
-//        this.internal.save(ProductJpaMapper.toEntity(
-//            product,
-//            AreaJpaMapper.toEntity(product.getPreparationArea(), null, null),
-//            categories
-//        ));
-        }
+
+        this.internal.save(ProductJpaMapper.toEntity(
+            product,
+            AreaJpaMapper.toEntity(product.getPreparationArea(), null, null),
+            categories
+        ));
+    }
 
     @Override
     public Optional<Product> findById(Long productId) {
         return Optional.empty();
     }
-
 }

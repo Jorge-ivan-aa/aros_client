@@ -13,6 +13,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 @Entity
 @Table(
@@ -45,22 +47,6 @@ public class OrderProductEntity {
     private Set<OrderSubProductsEntity> subProducts;
     
     public OrderProductEntity() {
-    }
-
-    public OrderProductEntity(
-        OrderEntity order,
-        ProductEntity product,
-        String name,
-        Float price,
-        Integer quantity,
-        String image
-    ) {
-        this.order = order;
-        this.product = product;
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.image = image;
     }
 
     public Long getId() {

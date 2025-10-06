@@ -109,6 +109,8 @@ public class JwtService implements TokenService
 
         if (claims.get("user.type").equals("worker")) {
             return Json.mapper().convertValue(claims.get("user.data"), Worker.class);
+        } else if (claims.get("user.type").equals("admin")) {
+            return Json.mapper().convertValue(claims.get("user.data"), Admin.class);
         } else {
             return Json.mapper().convertValue(claims.get("user.data"), User.class);
         }
