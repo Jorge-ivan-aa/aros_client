@@ -44,11 +44,12 @@ export class LoginForm implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.authService.isAuthenticated()) {
+    if (! this.authService.isAuthenticated()) {
       this.authService.refresh().subscribe({
         next: (response) => {
           this.router.navigate(['/app']);
         },
+        error: (err) => { console.error(err) }
       });
     }
   }
