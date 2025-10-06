@@ -1,6 +1,5 @@
 package co.edu.uniquindio.comandera.infrastructure.spring.controllers.order;
 
-import co.edu.uniquindio.comandera.application.dto.auth.AuthTokenReponseDto;
 import co.edu.uniquindio.comandera.application.dto.order.OrderQueueResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

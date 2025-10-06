@@ -17,7 +17,7 @@ public class GetNextTableNumberUseCase {
         int max = 0;
         for (Table table : all) {
             try {
-                int v = Integer.parseInt(table.numTable());
+                int v = Integer.parseInt(table.getNumTable());
                 if (v > max) max = v;
             } catch (NumberFormatException ignored) {
                 // ignore non-numeric names

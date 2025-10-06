@@ -3,29 +3,28 @@ package co.edu.uniquindio.comandera.infrastructure.spring.mappers;
 import co.edu.uniquindio.comandera.domain.model.Table;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.TableEntity;
 
-/**
- * Mapper between domain Table and JPA TableEntity.
- * Keep mappings simple and explicit to match other mappers in the project.
- */
+
 public class TableJpaMapper {
 
+    // Convertir de Entity a Dominio (modelo)
     public static Table toDomain(TableEntity entity) {
         if (entity == null) return null;
 
         return new Table(
-            entity.getId() == null ? null : entity.getId().toString(),
-            entity.getName(),
-            entity.getEnable()
+            entity.getId(),
+            entity.getNumTable(),
+            entity.getAvailable()
         );
     }
 
+    // Convertir de Dominio (modelo) a Entity
     public static TableEntity toEntity(Table table) {
         if (table == null) return null;
 
         TableEntity entity = new TableEntity();
-        if (table.id() != null) entity.setId(Long.getLong(table.id()));
-        entity.setName(table.numTable());
-        entity.setEnable(table.isTaken());
+        if (table.getId() != null) entity.setId(Long.valueOf(table.getId()));
+        entity.setNumTable(table.getNumTable());
+        entity.setAvailable(table.isAvailable());
 
         return entity;
     }
