@@ -38,6 +38,7 @@ export class LoginForm implements OnInit {
         },
         error: (err) => {
           console.error(err);
+          this.authService.logout();
           this.formStatus = 'Free';
         },
       });
@@ -45,11 +46,14 @@ export class LoginForm implements OnInit {
 
   ngOnInit(): void {
     if (! this.authService.isAuthenticated()) {
-      this.authService.refresh().subscribe({
+      this.authService.refresh()?.subscribe({
         next: (response) => {
           this.router.navigate(['/app']);
         },
-        error: (err) => { console.error(err) }
+        error: (err) => {
+          this.authService.logout();
+          console.error(err);
+        }
       });
     }
   }

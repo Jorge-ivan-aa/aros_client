@@ -30,7 +30,16 @@ export class AuthService {
         username: credentials.email,
         password: credentials.password,
       })
-      .pipe(tap(this.setAuthInfo));
+      .pipe(
+        tap((response) => {
+          localStorage.setItem('refresh', response.refresh);
+          this.token = response.access;
+
+          this.http.get<UserInfo>('http://localhost:8080/api/proof', {}).subscribe((res) => {
+            this.data = res;
+          });
+        })
+      );
   }
 
   refresh(): Observable<AuthResponse> {
@@ -40,13 +49,21 @@ export class AuthService {
       },
     };
 
-    return this.http
-      .post<AuthResponse>('http://localhost:8080/api/refresh', {}, options)
-      .pipe(tap(this.setAuthInfo));
+    return this.http.post<AuthResponse>('http://localhost:8080/api/refresh', {}, options).pipe(
+      tap((response) => {
+        localStorage.setItem('refresh', response.refresh);
+        this.token = response.access;
+
+        this.http.get<UserInfo>('http://localhost:8080/api/proof', {}).subscribe((res) => {
+          this.data = res;
+        });
+      })
+    );
   }
 
   logout(): void {
     this.token = undefined;
+    localStorage.removeItem('refresh');
   }
 
   isAuthenticated() {
@@ -61,16 +78,5 @@ export class AuthService {
     return this.data;
   }
 
-  private fetchForUserInfo(): Observable<UserInfo> {
-    return this.http.get<UserInfo>('http://localhost:8080/api/proof', {});
-  }
-
-  private setAuthInfo(response: AuthResponse) {
-    localStorage.setItem('refresh', response.refresh);
-    this.token = response.access;
-
-    this.fetchForUserInfo().subscribe((res) => {
-      this.data = res;
-    });
-  }
+  private setAuthInfo(response: AuthResponse) {}
 }
