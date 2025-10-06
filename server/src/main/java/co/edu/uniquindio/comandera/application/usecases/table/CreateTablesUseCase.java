@@ -26,7 +26,7 @@ public class CreateTablesUseCase {
         List<Table> tables = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             int num = start + i;
-            tables.add(new Table(String.valueOf(num), String.valueOf((num)), true));
+            tables.add(new Table(Long.valueOf(num), Integer.toString(num), true));
         }
 
         return repository.saveAll(tables);

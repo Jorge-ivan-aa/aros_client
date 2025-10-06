@@ -9,7 +9,6 @@ import co.edu.uniquindio.comandera.domain.model.Area;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class CreateWorkerUseCase {
 

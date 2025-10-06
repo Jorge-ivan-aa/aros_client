@@ -1,7 +1,6 @@
 package co.edu.uniquindio.comandera.application.dto.worker;
 
 import co.edu.uniquindio.comandera.application.dto.area.AreaDTO;
-import co.edu.uniquindio.comandera.domain.model.Worker;
 
 import java.util.Set;
 

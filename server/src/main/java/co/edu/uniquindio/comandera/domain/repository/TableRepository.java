@@ -1,7 +1,7 @@
 package co.edu.uniquindio.comandera.domain.repository;
 
 import java.util.List;
-import java.util.Optional;
+// ...existing code...
 import co.edu.uniquindio.comandera.domain.model.Table;
 
 public interface TableRepository {

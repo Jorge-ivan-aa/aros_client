@@ -18,7 +18,7 @@ public class CreateTableUseCase {
 
     public Table execute() {
         int nextNum = getNextTableNumberUseCase.execute();
-        Table table = new Table(String.valueOf(nextNum), String.valueOf(nextNum), false);
+        Table table = new Table(Long.valueOf(nextNum), String.valueOf(nextNum), false);
         return repository.save(table);
     }
 }

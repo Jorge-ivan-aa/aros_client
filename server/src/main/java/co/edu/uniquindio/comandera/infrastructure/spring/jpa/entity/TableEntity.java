@@ -18,9 +18,9 @@ public class TableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String numTable;
     
-    private Boolean enable;
+    private Boolean available;
     
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "table_id")
@@ -29,11 +29,11 @@ public class TableEntity {
     public TableEntity() {
         this.orders = new HashSet<>();
     }
-
-    public TableEntity(String name, Boolean enable) {
+    
+    public TableEntity(String numTable, Boolean available) {
         this();
-        this.name = name;
-        this.enable = enable;
+        this.numTable = numTable;
+        this.available = available;
     }
 
     public Long getId() {
@@ -44,20 +44,20 @@ public class TableEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNumTable() {
+        return numTable;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNumTable(String numTable) {
+        this.numTable = numTable;
     }
 
-    public Boolean getEnable() {
-        return enable;
+    public Boolean getAvailable() {
+        return available;
     }
 
-    public void setEnable(Boolean enable) {
-        this.enable = enable;
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 
     public Set<OrderEntity> getOrders() {
