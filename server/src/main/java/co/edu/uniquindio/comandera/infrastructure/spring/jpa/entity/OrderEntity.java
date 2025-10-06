@@ -21,6 +21,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "orders")
 public class OrderEntity {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -61,6 +62,14 @@ public class OrderEntity {
         this.table = table;
         this.completed = completed;
         this.creation = creation;
+    }
+
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
+    }
+    
+    public Boolean getCompleted() {
+        return completed;
     }
 
     public Long getId() {

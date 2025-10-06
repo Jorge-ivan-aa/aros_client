@@ -13,8 +13,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+
+import co.edu.uniquindio.comandera.domain.model.enums.ProductStatus;
 
 @Entity
 @Table(
@@ -112,4 +112,9 @@ public class OrderProductEntity {
     public void setSubProducts(Set<OrderSubProductsEntity> subProducts) {
         this.subProducts = subProducts;
     }
+
+
+    
+
+    
 }
