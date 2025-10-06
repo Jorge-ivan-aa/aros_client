@@ -14,3 +14,7 @@ Al ser un producto empresarial, buscamos plataformas estables, escalables y con 
 - Angular 20 como framework para la aplicación web del cliente.
 - Docker como contenedor para la base de datos.
 
+
+### Notas:
+
+- Asegurate de tener Maven instalado.

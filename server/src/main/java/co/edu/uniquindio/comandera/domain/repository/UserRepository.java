@@ -10,7 +10,7 @@ public interface UserRepository {
      *
      * @param id user's id
      *
-     * @return the finded user
+     * @return the found user
      */
     public Optional<User> findById(Long id);
     
@@ -19,7 +19,7 @@ public interface UserRepository {
      *
      * @param email employee's email
      *
-     * @return finded employee
+     * @return found employee
      */
     public Optional<User> findByEmail(String email);
 
