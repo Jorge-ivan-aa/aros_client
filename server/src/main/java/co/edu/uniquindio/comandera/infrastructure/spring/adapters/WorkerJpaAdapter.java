@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.uniquindio.comandera.domain.model.Worker;
-import co.edu.uniquindio.comandera.domain.repository.WorkerRespository;
+import co.edu.uniquindio.comandera.domain.repository.WorkerRepository;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.WorkerEntity;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.repository.JpaWorkerRepository;
 import co.edu.uniquindio.comandera.infrastructure.spring.mappers.AreaJpaMapper;
@@ -17,7 +17,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class WorkerJpaAdapter implements WorkerRespository
+public class WorkerJpaAdapter implements WorkerRepository
 {
     @Autowired
     private JpaWorkerRepository internal;
@@ -34,7 +34,17 @@ public class WorkerJpaAdapter implements WorkerRespository
     public void deleteById(Integer id) {
         // TODO Auto-generated method stub
     }
-    
+
+    @Override
+    public boolean existsByIdentification(String identification) {
+        return false;
+    }
+
+    @Override
+    public Worker save(Worker worker) {
+        return null;
+    }
+
     @Override
     public List<Worker> findAll() {
         // TODO Auto-generated method stub
