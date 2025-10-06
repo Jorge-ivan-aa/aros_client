@@ -17,16 +17,16 @@ DELETE FROM daymenus;
 
 -- Insertar áreas de preparación
 INSERT INTO areas (id, name, type) VALUES
-                                       (1, 'COCINA', 'PREPARACION'),
-                                       (2, 'BAR', 'PREPARACION'),
-                                       (3, 'PARRILLA', 'PREPARACION');
+(1, 'COCINA', 'PREPARACION'),
+(2, 'BAR', 'PREPARACION'),
+(3, 'PARRILLA', 'PREPARACION');
 
 -- Insertar categorías
 INSERT INTO categories (id, name) VALUES
-                                      (1, 'Platos Fuertes'),
-                                      (2, 'Bebidas'),
-                                      (3, 'Entradas'),
-                                      (4, 'Postres');
+(1, 'Platos Fuertes'),
+(2, 'Bebidas'),
+(3, 'Entradas'),
+(4, 'Postres');
 
 -- Insertar productos
 INSERT INTO products (id, name, description, price, image, estimate_time, status, preparation_area) VALUES
@@ -45,36 +45,42 @@ INSERT INTO products (id, name, description, price, image, estimate_time, status
 
 -- Relacionar productos con categorías
 INSERT INTO product_categories (product_id, category_id) VALUES
-                                                             (1, 1), (2, 1), (3, 3), (4, 2), (5, 2), (6, 2), (7, 1);
+(1, 1),
+(2, 1),
+(3, 3),
+(4, 2),
+(5, 2),
+(6, 2),
+(7, 1);
 
 -- Insertar mesas
 INSERT INTO tables (id, name, enable) VALUES
-                                          (1, 'Mesa 1', true),
-                                          (2, 'Mesa 2', true),
-                                          (3, 'Mesa 3', true),
-                                          (4, 'Mesa 4', true);
+(1, 'Mesa 1', true),
+(2, 'Mesa 2', true),
+(3, 'Mesa 3', true),
+(4, 'Mesa 4', true);
 
 -- Insertar usuarios
 INSERT INTO users (id, name, email, password) VALUES
-                                                  (1, 'Carlos Chef', 'carlos@restaurante.com', 'password123'),
-                                                  (2, 'Maria Bartender', 'maria@restaurante.com', 'password123'),
-                                                  (3, 'Pedro Parrillero', 'pedro@restaurante.com', 'password123'),
-                                                  (4, 'Ana Mesera', 'ana@restaurante.com', 'password123');
+(1, 'Carlos Chef', 'carlos@restaurante.com', '$2a$10$GwLP1vlsW9HMSiSZ257laOIs2PnZzf1nXLxmLR1Hj1.A7cPpfC9Oy'),
+(2, 'Maria Bartender', 'maria@restaurante.com', '$2a$10$GwLP1vlsW9HMSiSZ257laOIs2PnZzf1nXLxmLR1Hj1.A7cPpfC9Oy'),
+(3, 'Pedro Parrillero', 'pedro@restaurante.com', '$2a$10$GwLP1vlsW9HMSiSZ257laOIs2PnZzf1nXLxmLR1Hj1.A7cPpfC9Oy'),
+(4, 'Ana Mesera', 'ana@restaurante.com', '$2a$10$GwLP1vlsW9HMSiSZ257laOIs2PnZzf1nXLxmLR1Hj1.A7cPpfC9Oy');
 
 -- Insertar workers
 INSERT INTO workers (id, identification, phone, address, image, observations, enable) VALUES
-                                                                                          (1, '123456789', '3001112233', 'Calle 123', 'carlos.jpg', 'Chef principal', true),
-                                                                                          (2, '987654321', '3004445566', 'Carrera 456', 'maria.jpg', 'Bartender experta', true),
-                                                                                          (3, '456789123', '3007778899', 'Avenida 789', 'pedro.jpg', 'Especialista en parrilla', true),
-                                                                                          (4, '789123456', '3002223344', 'Diagonal 012', 'ana.jpg', 'Mesera', true);
+(1, '123456789', '3001112233', 'Calle 123', 'carlos.jpg', 'Chef principal', true),
+(2, '987654321', '3004445566', 'Carrera 456', 'maria.jpg', 'Bartender experta', true),
+(3, '456789123', '3007778899', 'Avenida 789', 'pedro.jpg', 'Especialista en parrilla', true),
+(4, '789123456', '3002223344', 'Diagonal 012', 'ana.jpg', 'Mesera', true);
 
 -- Relacionar workers con áreas
 INSERT INTO worker_areas (worker_id, area_id) VALUES
-                                                  (1, 1), -- Carlos trabaja en COCINA
-                                                  (2, 2), -- Maria trabaja en BAR
-                                                  (3, 3), -- Pedro trabaja en PARRILLA
-                                                  (4, 1), -- Ana también puede trabajar en COCINA
-                                                  (4, 2); -- Ana también puede trabajar en BAR
+(1, 1), -- Carlos trabaja en COCINA
+(2, 2), -- Maria trabaja en BAR
+(3, 3), -- Pedro trabaja en PARRILLA
+(4, 1), -- Ana también puede trabajar en COCINA
+(4, 2); -- Ana también puede trabajar en BAR
 
 -- Insertar orders (pedidos)
 INSERT INTO orders (id, creation, total, completed, table_id, worker_id) VALUES
@@ -109,8 +115,8 @@ INSERT INTO order_products (id, order_id, product_id, name, price, quantity, ima
 
 -- Relacionar orders con tables (si es necesario según tu tabla table_id)
 INSERT INTO table_id (table_entity_id, orders_id) VALUES
-                                                      (1, 1),
-                                                      (2, 2),
-                                                      (3, 3),
-                                                      (1, 4),
-                                                      (4, 5);
+(1, 1),
+(2, 2),
+(3, 3),
+(1, 4),
+(4, 5);

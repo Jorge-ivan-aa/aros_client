@@ -1,6 +1,6 @@
 package co.edu.uniquindio.comandera.domain.repository;
 
-import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.entity.OrderEntity;
+import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.OrderEntity;
 import java.util.List;
 
 public interface OrderRepository {
