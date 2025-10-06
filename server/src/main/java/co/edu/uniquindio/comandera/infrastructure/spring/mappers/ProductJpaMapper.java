@@ -1,11 +1,9 @@
 package co.edu.uniquindio.comandera.infrastructure.spring.mappers;
 
 import co.edu.uniquindio.comandera.domain.model.Product;
-import co.edu.uniquindio.comandera.domain.model.enums.ProductStatus;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.AreaEntity;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.CategoryEntity;
 import co.edu.uniquindio.comandera.infrastructure.spring.jpa.entity.ProductEntity;
-import java.util.HashSet;
 import java.util.Set;
 
 
