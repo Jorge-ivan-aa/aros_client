@@ -1,13 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/authentication/auth-service';
 
 @Component({
   selector: 'login-form',
   templateUrl: './login-form.html',
-  imports: [ReactiveFormsModule, MatFormFieldModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    CommonModule,
+  ],
 })
 export class LoginForm implements OnInit {
   /**
@@ -58,4 +69,12 @@ export class LoginForm implements OnInit {
       });
     }
   }
+
+  // Buttom signal
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
+
 }
