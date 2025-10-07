@@ -1,20 +1,59 @@
-# Comandera
+# Client
 
-Comandera es un sistema de comandas electrónicas que moderniza la toma de pedidos en los restaurantes del siglo XXI. Su objetivo es optimizar tiempos de entrega, reducir costos operativos y aumentar la productividad del personal.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.0.
 
-Gracias a su arquitectura, meseros y cocina trabajan sincronizados: cada pedido tomado aparece de inmediato en la cola de los cocineros, lo que permite iniciar la preparación al instante, mientras el mesero se encarga de atender al cliente y preparar la mesa.
+## Development server
 
+To start a local development server, run:
 
-# Tecnologias
-Al ser un producto empresarial, buscamos plataformas estables, escalables y con respaldo en el mercado. Por ello elegimos:
+```bash
+ng serve
+```
 
-- Spring Boot (Java 21) como núcleo para el desarrollo de la API REST.
-- Swagger / OpenAPI para la documentación interactiva de los endpoints.
-- MySQL (9.4.0) como sistema gestor de bases de datos relacional.
-- Angular 20 como framework para la aplicación web del cliente.
-- Docker como contenedor para la base de datos.
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## Code scaffolding
 
-### Notas:
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-- Asegurate de tener Maven instalado.
+```bash
+ng generate component component-name
+```
+
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+
+```bash
+ng generate --help
+```
+
+## Building
+
+To build the project run:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Running unit tests
+
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
