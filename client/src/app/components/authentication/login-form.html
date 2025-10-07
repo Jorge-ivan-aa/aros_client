@@ -1,8 +1,0 @@
-<h2>Login form</h2>
-
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <input type="text" placeholder="username" formControlName="email">
-    <input type="password" name="" placeholder="password" formControlName="password">
-    
-    <button type="submit" [disabled]="formStatus == 'Occuped'">login</button>
-</form>
