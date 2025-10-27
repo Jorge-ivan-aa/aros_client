@@ -1,8 +1,9 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { AuthService } from '@services/authentication/auth-service';
+
 
 @Component({
   selector: 'app-login-form',
@@ -63,5 +64,13 @@ export class LoginForm implements OnInit {
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
+  }
+
+  toggleDarkMode() {
+    const element = document.querySelector('html');
+    if (element!=null) {
+      element.classList.toggle('dark')
+    };
+
   }
 }

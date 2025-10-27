@@ -5,7 +5,13 @@
   "projects": {
     "client": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "path": "src/app/shared/components",
+          "skipTests": true,
+          "inlineStyle": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -103,5 +109,12 @@
     "schematicCollections": [
       "angular-eslint"
     ]
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "path": "src/app/shared/components",
+      "skipTests": true,
+      "inlineStyle": true
+    }
   }
 }
