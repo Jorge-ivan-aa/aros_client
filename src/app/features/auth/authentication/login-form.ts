@@ -1,15 +1,18 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../core/services/authentication/auth-service';
+import { AuthService } from '@services/authentication/auth-service';
 
 @Component({
-  selector: 'login-form',
+  selector: 'app-login-form',
   templateUrl: './login-form.html',
   imports: [ReactiveFormsModule, CommonModule],
 })
 export class LoginForm implements OnInit {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   /**
    * form
    */
@@ -20,13 +23,6 @@ export class LoginForm implements OnInit {
 
   formStatus: 'Free' | 'Occuped' = 'Free';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {
-    //
-  }
-
   onSubmit() {
     this.formStatus = 'Occuped';
 
@@ -36,11 +32,11 @@ export class LoginForm implements OnInit {
         password: this.form.get('password')?.value,
       })
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.router.navigate(['/app']);
           this.formStatus = 'Free';
         },
-        error: (err) => {
+        error: (err: unknown) => {
           console.error(err);
           this.authService.logout();
           this.formStatus = 'Free';
@@ -51,10 +47,10 @@ export class LoginForm implements OnInit {
   ngOnInit(): void {
     if (!this.authService.isAuthenticated()) {
       this.authService.refresh()?.subscribe({
-        next: (response) => {
+        next: () => {
           this.router.navigate(['/app']);
         },
-        error: (err) => {
+        error: (err: unknown) => {
           this.authService.logout();
           console.error(err);
         },

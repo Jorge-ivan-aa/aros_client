@@ -1,19 +1,15 @@
-import { Injectable } from '@angular/core';
-import { CanMatch, GuardResult, MaybeAsync, Route, UrlSegment } from '@angular/router';
-import { AuthService } from '../../services/authentication/auth-service';
-import { UserRole } from '../../application/user/dto/user-role.model';
-import { UserInfo } from '../../application/user/dto/user-info.model';
+import { Injectable, inject } from '@angular/core';
+import { CanMatch, GuardResult, MaybeAsync } from '@angular/router';
+import { UserInfo } from '@models/domain/user/user-info.model';
+import { AuthService } from '@services/authentication/auth-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CanBeAdminGuard implements CanMatch {
-  /**
-   *
-   */
-  constructor(private authService: AuthService) {}
+  private authService = inject(AuthService);
 
-  canMatch(route: Route, segments: UrlSegment[]): MaybeAsync<GuardResult> {
+  canMatch(): MaybeAsync<GuardResult> {
     if (!this.authService.isAuthenticated()) {
       return false;
     }

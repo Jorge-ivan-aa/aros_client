@@ -1,5 +1,5 @@
+import { Area } from '@models/domain/area/area-model';
 import { UserRole } from './user-role.model';
-import { Area } from '../../../domain/area/area-model';
 
 export interface UserInfo {
   name: string;

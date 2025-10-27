@@ -1,28 +1,27 @@
-import { Injectable } from '@angular/core';
-import { AuthService } from '../../services/authentication/auth-service';
+import { Injectable, inject } from '@angular/core';
 import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  GuardResult,
-  MaybeAsync,
-  RedirectCommand,
-  Router,
-  RouterStateSnapshot,
+    CanActivate,
+    CanActivateChild,
+    GuardResult,
+    MaybeAsync,
+    RedirectCommand,
+    Router,
 } from '@angular/router';
-import { lastValueFrom, map } from 'rxjs';
+import { map } from 'rxjs';
+import { AuthService } from '@services/authentication/auth-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private authService: AuthService, private router: Router) {}
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult> {
+  canActivate(): MaybeAsync<GuardResult> {
     if (this.authService.isAuthenticated()) {
       return true;
     }
-    
+
     return this.authService.refresh().pipe(
       map((res) => {
         if (res) {
@@ -34,7 +33,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     );
   }
 
-  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult> {
-    return this.canActivate(childRoute, state);
+  canActivateChild(): MaybeAsync<GuardResult> {
+    return this.canActivate();
   }
 }

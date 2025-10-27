@@ -1,14 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { lastValueFrom, Observable, tap } from 'rxjs';
-import { AuthResponse } from '../../../shared/models/application/auth/dto/auth-response.model';
-import { AuthRequest } from '../../../shared/models/application/auth/dto/auth-request.model';
-import { UserInfo } from '../../../shared/models/application/user/dto/user-info.model';
+import { Injectable, inject } from '@angular/core';
+import { Observable, tap } from 'rxjs';
+import { UserInfo } from '@models/domain/user/user-info.model';
+import { AuthRequest } from '@models/dto/auth/auth-request.model';
+import { AuthResponse } from '@models/dto/auth/auth-response.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private http = inject(HttpClient);
+
   /**
    * access token
    */
@@ -22,7 +24,6 @@ export class AuthService {
   /**
    *
    */
-  constructor(private http: HttpClient) {}
 
   login(credentials: AuthRequest): Observable<AuthResponse> {
     return this.http
@@ -31,11 +32,11 @@ export class AuthService {
         password: credentials.password,
       })
       .pipe(
-        tap((response) => {
+        tap((response: AuthResponse) => {
           localStorage.setItem('refresh', response.refresh);
           this.token = response.access;
 
-          this.http.get<UserInfo>('http://localhost:8080/api/proof', {}).subscribe((res) => {
+          this.http.get<UserInfo>('http://localhost:8080/api/proof', {}).subscribe((res: UserInfo) => {
             this.data = res;
           });
         }),
@@ -50,11 +51,11 @@ export class AuthService {
     };
 
     return this.http.post<AuthResponse>('http://localhost:8080/api/refresh', {}, options).pipe(
-      tap((response) => {
+      tap((response: AuthResponse) => {
         localStorage.setItem('refresh', response.refresh);
         this.token = response.access;
 
-        this.http.get<UserInfo>('http://localhost:8080/api/proof', {}).subscribe((res) => {
+        this.http.get<UserInfo>('http://localhost:8080/api/proof', {}).subscribe((res: UserInfo) => {
           this.data = res;
         });
       }),
@@ -78,5 +79,5 @@ export class AuthService {
     return this.data;
   }
 
-  private setAuthInfo(response: AuthResponse) {}
+
 }

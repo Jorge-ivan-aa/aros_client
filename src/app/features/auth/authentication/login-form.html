@@ -4,8 +4,9 @@
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
       <div class="w-full">
-        <label class="block text-sm font-medium mb-2">Email</label>
+        <label for="email" class="block text-sm font-medium mb-2">Email</label>
         <input
+          id="email"
           type="email"
           formControlName="email"
           placeholder="Enter your email"
@@ -19,30 +20,32 @@
         </div>
       </div>
 
-      <div></div>
-      <label class="block text-sm font-medium mb-2">Password</label>
-      <div class="relative">
-        <input
-          [type]="hide() ? 'password' : 'text'"
-          formControlName="password"
-          placeholder="Enter your password"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
-        />
-        <button
-          type="button"
-          (click)="clickEvent($event)"
-          class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-          [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide()"
+      <div class="w-full">
+        <label for="password" class="block text-sm font-medium mb-2">Password</label>
+        <div class="relative">
+          <input
+            id="password"
+            [type]="hide() ? 'password' : 'text'"
+            formControlName="password"
+            placeholder="Enter your password"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
+          />
+          <button
+            type="button"
+            (click)="clickEvent($event)"
+            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            {{ hide() ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+        <div
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+          class="text-red-500 text-sm mt-1"
         >
-          {{ hide() ? '👁️' : '👁️‍🗨️' }}
-        </button>
-      </div>
-      <div
-        *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
-        class="text-red-500 text-sm mt-1"
-      >
-        Password is required
+          Password is required
+        </div>
       </div>
 
       <button

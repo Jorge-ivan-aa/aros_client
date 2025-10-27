@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'product-creation-form',
+  selector: 'app-product-creation-form',
   templateUrl: './product-creation-form.html',
   imports: [ReactiveFormsModule],
 })
-export class ProductCreationForm implements OnInit {
+export class ProductCreationForm {
+  private http = inject(HttpClient);
+
   form = new FormGroup({
     name: new FormControl(''),
     price: new FormControl(''),
@@ -24,13 +26,7 @@ export class ProductCreationForm implements OnInit {
     { id: 2, name: 'Bar' },
   ];
 
-  constructor(private http: HttpClient) {
-    // this.preparationAreas = 
-  }
 
-  ngOnInit(): void {
-    // 
-  }
 
   createProduct() {
     this.http.post("http://localhost:8080/api/products", {
@@ -46,6 +42,6 @@ export class ProductCreationForm implements OnInit {
   }
 
   private fetchForAreas() {
-    // 
+    //
   }
 }

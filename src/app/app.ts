@@ -1,23 +1,14 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Header } from './components/header/header';
-import { AuthService } from './services/authentication/auth-service';
+import { AuthService } from '@services/authentication/auth-service';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.html',
 })
-export class App implements OnInit {
+export class App {
   protected readonly title = signal('client');
 
-  /**
-   *
-   */
-  constructor(private authService: AuthService) {
-  }
-
-  ngOnInit(): void {
-    // this.authService.refresh().subscribe(() => null);
-  }
+  private authService = inject(AuthService);
 }
