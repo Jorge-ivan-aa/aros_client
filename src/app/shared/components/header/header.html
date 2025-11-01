@@ -1,0 +1,37 @@
+<header
+    class="fixed top-0 left-0 flex justify-between items-center h-16 px-4 bg-surface-50 dark:bg-surface-900 w-full z-50">
+    <!-- Left Section: Logo and Current Selection -->
+    <section class="flex items-center gap-4">
+        <!-- Logo -->
+        <div class="flex items-center gap-2">
+            <img class="h-[39px]" src="/logo.webp" alt="AROS - Accrox Restaurant Ordering System">
+            <h1 class="logo text-primary-400">AROS</h1>
+        </div>
+
+        <!-- Current Selection Display -->
+        @if (selectedMenuItem) {
+        <div
+            class="max-md:hidden flex items-center gap-2 ml-4 pl-4 border-l border-surface-200 dark:border-surface-700">
+            @if (selectedMenuItem.icon) {
+            <i [class]="selectedMenuItem.icon + ' text-surface-500 dark:text-surface-400'"></i>
+            }
+            <span class="text-surface-700 dark:text-surface-300 font-medium">
+                {{ selectedMenuItem.description }}
+            </span>
+        </div>
+        }
+
+    </section>
+
+    <!-- Right Section: Menu Toggle and Dark Mode -->
+    <section class="flex items-center gap-4">
+        <!-- Menu Toggle Button (Mobile) -->
+        <button class="lg:hidden p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors"
+            (click)="toggleMenu.emit()" aria-label="Abrir menú">
+            <i class="pi pi-bars text-surface-600 dark:text-surface-400"></i>
+        </button>
+
+        <!-- Dark Mode Button -->
+        <app-dark-mode-button></app-dark-mode-button>
+    </section>
+</header>

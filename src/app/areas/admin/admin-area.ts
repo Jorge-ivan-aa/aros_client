@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Layout } from '@app/shared/layout/layout';
 
 @Component({
   selector: 'app-admin-area',
   templateUrl: './admin-area.html',
-  imports: [RouterOutlet]
+  imports: [Layout]
 })
 export class AdminArea {
   //
