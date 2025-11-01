@@ -1,5 +1,46 @@
+/* Archivo Font Family */
+@font-face {
+  font-family: 'Archivo';
+  src: url('/fonts/Archivo-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('/fonts/Archivo-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('/fonts/Archivo-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @import "tailwindcss";
 @import "primeicons/primeicons.css";
 @import "tailwindcss-primeui";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Set Archivo as the default font family */
+@theme {
+  --font-sans: 'Archivo', sans-serif;
+}
+
+/* Apply Archivo font globally */
+body {
+  font-family: var(--font-sans);
+}
+
+.logo {
+  font-family: var(--font-sans);
+  font-weight: 900;
+  font-size: 39px;
+}
