@@ -10,7 +10,6 @@ export class Theme {
 
      if (!theme) {
        const isdark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      console.log("porfin ejecuta algo")
        if (isdark) {
          this.set('dark');
        } else {
