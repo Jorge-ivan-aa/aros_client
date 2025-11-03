@@ -1,0 +1,7 @@
+@if (form.get(field)?.invalid && form.get(field)?.touched && form.get(field)?.dirty) {
+  <div class="shrink flex-grow ml-1 mt-1">
+    <small class="text-red-500 text-xs"
+      ><i class="pi pi-exclamation-triangle"></i> <span>Campo requerido</span>
+    </small>
+  </div>
+}
