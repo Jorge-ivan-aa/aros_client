@@ -11,7 +11,9 @@ import { Menu } from '@features/admin/manage/menu/menu';
 import { Analytics } from '@features/admin/analytics/analytics';
 import { Login } from '@areas/login/login-area';
 import { AdminArea } from '@areas/admin/admin-area';
-import { WorkerArea } from '@areas/worker/worker-area';
+import { KitchenArea } from '@areas/kitchen/kitchen-area';
+import { WaiterArea } from '@areas/waiter/waiter-area';
+import { BarArea } from '@areas/bar/bar-area';
 
 export const routes: Routes = [
 
@@ -58,8 +60,18 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'worker',
-    component: WorkerArea,
+    path: 'kitchen',
+    component: KitchenArea,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'waiter',
+    component: WaiterArea,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'bar',
+    component: BarArea,
     canActivate: [AuthGuard, RoleGuard],
   },
   {
