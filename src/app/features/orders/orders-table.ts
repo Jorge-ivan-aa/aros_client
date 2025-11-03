@@ -22,7 +22,7 @@ export class OrdersTable implements OnInit {
 
   // Options combox
   comboOptions: string[] = ['ALL', 'PENDING', 'COMPLETED', 'CANCELLED'];
-  selectedOption: string = 'ALL';
+  selectedOption = 'ALL';
 
   // Filtro de fecha (una sola fecha o null)
   private selectedDate: Date | null = null;

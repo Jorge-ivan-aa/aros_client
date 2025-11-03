@@ -16,15 +16,15 @@ export class UserService {
     return this.http.get<UserResponse[]>('http://localhost:8080/api/users');
   }
   
-  public createUser(data: CreateUserRequest): Observable<Object> {
+  public createUser(data: CreateUserRequest): Observable<object> {
     return this.http.post('http://localhost:8080/api/users/save', data);
   }
   
-  public updateUser(data: CreateUserRequest): Observable<Object> {
+  public updateUser(data: CreateUserRequest): Observable<object> {
     return this.http.put('http://localhost:8080/api/users/update-user', data);
   }
 
-  public deleteUser(document: string): Observable<Object> {
+  public deleteUser(document: string): Observable<object> {
     return this.http.delete(`http://localhost:8080/api/users/delete-user/${document}`);
   }
 }

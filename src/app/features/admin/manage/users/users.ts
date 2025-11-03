@@ -46,7 +46,7 @@ export class Users implements OnInit {
   /**
    * the form is on editing mode?
    */
-  editing: boolean = false;
+  editing = false;
 
   userForm: FormGroup = new FormGroup({
     document: new FormControl('', [Validators.required]),
