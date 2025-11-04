@@ -53,7 +53,7 @@ const arosPreset = definePreset(Aura, {
     }
 });
 
-export const appConfig: ApplicationConfig = {
+export const appConfig: ApplicationConfig = {  
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),

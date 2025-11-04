@@ -1,17 +1,17 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { CreateUserRequest } from "@app/shared/models/dto/users/create-user-request.model";
 import { UserResponse } from "@app/shared/models/dto/users/user-response.model";
 import { Observable } from "rxjs";
+import { environment } from "@environments/environment";
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor (private http: HttpClient) {
-    // 
-  }
-  
+  private http = inject(HttpClient);
+  private apiUrl = environment.apiUrl;
+
   public getUsers(): Observable<UserResponse[]> {
     return this.http.get<UserResponse[]>('http://localhost:8080/api/users');
   }
@@ -21,10 +21,10 @@ export class UserService {
   }
   
   public updateUser(data: CreateUserRequest): Observable<object> {
-    return this.http.put('http://localhost:8080/api/users/update-user', data);
+    return this.http.put(`${this.apiUrl}/users/update-user`, data);
   }
 
   public deleteUser(document: string): Observable<object> {
-    return this.http.delete(`http://localhost:8080/api/users/delete-user/${document}`);
+    return this.http.delete(`${this.apiUrl}/users/delete-user/${document}`);
   }
 }

@@ -22,37 +22,7 @@ export class MenuService {
   selectedMenuItem$: Observable<MenuItem | null> = this.selectedMenuItemSubject.asObservable();
 
   constructor() {
-    this.setMenuItems([
-      {
-        id: 'dashboard',
-        label: 'Dashboard',
-        description: 'Vista general del restaurante',
-        icon: 'pi pi-home',
-        routerLink: '/admin'
-      },
-      {
-        id: 'orders',
-        label: 'Pedidos',
-        description: 'Gestiona los pedidos del día',
-        icon: 'pi pi-shopping-cart',
-        routerLink: '/admin/orders'
-      },
-      {
-        id: 'manage',
-        label: 'Restaurante',
-        description: 'Gestiona tu restaurante',
-        icon: 'pi pi-shop',
-        routerLink: '/admin/manage'
-      },
-      {
-        id: 'analytics',
-        label: 'Estadisticas',
-        description: 'Analiza el rendimiento',
-        icon: 'pi pi-chart-bar',
-        routerLink: '/admin/analytics'
-      },
-
-    ]);
+    // No hardcoded menu items - they will be set by each area
   }
 
   setMenuItems(items: MenuItem[]): void {

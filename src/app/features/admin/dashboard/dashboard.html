@@ -1,10 +1,174 @@
-<div class="p-6">
-  <h1 class="text-2xl font-bold text-surface-900 dark:text-surface-0 mb-6">Dashboard</h1>
+<div class="p-4 min-h-[calc(100vh-8rem)] lg:max-w-[80vw] overflow-hidden">
+  <!-- Main Dashboard Container -->
+  <div class="flex flex-col lg:grid lg:grid-cols-7 lg:grid-rows-[auto_1fr] gap-6 h-full">
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8"></div>
-  
+    <!-- Day Menu - Mobile: Full width, Desktop: Left column -->
+    <aside
+      class="max-h-[80vh] border border-surface-200 dark:border-surface-700 rounded-2xl bg-primary-contrast lg:col-span-2 lg:row-span-2 order-2 lg:order-1 flex flex-col">
+      <header class="flex justify-between items-center p-4">
+        <h2 class="font-bold text-lg">Menú del Día</h2>
+        <p-button icon="pi pi-cog" size="small" [text]="true" [rounded]="true" severity="secondary"></p-button>
+      </header>
+      <div class="p-4 flex-1 overflow-y-auto max-h-fit">
+        @if (dayMenu()) {
+        <div
+          class="bg-surface-50 dark:bg-surface-800 border-surface-200 dark:border-surface-700 rounded-2xl border flex flex-col h-full">
+          <div class="p-4 space-y-3 bg-surface-50 dark:bg-surface-800 rounded-2xl flex-1 overflow-y-auto">
+            @for (category of dayMenu()!.categories; track category.id) {
+            <div class="border-b border-surface-300 dark:border-surface-700 pb-3 last:border-b-0 last:pb-0">
+              <h4 class="font-medium text-surface-700 dark:text-surface-300 mb-2">{{ category.name }}</h4>
+              @for (product of category.products; track product.id) {
+              <p class="text-sm text-surface-600 dark:text-surface-400">{{ product.name }}</p>
+              }
+            </div>
+            }
+          </div>
+          <div
+            class="p-4 border-t border-surface-200 dark:border-surface-700 bg-surface-100 dark:bg-surface-700 rounded-b-2xl">
+            <div class="flex justify-between items-center rounded-2xl">
+              <span class="text-sm text-surface-600 dark:text-surface-400">Precio:</span>
+              <span class="text-surface-900 dark:text-surface-100 font-semibold">$ {{ dayMenu()!.price | number:'1.0-0'
+                }}</span>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </aside>
 
-  <form action="">
-    
-  </form>
+    <!-- Statistics Header - Mobile: Top, Desktop: Top right -->
+    <header
+      class="border border-surface-200 dark:border-surface-700 rounded-2xl bg-surface-100 dark:bg-surface-800 lg:col-span-5 order-1 lg:order-2">
+      <div class="flex justify-between items-center p-4 lg:p-6">
+        <div>
+          <h2 class="text-xl font-bold text-surface-900 dark:text-surface-100">{{ currentDate() }}</h2>
+          <p class="text-surface-600 dark:text-surface-400 text-sm">{{ currentTime() }}</p>
+        </div>
+      </div>
+
+      <section class="flex flex-col md:flex-row p-4 gap-4 border-t border-surface-200 dark:border-surface-700">
+        <!-- Ventas del día -->
+        <div
+          class="flex-1 text-center p-4 border-b md:border-b-0 md:border-r border-surface-200 dark:border-surface-600">
+          <div class="flex justify-center items-center gap-2 mb-2">
+            <div class="text-3xl font-bold text-surface-900 dark:text-surface-100">
+              @if (showSales()) {
+                $ {{ totalSales() | number:'1.0-0' }}
+              } @else {
+                •••••
+              }
+            </div>
+            <p-button
+              [icon]="showSales() ? 'pi pi-eye' : 'pi pi-eye-slash'"
+              size="small"
+              [text]="true"
+              [rounded]="true"
+              severity="secondary"
+              (onClick)="toggleSalesVisibility()"
+              [title]="showSales() ? 'Ocultar ventas' : 'Mostrar ventas'">
+            </p-button>
+          </div>
+          <div class="text-sm text-surface-600 dark:text-surface-400">
+            Ventas del Día
+          </div>
+          <p class="text-xs text-surface-500 dark:text-surface-500 mt-1">
+            {{ completedOrdersCount() }} pedidos completados
+          </p>
+        </div>
+
+        <!-- Mesas ocupadas -->
+        <div
+          class="flex-1 text-center p-4 border-b md:border-b-0 md:border-r border-surface-200 dark:border-surface-600">
+          <div class="text-3xl font-bold text-surface-900 dark:text-surface-100">
+            {{ occupiedTablesCount() }}
+          </div>
+          <div class="text-sm text-surface-600 dark:text-surface-400 mt-2">
+            Mesas Ocupadas
+          </div>
+          <p class="text-xs text-surface-500 dark:text-surface-500 mt-1">
+            De 10 mesas totales
+          </p>
+        </div>
+
+        <!-- Pedidos en preparación -->
+        <div class="flex-1 text-center p-4">
+          <div class="text-3xl font-bold text-surface-900 dark:text-surface-100">
+            {{ preparingOrdersCount() }}
+          </div>
+          <div class="text-sm text-surface-600 dark:text-surface-400 mt-2">
+            Pedidos en Preparación
+          </div>
+          <p class="text-xs text-surface-500 dark:text-surface-500 mt-1">
+            En proceso de cocina
+          </p>
+        </div>
+      </section>
+    </header>
+
+
+    <!-- Orders Table - Mobile: Bottom, Desktop: Bottom right -->
+    <section
+      class="border border-surface-200 dark:border-surface-700 rounded-2xl bg-primary-contrast lg:col-span-5 order-3 lg:order-3 flex flex-col">
+      <header class="flex justify-between items-center p-4">
+        <h2 class="text-xl font-bold text-surface-900 dark:text-surface-100">
+          Pedidos del Día
+        </h2>
+        <p-badge [value]="orders().length" severity="info"></p-badge>
+      </header>
+
+      <div class="p-4 min-h-[400px] flex-1 overflow-auto">
+        <p-table [value]="orders()" [tableStyle]="{ 'min-width': '100%' }" [paginator]="true" [rows]="4">
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="text-left">ID</th>
+              <th class="text-left">Mesa</th>
+              <th class="text-left">Fecha</th>
+              <th class="text-left">Estado</th>
+              <th class="text-right">Total</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-order>
+            <tr>
+              <td class="font-mono text-sm">{{ order.id }}</td>
+              <td class="font-medium">{{ order.table }}</td>
+              <td class="text-sm text-surface-600 dark:text-surface-400">
+                {{ order.date | date:'HH:mm' }}
+              </td>
+              <td>
+                <span [class]="getStatusBadgeClass(order.status)" class="px-2 py-1 rounded-full text-xs font-medium">
+                  {{ getStatusText(order.status) }}
+                </span>
+              </td>
+              <td class="text-right font-semibold">
+                $ {{ order.totalPrice | number:'1.0-0' }}
+              </td>
+              <td class="text-center">
+                <p-button icon="pi pi-ellipsis-h" size="small" [text]="true" [rounded]="true" severity="secondary"
+                  (onClick)="viewOrderDetails(order)" title="Ver detalle del pedido">
+                </p-button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="6" class="text-center p-4 text-surface-500 dark:text-surface-500">
+                No hay pedidos para mostrar
+                @if (orders().length === 0) {
+                  <div class="text-xs mt-2">(Total de órdenes cargadas: 0)</div>
+                }
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+    </section>
+  </div>
 </div>
+
+<!-- Order Detail Dialog Component -->
+<app-order-detail-dialog [(visible)]="showOrderDetail" [order]="selectedOrder()" [orderDetails]="orderDetails()"
+  (closed)="closeOrderDetail()">
+</app-order-detail-dialog>

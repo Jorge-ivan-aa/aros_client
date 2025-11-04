@@ -35,7 +35,7 @@
 }
 
 /* Apply Archivo font globally */
-body {
+body &:where(.dark, .dark *) {
   font-family: var(--font-sans);
 }
 
@@ -43,4 +43,8 @@ body {
   font-family: var(--font-sans);
   font-weight: 900;
   font-size: 39px;
+}
+
+.header {
+  @apply bg-surface-100 dark:bg-surface-800 flex items-center justify-between gap-2 rounded-2xl rounded-b-none p-2 px-4;
 }
