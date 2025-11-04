@@ -1,5 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
+import { environment } from '@environments/environment';
+import { LoggingService } from '@services/logging/logging.service';
 
 export interface Order {
   id: number;
@@ -22,177 +25,89 @@ export interface OrderDetail {
   providedIn: 'root'
 })
 export class OrderService {
-  private mockOrders: Order[] = [
-    {
-      id: 1,
-      status: 'completed',
-      date: '2024-01-15T12:30:00',
-      table: 'Mesa 1',
-      totalPrice: 45.50
-    },
-    {
-      id: 2,
-      status: 'preparing',
-      date: '2024-01-15T13:15:00',
-      table: 'Mesa 3',
-      totalPrice: 32.75
-    },
-    {
-      id: 3,
-      status: 'completed',
-      date: '2024-01-15T11:45:00',
-      table: 'Mesa 2',
-      totalPrice: 28.90
-    },
-    {
-      id: 4,
-      status: 'preparing',
-      date: '2024-01-15T14:20:00',
-      table: 'Mesa 5',
-      totalPrice: 67.25
-    },
-    {
-      id: 5,
-      status: 'pending',
-      date: '2024-01-15T14:45:00',
-      table: 'Mesa 4',
-      totalPrice: 19.50
-    }
-  ];
-
-  private mockOrderDetails: OrderDetail[] = [
-    {
-      id: 1,
-      orderId: 1,
-      productName: 'Menu del Día',
-      quantity: 2,
-      unitPrice: 15.00,
-      totalPrice: 30.00
-    },
-    {
-      id: 2,
-      orderId: 1,
-      productName: 'Coca Cola',
-      quantity: 2,
-      unitPrice: 2.50,
-      totalPrice: 5.00
-    },
-    {
-      id: 3,
-      orderId: 1,
-      productName: 'Café',
-      quantity: 2,
-      unitPrice: 2.75,
-      totalPrice: 5.50
-    },
-    {
-      id: 4,
-      orderId: 2,
-      productName: 'Menu del Día',
-      quantity: 1,
-      unitPrice: 15.00,
-      totalPrice: 15.00
-    },
-    {
-      id: 5,
-      orderId: 2,
-      productName: 'Agua Mineral',
-      quantity: 2,
-      unitPrice: 1.50,
-      totalPrice: 3.00
-    },
-    {
-      id: 6,
-      orderId: 2,
-      productName: 'Postre Chocolate',
-      quantity: 1,
-      unitPrice: 4.75,
-      totalPrice: 4.75
-    },
-    {
-      id: 7,
-      orderId: 2,
-      productName: 'Café',
-      quantity: 2,
-      unitPrice: 2.75,
-      totalPrice: 5.50
-    },
-    {
-      id: 8,
-      orderId: 3,
-      productName: 'Menu del Día',
-      quantity: 1,
-      unitPrice: 15.00,
-      totalPrice: 15.00
-    },
-    {
-      id: 9,
-      orderId: 3,
-      productName: 'Cerveza',
-      quantity: 2,
-      unitPrice: 3.50,
-      totalPrice: 7.00
-    },
-    {
-      id: 10,
-      orderId: 3,
-      productName: 'Postre Fruta',
-      quantity: 1,
-      unitPrice: 3.90,
-      totalPrice: 3.90
-    }
-  ];
-
-
+  private http = inject(HttpClient);
+  private apiUrl = environment.apiUrl;
+  private loggingService = inject(LoggingService);
 
   getOrders(): Observable<Order[]> {
-    // Simulate API call delay
-    return of(this.mockOrders);
+    this.loggingService.debug('OrderService: getOrders called');
+    return this.http.get<Order[]>(`${this.apiUrl}/orders/all`).pipe(
+      map(orders => {
+        this.loggingService.debug('OrderService: Raw orders from API:', orders);
+        const todayOrders = this.filterTodayOrders(orders);
+        this.loggingService.debug('OrderService: Filtered today orders:', todayOrders);
+        return todayOrders;
+      })
+    );
   }
 
   getOrderById(id: number): Observable<Order | undefined> {
-    const order = this.mockOrders.find(o => o.id === id);
-    return of(order);
+    return this.http.get<Order[]>(`${this.apiUrl}/orders/all`).pipe(
+      map(orders => {
+        const todayOrders = this.filterTodayOrders(orders);
+        return todayOrders.find(o => o.id === id);
+      })
+    );
   }
 
   getOrderDetails(orderId: number): Observable<OrderDetail[]> {
-    const details = this.mockOrderDetails.filter(d => d.orderId === orderId);
-    return of(details);
+    // This endpoint might need to be adjusted based on actual API
+    // For now, returning empty array as the API structure for details is not specified
+    return this.http.get<OrderDetail[]>(`${this.apiUrl}/orders/${orderId}/details`);
   }
 
   getOrdersByStatus(status: string): Observable<Order[]> {
-    const orders = this.mockOrders.filter(o => o.status === status);
-    return of(orders);
+    return this.http.get<Order[]>(`${this.apiUrl}/orders/status/${status}`).pipe(
+      map(orders => this.filterTodayOrders(orders))
+    );
+  }
+
+  getOrdersByStatusOrAll(status?: string): Observable<Order[]> {
+    if (!status) {
+      return this.getOrders();
+    }
+    return this.getOrdersByStatus(status);
   }
 
   getTodayOrders(): Observable<Order[]> {
-    const today = new Date().toISOString().split('T')[0];
-    const todayOrders = this.mockOrders.filter(o => o.date.startsWith(today));
-    return of(todayOrders);
+    return this.http.get<Order[]>(`${this.apiUrl}/orders/all`).pipe(
+      map(orders => this.filterTodayOrders(orders))
+    );
   }
 
   getCompletedOrdersCount(): Observable<number> {
-    const completedOrders = this.mockOrders.filter(o => o.status === 'completed');
-    return of(completedOrders.length);
+    return this.getOrdersByStatus('COMPLETED').pipe(
+      map(orders => orders.length)
+    );
   }
 
   getPreparingOrdersCount(): Observable<number> {
-    const preparingOrders = this.mockOrders.filter(o => o.status === 'preparing');
-    return of(preparingOrders.length);
+    return this.getOrdersByStatus('PENDING').pipe(
+      map(orders => orders.length)
+    );
   }
 
   getTotalSales(): Observable<number> {
-    const completedOrders = this.mockOrders.filter(o => o.status === 'completed');
-    const total = completedOrders.reduce((sum, order) => sum + order.totalPrice, 0);
-    return of(total);
+    return this.getOrdersByStatus('COMPLETED').pipe(
+      map(orders => orders.reduce((sum, order) => sum + order.totalPrice, 0))
+    );
   }
 
-  // Method to simulate real API calls (to be implemented with actual HTTP calls)
-  // private get<T>(url: string): Observable<T> {
-  //   return this.http.get<T>(url);
-  // }
+  private filterTodayOrders(orders: Order[]): Order[] {
+    // Temporarily return all orders to debug the issue
+    this.loggingService.debug('OrderService: Bypassing date filter, returning all orders:', orders.length);
+    return orders;
 
-  // private post<T>(url: string, data: any): Observable<T> {
-  //   return this.http.post<T>(url, data);
-  // }
+    /* TODO: Restore date filtering once the issue is resolved
+    const today = new Date().toISOString().split('T')[0];
+    this.loggingService.debug('OrderService: Filtering orders for date:', today);
+    const filteredOrders = orders.filter(order => {
+      const matches = order.date.startsWith(today);
+      this.loggingService.debug('OrderService: Order', order.id, 'date:', order.date, 'matches today:', matches);
+      return matches;
+    });
+    this.loggingService.debug('OrderService: Total orders after filtering:', filteredOrders.length);
+    return filteredOrders;
+    */
+  }
 }

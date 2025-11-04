@@ -19,11 +19,11 @@ export class WaiterArea implements OnInit {
   private configureWaiterMenu(): void {
     const waiterMenuItems: MenuItem[] = [
       {
-        id: 'waiter-dashboard',
-        label: 'Mesero',
-        description: 'Vista general del mesero',
-        icon: 'pi pi-user',
-        routerLink: '/waiter'
+        id: 'day-menu',
+        label: 'Menú del Día',
+        description: 'Ver menú del día',
+        icon: 'pi pi-sun',
+        routerLink: '/waiter/day-menu'
       },
       {
         id: 'orders-list',
@@ -37,14 +37,7 @@ export class WaiterArea implements OnInit {
         label: 'Carta',
         description: 'Ver carta del restaurante',
         icon: 'pi pi-book',
-        routerLink: '/waiter/menu'
-      },
-      {
-        id: 'day-menu',
-        label: 'Menú del Día',
-        description: 'Ver menú del día',
-        icon: 'pi pi-sun',
-        routerLink: '/waiter/day-menu'
+        routerLink: '/waiter/products'
       },
     ];
 
