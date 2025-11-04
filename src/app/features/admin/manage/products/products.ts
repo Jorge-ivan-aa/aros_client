@@ -134,7 +134,7 @@ export class Products implements OnInit {
   }
 
   filterProducts(): void {
-    let nums: null | number[] = this.filterCategories.value;
+    const nums: null | number[] = this.filterCategories.value;
 
     if (nums === null || nums.length == 0) {
       this.refreshProducts();

@@ -111,12 +111,12 @@
 <p-dialog
   [modal]="true"
   [(visible)]="modalIsOpen"
-  [header]="modalMode == 'edit' ? 'Editar producto' : 'Crear producto'"
+  [header]="modalMode === 'edit' ? 'Editar producto' : 'Crear producto'"
   draggable="false"
   [style]="{ width: '45vw', padding: '2' }"
 >
   <div class="p-0">
-    @if (modalMode == 'edit') {
+    @if (modalMode === 'edit') {
     <span class="p-text-secondary block mb-4">Modifica un producto</span>
     } @else {
     <span class="p-text-secondary block mb-4">Crea un nuevo producto</span>
@@ -154,7 +154,7 @@
         <form-validation field="price" />
       </p-iftalabel>
 
-      @if (modalMode == 'edit') {
+      @if (modalMode === 'edit') {
       <p-iftalabel class="mb-4">
         <p-select
           [options]="[
@@ -234,7 +234,7 @@
   </form>
 
   <div class="flex justify-start gap-2 mt-8">
-    @if (modalMode == 'edit') {
+    @if (modalMode === 'edit') {
     <p-button icon="pi pi-save" label="Actualizar producto" (click)="updateProduct()" />
     } @else {
     <p-button icon="pi pi-save" label="Crear producto" (click)="createProduct()" />

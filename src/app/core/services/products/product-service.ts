@@ -22,11 +22,11 @@ export class ProductService {
     });
   }
 
-  public createProduct(data: ProductCreateRequest): Observable<Object> {
+  public createProduct(data: ProductCreateRequest): Observable<object> {
     return this.http.post('http://localhost:8080/api/products/create', data);
   }
 
-  public updateProduct(data: ProductUpdateRequest): Observable<Object> {
+  public updateProduct(data: ProductUpdateRequest): Observable<object> {
     return this.http.put('http://localhost:8080/api/products/update', data);
   }
 
