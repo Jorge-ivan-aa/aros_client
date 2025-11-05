@@ -114,6 +114,7 @@
   [header]="modalMode === 'edit' ? 'Editar producto' : 'Crear producto'"
   draggable="false"
   [style]="{ width: '45vw', padding: '2' }"
+  appendTo="body"
 >
   <div class="p-0">
     @if (modalMode === 'edit') {

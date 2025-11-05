@@ -1,4 +1,4 @@
-<div class="h-full flex flex-col p-6">
+<div class="flex flex-col p-6 h-full pb-40">
   <!-- Header with back button -->
   <div class="flex items-center gap-4 mb-6">
     <a
@@ -82,149 +82,150 @@
                 size="small"
                 (click)="showModificationModal(user)"
               ></p-button>
-              <p-button (click)="deleteUser(user.document)" severity="danger" icon="pi pi-trash" label="Eliminar" size="small"></p-button>
+              <p-button
+                (click)="deleteUser(user.document)"
+                severity="danger"
+                icon="pi pi-trash"
+                label="Eliminar"
+                size="small"
+              ></p-button>
             </div>
           </td>
         </tr>
       </ng-template>
     </p-table>
-
-    <!-- creation modal -->
-    <p-dialog
-      header="{{ editing ? 'Editar Usuario' : 'Crear Usuario' }}"
-      [modal]="true"
-      [(visible)]="creationModalVisible"
-      class="z-50"
-      draggable="false"
-      [style]="{ width: '45vw', padding: '2' }"
-    >
-      <div class="p-4">
-        @if (editing) {
-          <span class="p-text-secondary block mb-8">Modifica un usuario</span>
-        } @else {
-          <span class="p-text-secondary block mb-8">Crea un nuevo usuario</span>
-        }
-
-        <form action="" [formGroup]="userForm">
-          <div class="flex items-center gap-4 mb-4">
-            <p-iftalabel class="flex-auto w-full">
-              <input
-                pInputText
-                id="create.document"
-                class="flex-auto w-full"
-                autocomplete="off"
-                formControlName="document"
-                [invalid]="isValidField('document')"
-                placeholder="Numero de documento del usuario"
-              />
-              <label for="create.document" class="font-semibold w-50">Documento</label>
-              <form-validation field="document"></form-validation>
-            </p-iftalabel>
-          </div>
-          <div class="flex items-center gap-4 mb-4">
-            <p-iftalabel class="flex-auto w-full">
-              <input
-                pInputText
-                id="create.name"
-                class="flex-auto w-full"
-                autocomplete="off"
-                formControlName="name"
-                placeholder="Nombre completo del usuario"
-              />
-              <label for="create.name" class="font-semibold w-50">Nombre</label>
-              <form-validation field="name"></form-validation>
-            </p-iftalabel>
-          </div>
-          <div class="flex items-center gap-4 mb-4">
-            <p-iftalabel class="flex-auto w-full">
-              <input
-                pInputText
-                type="email"
-                id="create.email"
-                class="flex-auto w-full"
-                autocomplete="off"
-                formControlName="email"
-                placeholder="correo electronico del usuario"
-              />
-              <label for="create.email" class="font-semibold w-50">Correo electronico</label>
-              <form-validation field="email"></form-validation>
-            </p-iftalabel>
-          </div>
-          <div class="flex items-center gap-4 mb-4">
-            <p-iftalabel class="flex-auto w-full">
-              <input
-                pInputText
-                id="create.address"
-                class="flex-auto w-full"
-                autocomplete="off"
-                formControlName="address"
-                placeholder="direccion de residencia del usuario"
-              />
-              <label for="create.address" class="font-semibold w-50">Direccion</label>
-              <form-validation field="address"></form-validation>
-            </p-iftalabel>
-          </div>
-          <div class="flex items-center gap-4 mb-4">
-            <p-iftalabel class="flex-auto w-full">
-              <input
-                pInputText
-                id="create.phone"
-                class="flex-auto w-full"
-                autocomplete="off"
-                formControlName="phone"
-                placeholder="numero de contacto del usuario"
-              />
-              <label for="create.phone" class="font-semibold w-50">N# Celular</label>
-              <form-validation field="phone"></form-validation>
-            </p-iftalabel>
-          </div>
-          <div class="flex items-center gap-4 mb-4">
-            <p-iftalabel class="flex-auto w-full">
-              <input
-                pInputText
-                id="create.password"
-                class="flex-auto w-full"
-                autocomplete="off"
-                formControlName="password"
-                placeholder="clave de accesso para el usuario"
-              />
-              <label for="create.password" class="font-semibold w-50">Clave de acceso</label>
-              <form-validation field="password"></form-validation>
-            </p-iftalabel>
-          </div>
-          <div class="flex items-center gap-4 mb-4">
-            <p-iftalabel class="flex-auto w-full">
-              <p-multiselect
-                [options]="availableAreas"
-                formControlName="areas"
-                placeholder="Seleccionar areas"
-                optionLabel="name"
-                inputId="create_areas"
-                optionValue="id"
-                filter="false"
-                class="w-full"
-              />
-              <label for="create_areas" class="font-semibold w-50">Areas de trabajo</label>
-              <form-validation field="areas"></form-validation>
-            </p-iftalabel>
-          </div>
-        </form>
-        
-        <div class="flex justify-start gap-2 mt-8">
-          @if (editing) {
-            <p-button icon="pi pi-save" label="Modificar" (click)="updateUser()" />
-          } @else {
-            <p-button icon="pi pi-save" label="Crear" (click)="createUser()" />
-          }
-          <p-button
-            icon="pi pi-ban"
-            label="Cancelar"
-            severity="secondary"
-            (click)="closeModals()"
-          />
-        </div>
-
-      </div>
-    </p-dialog>
   </div>
 </div>
+
+<!-- creation modal -->
+<p-dialog
+  header="{{ editing ? 'Editar Usuario' : 'Crear Usuario' }}"
+  [modal]="true"
+  [(visible)]="creationModalVisible"
+  draggable="false"
+  [style]="{ width: '45vw', padding: '2', 'z-index': '400000' }"
+  appendTo="body"
+>
+  <div class="p-4">
+    @if (editing) {
+    <span class="p-text-secondary block mb-8">Modifica un usuario</span>
+    } @else {
+    <span class="p-text-secondary block mb-8">Crea un nuevo usuario</span>
+    }
+
+    <form action="" [formGroup]="userForm">
+      <div class="flex items-center gap-4 mb-4">
+        <p-iftalabel class="flex-auto w-full">
+          <input
+            pInputText
+            id="create.document"
+            class="flex-auto w-full"
+            autocomplete="off"
+            formControlName="document"
+            [invalid]="isValidField('document')"
+            placeholder="Numero de documento del usuario"
+          />
+          <label for="create.document" class="font-semibold w-50">Documento</label>
+          <form-validation field="document"></form-validation>
+        </p-iftalabel>
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <p-iftalabel class="flex-auto w-full">
+          <input
+            pInputText
+            id="create.name"
+            class="flex-auto w-full"
+            autocomplete="off"
+            formControlName="name"
+            placeholder="Nombre completo del usuario"
+          />
+          <label for="create.name" class="font-semibold w-50">Nombre</label>
+          <form-validation field="name"></form-validation>
+        </p-iftalabel>
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <p-iftalabel class="flex-auto w-full">
+          <input
+            pInputText
+            type="email"
+            id="create.email"
+            class="flex-auto w-full"
+            autocomplete="off"
+            formControlName="email"
+            placeholder="correo electronico del usuario"
+          />
+          <label for="create.email" class="font-semibold w-50">Correo electronico</label>
+          <form-validation field="email"></form-validation>
+        </p-iftalabel>
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <p-iftalabel class="flex-auto w-full">
+          <input
+            pInputText
+            id="create.address"
+            class="flex-auto w-full"
+            autocomplete="off"
+            formControlName="address"
+            placeholder="direccion de residencia del usuario"
+          />
+          <label for="create.address" class="font-semibold w-50">Direccion</label>
+          <form-validation field="address"></form-validation>
+        </p-iftalabel>
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <p-iftalabel class="flex-auto w-full">
+          <input
+            pInputText
+            id="create.phone"
+            class="flex-auto w-full"
+            autocomplete="off"
+            formControlName="phone"
+            placeholder="numero de contacto del usuario"
+          />
+          <label for="create.phone" class="font-semibold w-50">N# Celular</label>
+          <form-validation field="phone"></form-validation>
+        </p-iftalabel>
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <p-iftalabel class="flex-auto w-full">
+          <input
+            pInputText
+            type="password"
+            id="create.password"
+            class="flex-auto w-full"
+            autocomplete="off"
+            formControlName="password"
+            placeholder="clave de accesso para el usuario"
+          />
+          <label for="create.password" class="font-semibold w-50">Clave de acceso</label>
+          <form-validation field="password"></form-validation>
+        </p-iftalabel>
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <p-iftalabel class="flex-auto w-full">
+          <p-multiselect
+            [options]="availableAreas"
+            formControlName="areas"
+            placeholder="Seleccionar areas"
+            optionLabel="name"
+            inputId="create_areas"
+            optionValue="id"
+            filter="false"
+            class="w-full"
+          />
+          <label for="create_areas" class="font-semibold w-50">Areas de trabajo</label>
+          <form-validation field="areas"></form-validation>
+        </p-iftalabel>
+      </div>
+    </form>
+
+    <div class="flex justify-start gap-2 mt-8">
+      @if (editing) {
+      <p-button icon="pi pi-save" label="Modificar" (click)="updateUser()" />
+      } @else {
+      <p-button icon="pi pi-save" label="Crear" (click)="createUser()" />
+      }
+      <p-button icon="pi pi-ban" label="Cancelar" severity="secondary" (click)="closeModals()" />
+    </div>
+  </div>
+</p-dialog>

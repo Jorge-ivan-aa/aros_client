@@ -1,56 +1,66 @@
 <header
-    class="fixed top-0 left-0 flex justify-between items-center h-16 px-4 bg-surface-50 dark:bg-surface-900 w-full z-50 max-w-full overflow-hidden">
-    <!-- Left Section: Logo and Current Selection -->
-    <section class="flex items-center gap-4">
-        <!-- Logo -->
-        <div class="flex items-center gap-2">
-            <img class="h-[39px]" src="/logo.webp" alt="AROS - Accrox Restaurant Ordering System">
-            <h1 class="logo text-primary-400">AROS</h1>
-        </div>
+  class="fixed top-0 left-0 flex justify-between items-center h-16 px-4 bg-surface-50 dark:bg-surface-900 w-full max-w-full overflow-hidden z-10"
+  [ngClass]="{
+    'z-50': isMobile
+  }"
+>
+  <!-- Left Section: Logo and Current Selection -->
+  <section class="flex items-center gap-4">
+    <!-- Logo -->
+    <div class="flex items-center gap-2">
+      <img class="h-[39px]" src="/logo.webp" alt="AROS - Accrox Restaurant Ordering System" />
+      <h1 class="logo text-primary-400">AROS</h1>
+    </div>
 
-        <!-- Current Selection Display -->
-        @if (selectedMenuItem) {
-        <div
-            class="hidden md:flex items-center gap-2 ml-4 pl-4 border-l border-surface-200 dark:border-surface-700">
-            @if (selectedMenuItem.icon) {
-            <i [class]="selectedMenuItem.icon + ' text-surface-500 dark:text-surface-400'"></i>
-            }
-            <span class="text-surface-700 dark:text-surface-300 font-medium">
-                {{ selectedMenuItem.description }}
-            </span>
-        </div>
-        }
+    <!-- Current Selection Display -->
+    @if (selectedMenuItem) {
+    <div
+      class="hidden md:flex items-center gap-2 ml-4 pl-4 border-l border-surface-200 dark:border-surface-700"
+    >
+      @if (selectedMenuItem.icon) {
+      <i [class]="selectedMenuItem.icon + ' text-surface-500 dark:text-surface-400'"></i>
+      }
+      <span class="text-surface-700 dark:text-surface-300 font-medium">
+        {{ selectedMenuItem.description }}
+      </span>
+    </div>
+    }
+  </section>
 
-    </section>
+  <!-- Center Section: Horizontal Menu Options for Workers -->
+  <section class="hidden lg:flex items-center gap-2">
+    <!-- Horizontal menu options will be dynamically added here -->
+    @for (option of horizontalMenuOptions; track option.id) {
+    <button
+      class="px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+      [class]="
+        option.isActive
+          ? 'bg-primary-500 text-surface-0'
+          : 'text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-800'
+      "
+      (click)="onHorizontalOptionClick(option)"
+      [title]="option.description"
+    >
+      @if (option.icon) {
+      <i [class]="option.icon + ' mr-2'"></i>
+      }
+      {{ option.label }}
+    </button>
+    }
+  </section>
 
-    <!-- Center Section: Horizontal Menu Options for Workers -->
-    <section class="hidden lg:flex items-center gap-2">
-        <!-- Horizontal menu options will be dynamically added here -->
-        @for (option of horizontalMenuOptions; track option.id) {
-        <button
-            class="px-3 py-2 rounded-lg text-sm font-medium transition-colors"
-            [class]="option.isActive ?
-                     'bg-primary-500 text-surface-0' :
-                     'text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-800'"
-            (click)="onHorizontalOptionClick(option)"
-            [title]="option.description">
-            @if (option.icon) {
-            <i [class]="option.icon + ' mr-2'"></i>
-            }
-            {{ option.label }}
-        </button>
-        }
-    </section>
+  <!-- Right Section: Menu Toggle and Dark Mode -->
+  <section class="flex items-center gap-4">
+    <!-- Menu Toggle Button (Mobile) -->
+    <button
+      class="lg:hidden p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors"
+      (click)="toggleMenu.emit()"
+      aria-label="Abrir menú"
+    >
+      <i class="pi pi-bars text-surface-600 dark:text-surface-400"></i>
+    </button>
 
-    <!-- Right Section: Menu Toggle and Dark Mode -->
-    <section class="flex items-center gap-4">
-        <!-- Menu Toggle Button (Mobile) -->
-        <button class="lg:hidden p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors"
-            (click)="toggleMenu.emit()" aria-label="Abrir menú">
-            <i class="pi pi-bars text-surface-600 dark:text-surface-400"></i>
-        </button>
-
-        <!-- Dark Mode Button -->
-        <app-dark-mode-button></app-dark-mode-button>
-    </section>
+    <!-- Dark Mode Button -->
+    <app-dark-mode-button></app-dark-mode-button>
+  </section>
 </header>

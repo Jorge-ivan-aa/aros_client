@@ -23,6 +23,7 @@ export interface HorizontalMenuOption {
 export class Header implements OnInit, OnDestroy {
   @Output() toggleMenu = new EventEmitter<void>();
   @Input() horizontalMenuOptions: HorizontalMenuOption[] = [];
+  @Input() isMobile = false;
 
   selectedMenuItem: MenuItem | null = null;
   private menuSubscription!: Subscription;
