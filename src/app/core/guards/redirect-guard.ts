@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { CanActivate, GuardResult, MaybeAsync, Router, RedirectCommand} from '@angular/router';
+import { CanActivate, GuardResult, MaybeAsync, Router, RedirectCommand } from '@angular/router';
 import { AuthService } from '@services/authentication/auth-service';
-import { LoggingService } from '@services/logging/logging.service';
+import { LoggingService } from '@app/core/services/logging/logging-service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DarkModeButton } from '../dark-mode-button/dark-mode-button';
-import { MenuItem, MenuService } from '../../../core/services/menu/menu.service';
+import { MenuItem, MenuService } from '../../../core/services/menu/menu-service';
 import { Subscription } from 'rxjs';
 
 export interface HorizontalMenuOption {

@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
-import { Order, OrderDetail } from '@app/core/services/orders/order.service';
+import { OrderResponse } from '@app/shared/models/dto/orders/order-response.model';
+import { OrderDetailsResponse } from '@app/shared/models/dto/orders/order-details-response.model';
 
 @Component({
   selector: 'app-order-detail-dialog',
@@ -51,10 +52,9 @@ import { Order, OrderDetail } from '@app/core/services/orders/order.service';
             </div>
 
             <div *ngFor="let item of orderDetails" class="grid grid-cols-12 gap-2 p-3 border-b border-surface-100 dark:border-surface-700 text-sm">
-              <div class="col-span-6">{{ item.productName }}</div>
-              <div class="col-span-2 text-center">{{ item.quantity }}</div>
-              <div class="col-span-2 text-right">S/ {{ item.unitPrice | number:'1.2-2' }}</div>
-              <div class="col-span-2 text-right font-semibold">S/ {{ item.totalPrice | number:'1.2-2' }}</div>
+              <div class="col-span-6">{{ item.status }}</div>
+              <div class="col-span-2 text-center">{{ item.tableName }}</div>
+              <div class="col-span-2 text-right">S/ {{ item.responsibleName }}</div>
             </div>
 
             <div class="grid grid-cols-12 gap-2 p-3 bg-surface-50 dark:bg-surface-900 font-semibold">
@@ -72,8 +72,8 @@ import { Order, OrderDetail } from '@app/core/services/orders/order.service';
 })
 export class OrderDetailDialogComponent {
   @Input() visible = false;
-  @Input() order: Order | null = null;
-  @Input() orderDetails: OrderDetail[] = [];
+  @Input() order: OrderResponse | null = null;
+  @Input() orderDetails: OrderDetailsResponse[] = [];
 
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() closed = new EventEmitter<void>();

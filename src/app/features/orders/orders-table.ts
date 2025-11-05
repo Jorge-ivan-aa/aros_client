@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
-import { OrderService } from '@services/orders/order.service';
+import { OrderService } from '@app/core/services/orders/order-service';
 import { OrderResponse } from '@models/dto/orders/order-response.model';
 import { SharedDatepickerComponent } from '@app/shared/components/datepicker/datepicker.component';
 

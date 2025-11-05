@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Header, HorizontalMenuOption } from '../components/header/header';
 import { Sidebar } from '../components/sidebar/sidebar';
-import { MenuService } from '../../core/services/menu/menu.service';
+import { MenuService } from '../../core/services/menu/menu-service';
 import { WorkerConfigService } from '../../core/services/workers/worker-config.service';
 import { Subscription } from 'rxjs';
 

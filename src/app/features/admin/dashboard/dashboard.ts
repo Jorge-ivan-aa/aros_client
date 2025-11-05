@@ -4,12 +4,14 @@ import { TableModule } from 'primeng/table';
 import { BadgeModule } from 'primeng/badge';
 import { CardModule } from 'primeng/card';
 import { CommonModule } from '@angular/common';
-import { OrderService, Order, OrderDetail } from '@app/core/services/orders/order.service';
+import { OrderService } from '@app/core/services/orders/order-service';
 import { TableService } from '@app/core/services/tables/table.service';
-import { DayMenuService, DayMenu } from '@app/core/services/daymenu/day-menu.service';
-import { ProductService, Product } from '@app/core/services/products/product.service';
+import { DayMenuService, DayMenu } from '@app/core/services/daymenu/daymenu-service';
+import { ProductService, Product } from '@app/core/services/products/product-service';
 import { OrderDetailDialogComponent } from '@shared/components/order-detail-dialog/order-detail-dialog.component';
-import { LoggingService } from '@services/logging/logging.service';
+import { LoggingService } from '@app/core/services/logging/logging-service';
+import { OrderResponse } from '@app/shared/models/dto/orders/order-response.model';
+import { OrderDetailsResponse } from '@app/shared/models/dto/orders/order-details-response.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,8 +33,8 @@ export class Dashboard implements OnInit {
   private productService = inject(ProductService);
   private loggingService = inject(LoggingService);
 
-  orders = signal<Order[]>([]);
-  orderDetails = signal<OrderDetail[]>([]);
+  orders = signal<OrderResponse[]>([]);
+  orderDetails = signal<OrderDetailsResponse[]>([]);
   dayMenu = signal<DayMenu | null>(null);
   completedOrdersCount = signal(0);
   preparingOrdersCount = signal(0);
@@ -44,7 +46,7 @@ export class Dashboard implements OnInit {
 
   // Dialog state
   showOrderDetail = signal(false);
-  selectedOrder = signal<Order | null>(null);
+  selectedOrder = signal<OrderResponse | null>(null);
   selectedProduct = signal<Product | null>(null);
 
   ngOnInit() {
@@ -177,7 +179,7 @@ export class Dashboard implements OnInit {
     }
   }
 
-  viewOrderDetails(order: Order) {
+  viewOrderDetails(order: OrderResponse) {
     this.selectedOrder.set(order);
     // For now, get a sample product to show in the dialog
     this.productService.getProductById(1).subscribe({

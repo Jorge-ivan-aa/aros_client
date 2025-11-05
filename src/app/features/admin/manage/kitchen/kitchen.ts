@@ -19,7 +19,7 @@ export class Kitchen implements OnInit {
   pendingOrders: OrderDetailsResponse[] = [];
   processing = new Set<number>();
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService) { }
 
   ngOnInit(): void {
     this.fetchOrders();
@@ -28,6 +28,7 @@ export class Kitchen implements OnInit {
   fetchOrders(): void {
     this.loading = true;
     this.error = null;
+
     this.orderService.getOrderDetails().subscribe({
       next: (orders) => {
         this.pendingOrders = (orders || []).filter(o => (o.status || '').toUpperCase() === 'PENDING');
