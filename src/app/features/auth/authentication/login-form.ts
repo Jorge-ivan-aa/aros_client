@@ -9,18 +9,18 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button'
 import { MessageService } from 'primeng/api';
-import { LoggingService } from '@services/logging/logging.service';
+import { LoggingService } from '@app/core/services/logging/logging-service';
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.html',
   imports: [ReactiveFormsModule,
-            CommonModule,
-            PasswordModule,
-            MessageModule,
-            FloatLabelModule,
-            InputTextModule,
-            ButtonModule],
+    CommonModule,
+    PasswordModule,
+    MessageModule,
+    FloatLabelModule,
+    InputTextModule,
+    ButtonModule],
 })
 export class LoginForm {
   private authService = inject(AuthService);
@@ -93,7 +93,7 @@ export class LoginForm {
       });
   }
 
-  isInvalid(value:string):boolean {
+  isInvalid(value: string): boolean {
     return this.form.get(value)!.invalid && this.form.get(value)!.touched;
   }
 

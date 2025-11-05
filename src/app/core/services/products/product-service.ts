@@ -4,14 +4,40 @@ import { ProductCreateRequest } from '@app/shared/models/dto/products/product-cr
 import { ProductReponse } from '@app/shared/models/dto/products/product-response';
 import { ProductSimpleResponse } from '@app/shared/models/dto/products/product-simple-response';
 import { ProductUpdateRequest } from '@app/shared/models/dto/products/product-update-request';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
+export interface PreparationArea {
+  id: number;
+  name: string;
+  products: string[] | null;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  products: string[] | null;
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  preparationArea: PreparationArea;
+  preparationTime: number;
+  active: boolean;
+  categories: Category[];
+  quantity: number | null;
+  observations: string | null;
+}
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
   constructor(private http: HttpClient) {}
+  
 
+  
   public getProducts(): Observable<ProductSimpleResponse[]> {
     return this.http.get<ProductSimpleResponse[]>('http://localhost:8080/api/products/no-daymenu');
   }
@@ -32,5 +58,11 @@ export class ProductService {
 
   public findProduct(id: number): Observable<ProductReponse> {
     return this.http.get<ProductReponse>(`http://localhost:8080/api/products/${id}`);
+  }
+
+  getProductById(id: number): Observable<Product | undefined> {
+    return this.getProducts().pipe(
+      map((products: any[]) => products.find((product: { id: number; }) => product.id === id))
+    );
   }
 }

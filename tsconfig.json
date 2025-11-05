@@ -12,7 +12,8 @@
       "@models/*": ["app/shared/models/*"],
       "@services/*": ["app/core/services/*"],
       "@components/*": ["app/shared/components/*"],
-      "@areas/*": ["app/areas/*"]
+      "@areas/*": ["app/areas/*"],
+      "@environments/*": ["environments/*"]
     },
     "strict": true,
     "noImplicitOverride": true,

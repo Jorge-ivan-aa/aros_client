@@ -15,6 +15,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { AuthInterceptor } from '@core/interceptors/auth-interceptor';
+import { UrlInterceptor } from '@core/interceptors/url-interceptor';
 import { routes } from './app.routes';
 
 import { definePreset } from '@primeuix/themes';
@@ -59,6 +60,11 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UrlInterceptor,
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Header } from '../components/header/header';
+import { Header, HorizontalMenuOption } from '../components/header/header';
 import { Sidebar } from '../components/sidebar/sidebar';
-import { MenuService } from '../../core/services/menu/menu.service';
+import { MenuService } from '../../core/services/menu/menu-service';
+import { WorkerConfigService } from '../../core/services/workers/worker-config.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,14 +13,20 @@ import { Subscription } from 'rxjs';
   styles: ``
 })
 export class Layout implements OnInit, OnDestroy {
+  @Input() workerType?: string;
+
   sidebarVisible = false;
   isMobile = false;
+  horizontalMenuOptions: HorizontalMenuOption[] = [];
+
   private resizeSubscription!: Subscription;
   private menuService = inject(MenuService);
+  private workerConfigService = inject(WorkerConfigService);
 
   ngOnInit(): void {
     this.checkScreenSize();
     this.setupResizeListener();
+    this.configureHorizontalMenu();
   }
 
   ngOnDestroy(): void {
@@ -40,12 +47,20 @@ export class Layout implements OnInit, OnDestroy {
     });
   }
 
+  private configureHorizontalMenu(): void {
+    // Only configure horizontal menu if workerType is provided
+    if (this.workerType) {
+      this.horizontalMenuOptions = this.workerConfigService.getHorizontalMenuOptions(this.workerType);
+    } else {
+      this.horizontalMenuOptions = [];
+    }
+  }
+
   toggleSidebar(): void {
     this.sidebarVisible = !this.sidebarVisible;
   }
 
   onSidebarVisibleChange(visible: boolean): void {
     this.sidebarVisible = visible;
-
   }
 }

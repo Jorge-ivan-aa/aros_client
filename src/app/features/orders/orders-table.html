@@ -6,9 +6,11 @@
     class="px-3 py-2 rounded-md bg-primary-500 text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-300 shadow-sm transition-colors duration-150
            dark:bg-primary-400 dark:hover:bg-primary-300 dark:text-surface-900"
   >
-    <option *ngFor="let option of comboOptions" [value]="option" [selected]="option === selectedOption">
-      {{ option }}
-    </option>
+    @for (option of comboOptions; track option) {
+      <option [value]="option" [selected]="option === selectedOption">
+        {{ option }}
+      </option>
+    }
   </select>
 
   <!-- Datepicker shared component placed next to the combo box -->
@@ -36,5 +38,9 @@
   </ng-template>
 </p-table>
 
-<div *ngIf="loading" class="mt-4 text-surface-600 dark:text-surface-300">Cargando pedidos...</div>
-<div *ngIf="error" class="mt-4 text-red-600">{{ error }}</div>
+@if (loading) {
+  <div class="mt-4 text-surface-600 dark:text-surface-300">Cargando pedidos...</div>
+}
+@if (error) {
+  <div class="mt-4 text-red-600">{{ error }}</div>
+}

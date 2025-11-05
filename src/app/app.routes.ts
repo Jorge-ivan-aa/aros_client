@@ -4,7 +4,6 @@ import { RoleGuard } from '@core/guards/role-guard';
 import { RedirectGuard } from '@app/core/guards/redirect-guard';
 import { ProductCreationForm } from '@features/admin/creation/product-creation-form';
 import { Dashboard } from '@features/admin/dashboard/dashboard';
-import { Debug } from '@features/admin/debug/debug';
 import { Orders } from '@features/admin/orders/orders';
 import { Manage } from '@features/admin/manage/manage';
 import { Products } from '@features/admin/manage/products/products';
@@ -14,7 +13,9 @@ import { Tables } from '@features/admin/manage/tables/tables';
 import { Analytics } from '@features/admin/analytics/analytics';
 import { Login } from '@areas/login/login-area';
 import { AdminArea } from '@areas/admin/admin-area';
-import { WorkerArea } from '@areas/worker/worker-area';
+import { KitchenArea } from '@areas/kitchen/kitchen-area';
+import { WaiterArea } from '@areas/waiter/waiter-area';
+import { BarArea } from '@areas/bar/bar-area';
 import { Users } from './features/admin/manage/users/users';
 import { Kitchen } from '@features/admin/manage/kitchen/kitchen';
 
@@ -76,15 +77,21 @@ export const routes: Routes = [
         path: 'create-product',
         component: ProductCreationForm,
       },
-      {
-        path: 'debug',
-        component: Debug,
-      },
     ],
   },
   {
-    path: 'worker',
-    component: WorkerArea,
+    path: 'kitchen',
+    component: KitchenArea,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'waiter',
+    component: WaiterArea,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'bar',
+    component: BarArea,
     canActivate: [AuthGuard, RoleGuard],
   },
   {

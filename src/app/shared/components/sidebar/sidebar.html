@@ -1,5 +1,5 @@
 <aside
-    class="fixed top-0 right-0 h-full bg-surface-50 dark:bg-surface-900 transition-transform duration-300 ease-in-out z-40 w-[20vw] max-md:w-[30vw] max-sm:w-[100vw]"
+    class="fixed top-0 right-0 h-full bg-surface-50 dark:bg-surface-900 transition-transform duration-300 ease-in-out z-40 w-full sm:w-96 lg:w-80 lg:border-none md:border-l border-surface-300 dark:border-surface-700"
     [ngClass]="{
         'translate-x-0': visible,
         'translate-x-full': !visible,
@@ -17,18 +17,21 @@
     </div>
 
     <!-- Menu Items -->
-    <nav class="flex-1 overflow-y-auto p-4 max-md:w-[100vw]">
+    <nav class="flex-1 overflow-y-auto p-4">
         <ul class="p-2 space-y-1">
-            <li *ngFor="let item of menuItems; trackBy: trackByMenuItem">
-                <a [routerLink]="item.routerLink"
-                    [routerLinkActive]="'!text-primary-500'"
-                    [routerLinkActiveOptions]="{ exact: true }"
-                    class="flex items-center gap-3 p-3 rounded-lg text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors cursor-pointer"
-                    (click)="onMenuItemClick(item)">
-                    <i *ngIf="item.icon" [class]="item.icon + ''"></i>
-                    <span class="font-medium">{{ item.label }}</span>
-                </a>
-            </li>
+            @for (item of menuItems; track trackByMenuItem($index, item)) {
+                <li>
+                    <a [routerLink]="item.routerLink" [routerLinkActive]="'!text-primary-500'"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        class="flex items-center gap-3 p-3 rounded-lg text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors cursor-pointer"
+                        (click)="onMenuItemClick(item)">
+                        @if (item.icon) {
+                            <i [class]="item.icon + ''"></i>
+                        }
+                        <span class="font-medium">{{ item.label }}</span>
+                    </a>
+                </li>
+            }
         </ul>
     </nav>
 
@@ -47,19 +50,21 @@
                 <div class="text-center text-surface-500 dark:text-surface-400 font-medium">S</div>
                 <div class="text-center text-surface-500 dark:text-surface-400 font-medium">D</div>
 
-                <div *ngFor="let day of calendarDays"
-                     class="text-center p-1 rounded-full"
-                     [class]="day.isCurrentDay ?
-                              'bg-primary-500 text-surface-0 font-medium' :
-                              'text-surface-600 dark:text-surface-400'">
-                    {{ day.day }}
-                </div>
+                @for (day of calendarDays; track $index) {
+                    <div class="text-center p-1 rounded-full" [class]="day.isCurrentDay ?
+                                  'bg-primary-500 text-surface-0 font-medium' :
+                                  'text-surface-600 dark:text-surface-400'">
+                        {{ day.day }}
+                    </div>
+                }
             </div>
         </div>
     </div>
 </aside>
 
 <!-- Mobile Overlay -->
-<div *ngIf="visible && isMobile" class="fixed inset-0 bg-black/80 bg-opacity-50 z-30 lg:hidden"
-    (click)="closeSidebar()">
-</div>
+@if (visible && isMobile) {
+    <div class="fixed inset-0 bg-black/80 bg-opacity-50 z-30 lg:hidden"
+        (click)="closeSidebar()">
+    </div>
+}

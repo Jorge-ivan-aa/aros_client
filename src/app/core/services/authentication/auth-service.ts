@@ -4,13 +4,15 @@ import { Observable, tap } from 'rxjs';
 import { UserInfo } from '@models/domain/user/user-info.model';
 import { AuthRequest } from '@models/dto/auth/auth-request.model';
 import { AuthResponse } from '@models/dto/auth/auth-response.model';
-import { LoggingService } from '@services/logging/logging.service';
+import { LoggingService } from '@app/core/services/logging/logging-service';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
+
 
   /**
    * access token
@@ -45,7 +47,7 @@ export class AuthService {
   login(credentials: AuthRequest): Observable<AuthResponse> {
     this.loggingService.auth('Login called with document:', credentials.document);
     return this.http
-      .post<AuthResponse>('http://localhost:8080/api/login', {
+      .post<AuthResponse>('login', {
         document: credentials.document,
         password: credentials.password,
       })
@@ -65,7 +67,7 @@ export class AuthService {
     const refreshToken = localStorage.getItem('refresh');
     this.loggingService.auth('Refresh called - refresh token exists:', !!refreshToken);
 
-    return this.http.post<AuthResponse>('http://localhost:8080/api/refresh', {
+    return this.http.post<AuthResponse>('refresh', {
       refreshToken: refreshToken
     }).pipe(
       tap((response: AuthResponse) => {
@@ -101,7 +103,7 @@ export class AuthService {
 
   private getUserInfo(): void {
     this.loggingService.auth('getUserInfo called - current token exists:', !!this.token);
-    this.http.get<UserInfo>('http://localhost:8080/api/details').subscribe({
+    this.http.get<UserInfo>('details').subscribe({
       next: (userInfo: UserInfo) => {
         this.loggingService.auth('getUserInfo successful - user data received');
         this.data = userInfo;

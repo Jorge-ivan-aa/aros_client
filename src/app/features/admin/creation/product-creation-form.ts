@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -9,6 +10,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class ProductCreationForm {
   private http = inject(HttpClient);
+
 
   form = new FormGroup({
     name: new FormControl(''),
@@ -29,7 +31,7 @@ export class ProductCreationForm {
 
 
   createProduct() {
-    this.http.post("http://localhost:8080/api/products", {
+    this.http.post('products', {
       name: this.form.get('name')?.value,
       price: this.form.get('price')?.value,
       description: this.form.get('description')?.value,

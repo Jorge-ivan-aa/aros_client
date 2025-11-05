@@ -12,23 +12,21 @@
             formControlName="document"
             fluid
           />
-        <div
-          *ngIf="form.get('document')?.invalid && form.get('document')?.touched"
-          class="text-red-500 text-sm"
-        >
-          Campo requerido*
-        </div>
+        @if (form.get('document')?.invalid && form.get('document')?.touched) {
+          <div class="text-red-500 text-sm">
+            Campo requerido*
+          </div>
+        }
       </div>
 
       <div>
           <label for="password" class="text-sm">Contraseña</label>
           <p-password id="password" formControlName="password" [invalid]="isInvalid('password')" [feedback]="false" [toggleMask]="true" autocomplete="off" fluid  />
-        <div
-          *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
-          class="text-red-500 text-sm"
-        >
-          Campo requerido*
-        </div>
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+          <div class="text-red-500 text-sm">
+            Campo requerido*
+          </div>
+        }
       </div>
 
       <p-button
@@ -36,8 +34,12 @@
         class="mt-4 m-auto"
         [disabled]="formStatus === 'Occuped' || form.invalid"
       >
-        <span *ngIf="formStatus === 'Free'">Ingresar</span>
-        <span *ngIf="formStatus === 'Occuped'">Iniciando sesión...</span>
+        @if (formStatus === 'Free') {
+          <span>Ingresar</span>
+        }
+        @if (formStatus === 'Occuped') {
+          <span>Iniciando sesión...</span>
+        }
       </p-button>
     </form>
 </div>

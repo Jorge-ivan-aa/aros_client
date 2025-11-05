@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule, NgClass, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MenuItem, MenuService } from '../../../core/services/menu/menu.service';
+import { MenuItem, MenuService } from '../../../core/services/menu/menu-service';
 import { Subscription } from 'rxjs';
 
 @Component({
