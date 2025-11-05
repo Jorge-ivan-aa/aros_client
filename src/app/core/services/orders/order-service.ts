@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs';
 import { LoggingService } from '@app/core/services/logging/logging-service';
 import { OrderResponse } from '@app/shared/models/dto/orders/order-response.model';
 import { OrderDetailsResponse } from '@app/shared/models/dto/orders/order-details-response.model';
+import { UpdateOrderRequest } from '@app/shared/models/dto/orders/update-order-status.model';
 
 
 @Injectable({
@@ -30,6 +31,11 @@ export class OrderService {
   // PATCH http://localhost:8080/api/orders/{id}/mark-order-as-completed
   public markOrderAsCompleted(id: number): Observable<void> {
     return this.http.patch<void>(`orders/${id}/mark-order-as-completed`, {});
+  }
+
+  // PUT http://localhost:8080/api/orders/update
+  public updateOrder(request: UpdateOrderRequest): Observable<void> {
+    return this.http.put<void>('orders/update', request);
   }
 
   // GET http://localhost:8080/api/orders/status/{status}

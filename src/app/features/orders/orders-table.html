@@ -1,38 +1,76 @@
-<div class="mb-3 pb-4 flex items-center gap-3 flex-wrap">
-  <label for="statusFilter" class="mr-2 text-surface-700 dark:text-surface-200">Filter by:</label>
-  <select
-    id="statusFilter"
-    (change)="onOptionChange($event)"
-    class="px-3 py-2 rounded-md bg-primary-500 text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-300 shadow-sm transition-colors duration-150
-           dark:bg-primary-400 dark:hover:bg-primary-300 dark:text-surface-900"
-  >
-    @for (option of comboOptions; track option) {
-      <option [value]="option" [selected]="option === selectedOption">
-        {{ option }}
-      </option>
-    }
-  </select>
+<div class="mb-3 pb-4 flex items-center justify-between gap-3 flex-wrap">
+  <div class="flex items-center gap-3 flex-wrap">
+    <label for="statusFilter" class="mr-2 text-surface-700 dark:text-surface-200">Filter by:</label>
+    <select
+      id="statusFilter"
+      (change)="onOptionChange($event)"
+      class="px-3 py-2 rounded-md bg-primary-500 text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-300 shadow-sm transition-colors duration-150
+             dark:bg-primary-400 dark:hover:bg-primary-300 dark:text-surface-900"
+    >
+      @for (option of comboOptions; track option) {
+        <option [value]="option" [selected]="option === selectedOption">
+          {{ option }}
+        </option>
+      }
+    </select>
 
-  <!-- Datepicker shared component placed next to the combo box -->
-  <app-shared-datepicker (dateChange)="onDateChange($event)"></app-shared-datepicker>
+    <!-- Datepicker shared component placed next to the combo box -->
+    <app-shared-datepicker (dateChange)="onDateChange($event)"></app-shared-datepicker>
+  </div>
+
+  <!-- Save button on the right -->
+  <div class="flex items-center gap-2">
+    @if (hasUnsavedChanges) {
+      <span class="text-sm text-orange-600 dark:text-orange-400">
+        {{ unsavedChangesCount }} cambio(s) sin guardar
+      </span>
+    }
+    <p-button
+      icon="pi pi-save"
+      label="Guardar cambios"
+      (onClick)="saveChanges()"
+      [disabled]="!hasUnsavedChanges || saving"
+      [loading]="saving"
+      severity="success"
+    />
+  </div>
 </div>
 
 <p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }">
   <ng-template pTemplate="header">
     <tr>
       <th>ID</th>
-      <th>Status</th>
-      <th>Date</th>
-      <th>Table</th>
-      <th>Total Price</th>
+      <th>Estado</th>
+      <th>Fecha</th>
+      <th>Mesa</th>
+      <th>Precio Total</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-order>
     <tr>
       <td>{{ order.id }}</td>
-      <td>{{ order.status }}</td>
+      <td>
+        <p-select
+          [options]="statusOptions"
+          [(ngModel)]="order.status"
+          (onChange)="onStatusChange(order, $event.value)"
+          placeholder="Seleccionar estado"
+          optionLabel="label"
+          optionValue="value"
+          [style]="{'width': '160px'}"
+        />
+      </td>
       <td>{{ order.date }}</td>
-      <td>{{ order.table }}</td>
+      <td>
+        <input
+          pInputText
+          type="text"
+          [(ngModel)]="order.table"
+          (ngModelChange)="onFieldChange(order, 'table', $event)"
+          placeholder="Nombre de mesa"
+          class="w-full"
+        />
+      </td>
       <td>{{ order.totalPrice | currency:'COP':'symbol':'1.2-2' }}</td>
     </tr>
   </ng-template>
