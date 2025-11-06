@@ -6,6 +6,7 @@ import { LoggingService } from '@app/core/services/logging/logging-service';
 import { OrderResponse } from '@app/shared/models/dto/orders/order-response.model';
 import { OrderDetailsResponse } from '@app/shared/models/dto/orders/order-details-response.model';
 import { UpdateOrderRequest } from '@app/shared/models/dto/orders/update-order-status.model';
+import { CreateOrderRequest } from '@app/shared/models/dto/orders/create-order-request.model';
 
 
 @Injectable({
@@ -36,6 +37,11 @@ export class OrderService {
   // PUT http://localhost:8080/api/orders/update
   public updateOrder(request: UpdateOrderRequest): Observable<void> {
     return this.http.put<void>('orders/update', request);
+  }
+
+  // POST http://localhost:8080/api/orders/create
+  public createOrder(request: CreateOrderRequest): Observable<void> {
+    return this.http.post<void>('orders/create', request);
   }
 
   // GET http://localhost:8080/api/orders/status/{status}

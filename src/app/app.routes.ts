@@ -59,6 +59,10 @@ export const routes: Routes = [
             path: 'menu',
             component: Menu,
           },
+              {
+                path: 'orders-create',
+                loadComponent: () => import('./features/admin/manage/orders-create/order-creation-form').then(m => m.OrderCreationForm),
+              },
           {
             path: 'users',
             component: Users,
