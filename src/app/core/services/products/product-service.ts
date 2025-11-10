@@ -88,4 +88,10 @@ export class ProductService {
       catchError(() => of(undefined))
     );
   }
+
+  getProductsByCategories(categoryIds: number[]): Observable<ProductSimpleResponse[]> {
+    return this.http.get<ProductSimpleResponse[]>('products/filter', {
+      params: { categories: categoryIds.join(',') }
+    });
+  }
 }

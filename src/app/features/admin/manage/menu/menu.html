@@ -99,6 +99,7 @@
                                 optionValue="id"
                                 placeholder="Selecciona una categoría"
                                 [class.ng-invalid]="categoryControl.get('categoryId')?.invalid && categoryControl.get('categoryId')?.touched"
+                                (onChange)="onCategoryChange(i)"
                                 class="w-full"
                             ></p-select>
                         </div>
@@ -108,16 +109,28 @@
                             <label class="block text-xs font-medium text-surface-600 dark:text-surface-400 mb-1">
                                 Productos *
                             </label>
+                            @if (loadingProducts()) {
+                              <div class="flex items-center gap-2 text-surface-500">
+                                  <i class="pi pi-spin pi-spinner"></i>
+                                  <span>Cargando productos...</span>
+                              </div>
+                            }
                             <p-multiSelect
                                 formControlName="productIds"
-                                [options]="availableProducts()"
+                                [options]="getFilteredProducts(categoryControl.get('categoryId')?.value)"
                                 optionLabel="name"
                                 optionValue="id"
-                                placeholder="Selecciona los productos"
+                                placeholder="{{ categoryControl.get('categoryId')?.value ? 'Selecciona los productos' : 'Primero selecciona una categoría' }}"
                                 display="chip"
+                                [disabled]="!categoryControl.get('categoryId')?.value || loadingProducts()"
                                 [class.ng-invalid]="categoryControl.get('productIds')?.invalid && categoryControl.get('productIds')?.touched"
                                 class="w-full"
                             ></p-multiSelect>
+                            @if (categoryControl.get('categoryId')?.value && getFilteredProducts(categoryControl.get('categoryId')?.value).length === 0 && !loadingProducts()) {
+                              <small class="text-surface-500 mt-1 block">
+                                  No hay productos disponibles en esta categoría
+                              </small>
+                            }
                         </div>
                       </div>
                     }

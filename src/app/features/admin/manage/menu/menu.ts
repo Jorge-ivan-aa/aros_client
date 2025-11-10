@@ -46,9 +46,10 @@ export class Menu {
   private messageService = inject(MessageService);
 
   dayMenuForm: FormGroup;
-  availableProducts = signal<ProductSimpleResponse[]>([]);
+  availableProducts = signal<Map<number, ProductSimpleResponse[]>>(new Map()); // Cambio aquí
   availableCategories = signal<CategorySimpleResponse[]>([]);
   isSubmitting = signal(false);
+  loadingProducts = signal<boolean>(false); // Nuevo signal para loading
 
   constructor() {
     this.dayMenuForm = this.fb.group({
@@ -57,24 +58,60 @@ export class Menu {
       products: this.fb.array([], [Validators.required, Validators.minLength(1)])
     });
 
-    this.loadAvailableProducts();
     this.loadAvailableCategories();
+    // Removemos loadAvailableProducts ya que cargaremos por categoría
   }
 
-  private loadAvailableProducts() {
-    this.productService.getProducts().subscribe({
+  // Método para cargar productos por categoría
+  loadProductsForCategory(categoryId: number): void {
+    // Si ya tenemos los productos para esta categoría, no cargamos de nuevo
+    if (this.availableProducts().has(categoryId)) {
+      return;
+    }
+
+    this.loadingProducts.set(true);
+    this.productService.getProductsByCategories([categoryId]).subscribe({
       next: (products) => {
-        this.availableProducts.set(products);
+        const currentMap = this.availableProducts();
+        currentMap.set(categoryId, products);
+        this.availableProducts.set(new Map(currentMap));
+        this.loadingProducts.set(false);
       },
       error: (error) => {
-        console.error('Error loading products:', error);
+        console.error('Error loading products for category:', error);
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar los productos disponibles'
+          detail: 'No se pudieron cargar los productos de esta categoría'
         });
+        this.loadingProducts.set(false);
       }
     });
+  }
+
+  // Método para obtener productos filtrados por categoría
+  getFilteredProducts(categoryId: number | null): ProductSimpleResponse[] {
+    if (!categoryId) {
+      return [];
+    }
+    return this.availableProducts().get(categoryId) || [];
+  }
+
+  // Método que se ejecuta cuando cambia la categoría
+  onCategoryChange(categoryIndex: number) {
+    const categoryControl = this.productsFormArray.at(categoryIndex);
+    const categoryId = categoryControl.get('categoryId')?.value;
+    const productIdsControl = categoryControl.get('productIds');
+
+    // Resetear los productos seleccionados cuando cambia la categoría
+    if (productIdsControl) {
+      productIdsControl.setValue([]);
+    }
+
+    // Cargar productos para la categoría seleccionada
+    if (categoryId) {
+      this.loadProductsForCategory(categoryId);
+    }
   }
 
   private loadAvailableCategories() {
@@ -108,9 +145,10 @@ export class Menu {
 
         // Check if products exist
         category.productIds.forEach(productId => {
-          const productExists = this.availableProducts().some(prod => prod.id === productId);
+          const categoryProducts = this.availableProducts().get(category.categoryId) || [];
+          const productExists = categoryProducts.some(prod => prod.id === productId);
           if (!productExists) {
-            validationErrors.push(`Producto con ID ${productId} no existe`);
+            validationErrors.push(`Producto con ID ${productId} no existe en la categoría seleccionada`);
           }
         });
       });
