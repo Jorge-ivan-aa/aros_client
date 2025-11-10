@@ -34,6 +34,8 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: print actua directory
+        run: ls
       - name: Build Docker images
         run: |
           docker build \
