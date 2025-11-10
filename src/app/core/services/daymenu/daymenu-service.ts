@@ -45,8 +45,8 @@ export class DayMenuService {
     return this.getDayMenu();
   }
 
-  createDayMenu(dayMenu: DayMenuCreateRequest): Observable<void> {
-    return this.http.post<void>('daymenu', dayMenu);
+  createDayMenu(dayMenu: DayMenuCreateRequest): Observable<string> {
+    return this.http.post<string>('daymenu', dayMenu);
   }
 
   updateDayMenu(dayMenu: DayMenuUpdateRequest): Observable<DayMenu> {

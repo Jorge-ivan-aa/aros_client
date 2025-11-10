@@ -179,7 +179,12 @@ export class Menu {
       };
 
       this.dayMenuService.createDayMenu(dayMenuRequest).subscribe({
-        next: () => {
+        next: (response) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: response || 'Menú del día creado exitosamente'
+          });
           this.dayMenuForm.reset({
             name: '',
             price: 0,
@@ -189,10 +194,11 @@ export class Menu {
         },
         error: (error) => {
           console.error('Error creating day menu:', error);
+          const errorMessage = error.error?.message || error.message || 'No se pudo crear el menú del día';
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'No se pudo crear el menú del día'
+            detail: errorMessage
           });
           this.isSubmitting.set(false);
         }
