@@ -1,0 +1,70 @@
+name: Build Client Image and Notify
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate image version
+        run: echo "IMAGE_VERSION=$(date +%Y%m%d)-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular application
+        run: npm run build -- --configuration production
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker images
+        run: |
+          docker build \
+            -t buhoaullador/aros-client:${{ env.IMAGE_VERSION }} \
+            -t buhoaullador/aros-client:latest \
+            .
+
+      - name: Push Docker images
+        run: |
+          docker push buhoaullador/aros-client:${{ env.IMAGE_VERSION }}
+          docker push buhoaullador/aros-client:latest
+
+      - name: Send notification on success
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.MAIL_SERVER_ADDRESS }}
+          server_port: ${{ secrets.MAIL_SERVER_PORT }}
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "Deployment Required: New AROS Client image ${{ env.IMAGE_VERSION }} available"
+          to: ${{ secrets.MAIL_RECIPIENT }}
+          from: GitHub Actions <noreply@github.com>
+          body: |
+            A new version of the aros-client has been successfully built and pushed to Docker Hub.
+
+            The new Docker image 'buhoaullador/aros-client:${{ env.IMAGE_VERSION }}' is ready for manual deployment.
+            The 'latest' tag has also been updated for convenience.
+
+            Triggered by commit: ${{ github.sha }}
+            Commit message: ${{ github.event.head_commit.message }}
+            See commit details: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+
+            Please connect to the infrastructure environment and run the deployment script using the new version tag.
