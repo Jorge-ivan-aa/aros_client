@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { DarkModeButton } from '../dark-mode-button/dark-mode-button';
 import { MenuItem, MenuService } from '../../../core/services/menu/menu-service';
 import { Subscription } from 'rxjs';
+import { Logo } from "../logo/logo";
+import { environment } from '@environments/environment';
 
 export interface HorizontalMenuOption {
   id: string;
@@ -16,7 +18,7 @@ export interface HorizontalMenuOption {
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, DarkModeButton],
+  imports: [CommonModule, DarkModeButton, Logo],
   templateUrl: './header.html',
   styles: ``
 })
@@ -24,6 +26,7 @@ export class Header implements OnInit, OnDestroy {
   @Output() toggleMenu = new EventEmitter<void>();
   @Input() horizontalMenuOptions: HorizontalMenuOption[] = [];
   @Input() isMobile = false;
+  customer = environment.customer;
 
   selectedMenuItem: MenuItem | null = null;
   private menuSubscription!: Subscription;

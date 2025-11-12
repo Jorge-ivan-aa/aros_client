@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.0.0",
   "scripts": {
+    "brand": "node scripts/setup-brand.js",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
