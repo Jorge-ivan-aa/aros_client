@@ -39,7 +39,7 @@ jobs:
           docker build \
             -t buhoaullador/aros-client:${{ env.IMAGE_VERSION }} \
             -t buhoaullador/aros-client:latest \
-            .
+            ./build
 
       - name: Push Docker images
         run: |
@@ -50,21 +50,20 @@ jobs:
         if: success()
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: ${{ secrets.MAIL_SERVER_ADDRESS }}
-          server_port: ${{ secrets.MAIL_SERVER_PORT }}
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
+          server_address: smtp.resend.com
+          server_port: 587
+          username: username
+          password: ${{ secrets.RESEND_API_KEY }}
           subject: "Deployment Required: New AROS Client image ${{ env.IMAGE_VERSION }} available"
           to: ${{ secrets.MAIL_RECIPIENT }}
-          from: GitHub Actions <noreply@github.com>
+          from: "AROS Deploy <${{ secrets.MAIL_USERNAME }}>"
           body: |
             A new version of the aros-client has been successfully built and pushed to Docker Hub.
-
             The new Docker image 'buhoaullador/aros-client:${{ env.IMAGE_VERSION }}' is ready for manual deployment.
             The 'latest' tag has also been updated for convenience.
-
+            
             Triggered by commit: ${{ github.sha }}
             Commit message: ${{ github.event.head_commit.message }}
             See commit details: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
-
+            
             Please connect to the infrastructure environment and run the deployment script using the new version tag.
