@@ -15,10 +15,14 @@
           <div class="p-4 space-y-3 bg-surface-50 dark:bg-surface-800 rounded-2xl flex-1 overflow-y-auto">
             @for (category of dayMenu()!.categories; track category.id) {
             <div class="border-b border-surface-300 dark:border-surface-700 pb-3 last:border-b-0 last:pb-0">
-              <h4 class="font-normal text-surface-800 dark:text-surface-300 mb-2">
-                <i class="pi pi-thumbtack"></i>
-                {{ category.name }}
-              </h4>
+              <header class="flex text-[1rem] items-center">
+                <i class="pi pi-thumbtack !text-sm"></i>
+                <h4 class="font-normal text-surface-800 dark:text-surface-300 ml-1">
+                  {{ category.name }}
+                </h4>
+              </header>
+
+
               @for (product of category.products; track product.id) {
               <p class="pl-4 text-sm text-surface-600 dark:text-surface-400">{{ product.name }}</p>
               }
@@ -36,7 +40,7 @@
         </div>
         } @else {
         <p-message severity="warn">
-          El menu del dia aún no ha sido creador.
+          El menu del dia aún no ha sido creado.
         </p-message>
         }
       </div>
@@ -136,7 +140,7 @@
               <td class="font-mono text-sm">{{ order.id }}</td>
               <td class="font-medium">{{ order.table }}</td>
               <td class="text-sm text-surface-600 dark:text-surface-400">
-                {{ order.date | date:'HH:mm' }}
+                {{ formatDate(order.date) }}
               </td>
               <td>
                 <span [class]="getStatusBadgeClass(order.status)" class="px-2 py-1 rounded-full text-xs font-medium">

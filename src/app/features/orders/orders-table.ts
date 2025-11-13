@@ -38,13 +38,22 @@ export class OrdersTable implements OnInit {
 
   // Options combox
   comboOptions: string[] = ['ALL', 'PENDING', 'COMPLETED', 'CANCELLED'];
+  comboOption: string[] = ['ALL', 'PENDING', 'COMPLETED', 'CANCELLED'];
+
+  comboStatusOptions = [
+    { label: 'Categoria', value: 'ALL' },
+    { label: 'Pendientes', value: 'PENDING' },
+    { label: 'Completadas', value: 'COMPLETED' },
+    { label: 'Canceladas', value: 'CANCELLED' }
+  ];
+
   selectedOption = 'ALL';
 
   // Status options for the dropdown
   statusOptions = [
-    { label: 'PENDING', value: 'PENDING' },
-    { label: 'COMPLETED', value: 'COMPLETED' },
-    { label: 'CANCELLED', value: 'CANCELLED' }
+    { label: 'Pendiente', value: 'PENDING' },
+    { label: 'Completada', value: 'COMPLETED' },
+    { label: 'Cancelada', value: 'CANCELLED' }
   ];
 
   // Track modified orders: Map<orderId, modifiedOrder>
@@ -61,8 +70,7 @@ export class OrdersTable implements OnInit {
     this.fetchOrders();
   }
 
-  onOptionChange(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
+  onOptionChange(value: string): void {
     this.selectedOption = value;
 
 
@@ -100,6 +108,21 @@ export class OrdersTable implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  formatDate(date: string | Date): string {
+    if (!date) return '-';
+
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+
+    return new Intl.DateTimeFormat('es-ES', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    }).format(dateObj);
   }
 
 
@@ -148,7 +171,7 @@ export class OrdersTable implements OnInit {
   onFieldChange(order: OrderResponse, field: 'table', value: string): void {
     order.table = value;
     this.trackOrderChange(order);
-  }  private trackOrderChange(order: OrderResponse): void {
+  } private trackOrderChange(order: OrderResponse): void {
     const original = this.originalOrders.get(order.id);
     if (!original) return;
 

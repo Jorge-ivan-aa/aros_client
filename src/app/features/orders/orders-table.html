@@ -1,42 +1,24 @@
 <div class="mb-3 pb-4 flex items-center justify-between gap-3 flex-wrap">
   <div class="flex items-center gap-3 flex-wrap">
-    <label for="statusFilter" class="mr-2 text-surface-700 dark:text-surface-200">Filter by:</label>
-    <select
-      id="statusFilter"
-      (change)="onOptionChange($event)"
-      class="px-3 py-2 rounded-md bg-primary-500 text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-300 shadow-sm transition-colors duration-150
-             dark:bg-primary-400 dark:hover:bg-primary-300 dark:text-surface-900"
-    >
-      @for (option of comboOptions; track option) {
-        <option [value]="option" [selected]="option === selectedOption">
-          {{ option }}
-        </option>
-      }
-    </select>
-
+    <label for="statusFilter" class="mr-2 text-surface-700 dark:text-surface-200">Filtrar por:</label>
+    <p-select [options]="comboStatusOptions" [(ngModel)]="comboOptions" placeholder="Categoria" class="w-[220px]"
+      (onChange)="onOptionChange($event.value)" />
     <!-- Datepicker shared component placed next to the combo box -->
     <app-shared-datepicker (dateChange)="onDateChange($event)"></app-shared-datepicker>
   </div>
 
-  <!-- Save button on the right -->
   <div class="flex items-center gap-2">
     @if (hasUnsavedChanges) {
-      <span class="text-sm text-orange-600 dark:text-orange-400">
-        {{ unsavedChangesCount }} cambio(s) sin guardar
-      </span>
+    <span class="text-sm text-red-400">
+      {{ unsavedChangesCount }} cambio(s) sin guardar
+    </span>
     }
-    <p-button
-      icon="pi pi-save"
-      label="Guardar cambios"
-      (onClick)="saveChanges()"
-      [disabled]="!hasUnsavedChanges || saving"
-      [loading]="saving"
-      severity="success"
-    />
+    <p-button icon="pi pi-save" label="Guardar cambios" (onClick)="saveChanges()"
+      [disabled]="!hasUnsavedChanges || saving" [loading]="saving" />
   </div>
 </div>
 
-<p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table [value]="orders" [scrollable]="true" scrollHeight="60vh">
   <ng-template pTemplate="header">
     <tr>
       <th>ID</th>
@@ -50,26 +32,13 @@
     <tr>
       <td>{{ order.id }}</td>
       <td>
-        <p-select
-          [options]="statusOptions"
-          [(ngModel)]="order.status"
-          (onChange)="onStatusChange(order, $event.value)"
-          placeholder="Seleccionar estado"
-          optionLabel="label"
-          optionValue="value"
-          [style]="{'width': '160px'}"
-        />
+        <p-select [options]="statusOptions" [(ngModel)]="order.status" (onChange)="onStatusChange(order, $event.value)"
+          placeholder="Seleccionar estado" optionLabel="label" optionValue="value" [style]="{'width': '200px'}" />
       </td>
-      <td>{{ order.date }}</td>
+      <td>{{ formatDate(order.date) }}</td>
       <td>
-        <input
-          pInputText
-          type="text"
-          [(ngModel)]="order.table"
-          (ngModelChange)="onFieldChange(order, 'table', $event)"
-          placeholder="Nombre de mesa"
-          class="w-full"
-        />
+        <input pInputText type="text" [(ngModel)]="order.table" (ngModelChange)="onFieldChange(order, 'table', $event)"
+          placeholder="Nombre de mesa" class="w-full" />
       </td>
       <td>{{ order.totalPrice | currency:'COP':'symbol':'1.2-2' }}</td>
     </tr>
@@ -77,8 +46,8 @@
 </p-table>
 
 @if (loading) {
-  <div class="mt-4 text-surface-600 dark:text-surface-300">Cargando pedidos...</div>
+<div class="mt-4 text-surface-600 dark:text-surface-300">Cargando pedidos...</div>
 }
 @if (error) {
-  <div class="mt-4 text-red-600">{{ error }}</div>
+<div class="mt-4 text-red-600">{{ error }}</div>
 }

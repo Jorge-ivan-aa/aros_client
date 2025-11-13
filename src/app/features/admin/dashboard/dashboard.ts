@@ -26,7 +26,7 @@ import { Message } from "primeng/message";
     CardModule,
     OrderDetailDialogComponent,
     Message
-],
+  ],
 
 })
 export class Dashboard implements OnInit {
@@ -145,15 +145,29 @@ export class Dashboard implements OnInit {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
+      hour12: true
     };
     this.currentDate.set(now.toLocaleDateString('es-ES', dateOptions));
 
     // Format time
     this.currentTime.set(now.toLocaleTimeString('es-ES', {
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
+      hour12: true
     }));
+  }
+
+  formatDate(date: string | Date): string {
+    if (!date) return '-';
+
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+
+    return new Intl.DateTimeFormat('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    }).format(dateObj);
   }
 
   private loadDayMenu() {
