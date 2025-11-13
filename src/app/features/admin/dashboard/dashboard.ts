@@ -12,6 +12,8 @@ import { OrderDetailDialogComponent } from '@shared/components/order-detail-dial
 import { LoggingService } from '@app/core/services/logging/logging-service';
 import { OrderResponse } from '@app/shared/models/dto/orders/order-response.model';
 import { OrderDetailsResponse } from '@app/shared/models/dto/orders/order-details-response.model';
+import { count } from 'rxjs';
+import { Message } from "primeng/message";
 
 @Component({
   selector: 'app-dashboard',
@@ -22,8 +24,9 @@ import { OrderDetailsResponse } from '@app/shared/models/dto/orders/order-detail
     TableModule,
     BadgeModule,
     CardModule,
-    OrderDetailDialogComponent
-  ],
+    OrderDetailDialogComponent,
+    Message
+],
 
 })
 export class Dashboard implements OnInit {
@@ -36,9 +39,11 @@ export class Dashboard implements OnInit {
   orders = signal<OrderResponse[]>([]);
   orderDetails = signal<OrderDetailsResponse[]>([]);
   dayMenu = signal<DayMenu | null>(null);
+  existDayMenu = false
   completedOrdersCount = signal(0);
   preparingOrdersCount = signal(0);
   occupiedTablesCount = signal(0);
+  totalTables = signal(0);
   totalSales = signal(0);
   currentDate = signal('');
   currentTime = signal('');
@@ -111,6 +116,16 @@ export class Dashboard implements OnInit {
       }
     });
 
+    this.tableService.getTotalTablesCount().subscribe({
+      next: (count) => {
+        this.totalTables.set(count);
+      },
+      error: (error) => {
+        this.loggingService.error('Error loading tables count:', error);
+        this.occupiedTablesCount.set(0);
+      }
+    })
+
     this.orderService.getTotalSales().subscribe({
       next: (total) => {
         this.totalSales.set(total);
@@ -142,75 +157,16 @@ export class Dashboard implements OnInit {
   }
 
   private loadDayMenu() {
-    // ⚠️ HARDCODED DAY MENU - TODO: Fix API call to get real day menu
-    // Original code (commented out):
-    /*
     this.dayMenuService.getActiveDayMenu().subscribe({
       next: (menu: DayMenu) => {
         this.dayMenu.set(menu);
+        this.existDayMenu = true
       },
       error: (error: unknown) => {
         this.loggingService.error('Error loading day menu:', error);
+
       }
     });
-    */
-
-    // Hardcoded day menu for testing
-    const hardcodedMenu: DayMenu = {
-      id: 27,
-      name: 'Menú del Día',
-      description: 'Menú del día actual',
-      price: 15000,
-      preparationTime: 30,
-      active: true,
-      creation: new Date().toISOString().split('T')[0], // Today's date
-      categories: [
-        {
-          id: 1,
-          name: 'Sopas',
-          position: 1,
-          products: [
-            { id: 1, name: 'Sopa de Pollo', price: 8000, description: 'Deliciosa sopa de pollo', preparationTime: 15 },
-            { id: 2, name: 'Sopa de Verduras', price: 7000, description: 'Sopa casera de verduras', preparationTime: 12 }
-          ]
-        },
-        {
-          id: 2,
-          name: 'Principios',
-          position: 2,
-          products: [
-            { id: 4, name: 'Arroz con Pollo', price: 12000, description: 'Arroz con pollo y verduras', preparationTime: 20 },
-            { id: 5, name: 'Pasta Alfredo', price: 11000, description: 'Pasta en salsa cremosa', preparationTime: 18 },
-            { id: 6, name: 'Ensalada César', price: 9000, description: 'Ensalada fresca con aderezo césar', preparationTime: 10 }
-          ]
-        },
-        {
-          id: 3,
-          name: 'Proteínas',
-          position: 3,
-          products: [
-            { id: 8, name: 'Pollo a la Plancha', price: 15000, description: 'Pechuga de pollo a la plancha', preparationTime: 25 },
-            { id: 9, name: 'Carne Asada', price: 18000, description: 'Carne de res asada', preparationTime: 30 },
-            { id: 10, name: 'Pescado Frito', price: 16000, description: 'Filete de pescado frito', preparationTime: 20 },
-            { id: 11, name: 'Lomo de Cerdo', price: 17000, description: 'Lomo de cerdo al horno', preparationTime: 28 }
-          ]
-        },
-        {
-          id: 4,
-          name: 'Bebidas',
-          position: 4,
-          products: [
-            { id: 13, name: 'Jugo Natural', price: 4000, description: 'Jugo natural del día', preparationTime: 5 },
-            { id: 14, name: 'Gaseosa', price: 3000, description: 'Bebida gaseosa', preparationTime: 2 },
-            { id: 15, name: 'Limonada', price: 3500, description: 'Limonada natural', preparationTime: 5 },
-            { id: 16, name: 'Agua', price: 2000, description: 'Agua mineral', preparationTime: 1 }
-          ]
-        }
-      ]
-    };
-
-    this.dayMenu.set(hardcodedMenu);
-    this.loggingService.debug('Dashboard: Hardcoded day menu loaded:', hardcodedMenu);
   }
 
   getStatusBadgeClass(status: string): string {

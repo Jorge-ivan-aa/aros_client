@@ -74,7 +74,7 @@ export class OrderService {
     return this.http.get<OrderDetailsResponse[]>(`orders/${orderId}/details`);
   }
 
-   getOrderDetails(): Observable<OrderDetailsResponse[]> {
+  getOrderDetails(): Observable<OrderDetailsResponse[]> {
     // This endpoint might need to be adjusted based on actual API
     // For now, returning empty array as the API structure for details is not specified
     return this.http.get<OrderDetailsResponse[]>('orders/details');
@@ -82,7 +82,7 @@ export class OrderService {
 
 
   getTodayOrders(): Observable<OrderResponse[]> {
-    return this.http.get<OrderResponse[]>('orders/all').pipe(
+    return this.http.get<OrderResponse[]>('orders/current').pipe(
       map(orders => this.filterTodayOrders(orders))
     );
   }

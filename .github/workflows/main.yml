@@ -34,12 +34,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Move dist to build directory
+        run: cp dist build
+
       - name: Build Docker images
         run: |
           docker build \
             -t buhoaullador/aros-client:${{ env.IMAGE_VERSION }} \
             -t buhoaullador/aros-client:latest \
-            ./build
+            build
 
       - name: Push Docker images
         run: |

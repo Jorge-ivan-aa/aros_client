@@ -1,13 +1,12 @@
-<div class="p-4 min-h-[calc(100vh-8rem)] lg:max-w-[80vw] overflow-hidden">
+<div class="pr-4 min-h-[calc(100vh-101rem)] lg:max-w-[80vw] overflow-hidden">
   <!-- Main Dashboard Container -->
   <div class="flex flex-col lg:grid lg:grid-cols-7 lg:grid-rows-[auto_1fr] gap-6 h-full">
 
     <!-- Day Menu - Mobile: Full width, Desktop: Left column -->
     <aside
-      class="max-h-[80vh] border border-surface-200 dark:border-surface-700 rounded-2xl bg-primary-contrast lg:col-span-2 lg:row-span-2 order-2 lg:order-1 flex flex-col">
+      class="h-auto border border-surface-200 dark:border-surface-700 rounded-2xl bg-primary-contrast lg:col-span-2 lg:row-span-2 order-2 lg:order-1 flex flex-col">
       <header class="flex justify-between items-center p-4">
-        <h2 class="font-bold text-lg">Menú del Día</h2>
-        <p-button icon="pi pi-cog" size="small" [text]="true" [rounded]="true" severity="secondary"></p-button>
+        <h2 class="font-bold text-md">Menú del Día</h2>
       </header>
       <div class="p-4 flex-1 overflow-y-auto max-h-fit">
         @if (dayMenu()) {
@@ -16,9 +15,12 @@
           <div class="p-4 space-y-3 bg-surface-50 dark:bg-surface-800 rounded-2xl flex-1 overflow-y-auto">
             @for (category of dayMenu()!.categories; track category.id) {
             <div class="border-b border-surface-300 dark:border-surface-700 pb-3 last:border-b-0 last:pb-0">
-              <h4 class="font-medium text-surface-700 dark:text-surface-300 mb-2">{{ category.name }}</h4>
+              <h4 class="font-normal text-surface-800 dark:text-surface-300 mb-2">
+                <i class="pi pi-thumbtack"></i>
+                {{ category.name }}
+              </h4>
               @for (product of category.products; track product.id) {
-              <p class="text-sm text-surface-600 dark:text-surface-400">{{ product.name }}</p>
+              <p class="pl-4 text-sm text-surface-600 dark:text-surface-400">{{ product.name }}</p>
               }
             </div>
             }
@@ -32,6 +34,10 @@
             </div>
           </div>
         </div>
+        } @else {
+        <p-message severity="warn">
+          El menu del dia aún no ha sido creador.
+        </p-message>
         }
       </div>
     </aside>
@@ -39,9 +45,9 @@
     <!-- Statistics Header - Mobile: Top, Desktop: Top right -->
     <header
       class="border border-surface-200 dark:border-surface-700 rounded-2xl bg-surface-100 dark:bg-surface-800 lg:col-span-5 order-1 lg:order-2">
-      <div class="flex justify-between items-center p-4 lg:p-6">
+      <div class="flex justify-between items-center p-4">
         <div>
-          <h2 class="text-xl font-bold text-surface-900 dark:text-surface-100">{{ currentDate() }}</h2>
+          <h2 class="text-md font-bold text-surface-900 dark:text-surface-100">{{ currentDate() }}</h2>
           <p class="text-surface-600 dark:text-surface-400 text-sm">{{ currentTime() }}</p>
         </div>
       </div>
@@ -53,18 +59,13 @@
           <div class="flex justify-center items-center gap-2 mb-2">
             <div class="text-3xl font-bold text-surface-900 dark:text-surface-100">
               @if (showSales()) {
-                $ {{ totalSales() | number:'1.0-0' }}
+              $ {{ totalSales() | number:'1.0-0' }}
               } @else {
-                •••••
+              •••••
               }
             </div>
-            <p-button
-              [icon]="showSales() ? 'pi pi-eye' : 'pi pi-eye-slash'"
-              size="small"
-              [text]="true"
-              [rounded]="true"
-              severity="secondary"
-              (onClick)="toggleSalesVisibility()"
+            <p-button [icon]="showSales() ? 'pi pi-eye' : 'pi pi-eye-slash'" size="small" [text]="true" [rounded]="true"
+              severity="secondary" (onClick)="toggleSalesVisibility()"
               [title]="showSales() ? 'Ocultar ventas' : 'Mostrar ventas'">
             </p-button>
           </div>
@@ -86,7 +87,7 @@
             Mesas Ocupadas
           </div>
           <p class="text-xs text-surface-500 dark:text-surface-500 mt-1">
-            De 10 mesas totales
+            De {{totalTables()}} mesas totales
           </p>
         </div>
 
@@ -110,14 +111,15 @@
     <section
       class="border border-surface-200 dark:border-surface-700 rounded-2xl bg-primary-contrast lg:col-span-5 order-3 lg:order-3 flex flex-col">
       <header class="flex justify-between items-center p-4">
-        <h2 class="text-xl font-bold text-surface-900 dark:text-surface-100">
+        <h2 class="text-md font-bold text-surface-900 dark:text-surface-100">
           Pedidos del Día
         </h2>
-        <p-badge [value]="orders().length" severity="info"></p-badge>
+        <span class="rounded-full bg-primary-500 py-1 px-2.5 text-primary-contrast text-sm">{{orders().length}}</span>
       </header>
 
-      <div class="p-4 min-h-[400px] flex-1 overflow-auto">
-        <p-table [value]="orders()" [tableStyle]="{ 'min-width': '100%' }" [paginator]="true" [rows]="4">
+      <div class=" p-4 pt-0 flex-1 h-fit">
+        <p-table [value]="orders()" size="small" selectionMode="single" [scrollable]="true" scrollHeight="360px"
+          [tableStyle]="{'min-width': '20rem'}">
           <ng-template pTemplate="header">
             <tr>
               <th class="text-left">ID</th>
@@ -125,7 +127,7 @@
               <th class="text-left">Fecha</th>
               <th class="text-left">Estado</th>
               <th class="text-right">Total</th>
-              <th class="text-center">Acciones</th>
+              <th class="text-center">Detalles</th>
             </tr>
           </ng-template>
 
@@ -156,7 +158,7 @@
               <td colspan="6" class="text-center p-4 text-surface-500 dark:text-surface-500">
                 No hay pedidos para mostrar
                 @if (orders().length === 0) {
-                  <div class="text-xs mt-2">(Total de órdenes cargadas: 0)</div>
+                <div class="text-xs mt-2">(Total de órdenes cargadas: 0)</div>
                 }
               </td>
             </tr>

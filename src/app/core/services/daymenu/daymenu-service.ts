@@ -46,8 +46,6 @@ export class DayMenuService {
   }
 
   createDayMenu(dayMenu: DayMenuCreateRequest): Observable<string> {
-    // Backend responde texto plano "Day menu created successfully" (201),
-    // por eso configuramos responseType: 'text' y tipamos el Observable como string.
     return this.http.post<string>('daymenu', dayMenu, { responseType: 'text' as 'json' });
   }
 

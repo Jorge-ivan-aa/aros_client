@@ -37,6 +37,12 @@ export class TableService {
     );
   }
 
+  getTotalTablesCount(): Observable<number> {
+    return this.getTables().pipe(
+      map(tables => tables.length)
+    );
+  }
+
   getOccupiedTablesCount(): Observable<number> {
     return this.getOccupiedTables().pipe(
       map(tables => tables.length)
