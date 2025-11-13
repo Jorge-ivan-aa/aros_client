@@ -1,0 +1,26 @@
+<div class="space-y-4">
+  @if (loading) {
+    <div class="text-surface-600 dark:text-surface-400">Cargando...</div>
+  }
+
+  @if (error) {
+    <div class="text-red-600">Error al cargar datos</div>
+  }
+
+  @if (!loading && !error) {
+    @if (data?.datasets?.[0]?.data?.length) {
+      <p-chart type="doughnut" [data]="data" [options]="options" class="w-full md:w-[30rem]" />
+
+      <ul class="mt-4 text-sm text-surface-700 dark:text-surface-300">
+        @for (label of (data?.labels || []); track $index; let i = $index) {
+          <li class="flex justify-between border-b border-surface-200 dark:border-surface-700 py-1">
+            <span>{{ label }}</span>
+            <span>{{ data?.datasets?.[0]?.data?.[i] }}</span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <div class="text-surface-600 dark:text-surface-400">Sin datos</div>
+    }
+  }
+</div>
