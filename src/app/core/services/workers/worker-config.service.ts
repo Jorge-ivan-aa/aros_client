@@ -19,36 +19,6 @@ export class WorkerConfigService {
   }
 
   private initializeWorkerTypes(): void {
-    // Admin Worker Type
-    this.workerTypes.set('admin', {
-      id: 'admin',
-      name: 'Administrador',
-      description: 'Acceso completo a todas las funciones del sistema',
-      horizontalMenuOptions: [
-        {
-          id: 'quick-orders',
-          label: 'Pedidos Rápidos',
-          description: 'Crear pedidos rápidamente',
-          icon: 'pi pi-bolt',
-          isActive: false
-        },
-        {
-          id: 'kitchen-view',
-          label: 'Vista Cocina',
-          description: 'Monitorear estado de cocina',
-          icon: 'pi pi-utensils',
-          isActive: false
-        },
-        {
-          id: 'cash-register',
-          label: 'Caja',
-          description: 'Acceso a funciones de caja',
-          icon: 'pi pi-money-bill',
-          isActive: false
-        }
-      ]
-    });
-
     // Kitchen Worker Type
     this.workerTypes.set('kitchen', {
       id: 'kitchen',
@@ -60,22 +30,11 @@ export class WorkerConfigService {
           label: 'Cola de Pedidos',
           description: 'Ver pedidos en cola',
           icon: 'pi pi-list',
-          isActive: false
+          isActive: false,
+          command: () => {
+            // Renderizar componente de cocina
+          }
         },
-        {
-          id: 'preparation',
-          label: 'Preparación',
-          description: 'Marcar pedidos en preparación',
-          icon: 'pi pi-clock',
-          isActive: false
-        },
-        {
-          id: 'ready-orders',
-          label: 'Pedidos Listos',
-          description: 'Marcar pedidos como listos',
-          icon: 'pi pi-check-circle',
-          isActive: false
-        }
       ]
     });
 
@@ -90,50 +49,23 @@ export class WorkerConfigService {
           label: 'Tomar Pedido',
           description: 'Crear nuevo pedido',
           icon: 'pi pi-pencil',
+          isActive: false,
+          command: () => {
+            // Renderizar componente de creación de pedidos
+          }
+        },
+        {
+          id: 'day-menu',
+          label: 'Menú del Día',
+          description: 'Ver menú del día',
+          icon: 'pi pi-sun',
           isActive: false
         },
         {
-          id: 'table-status',
-          label: 'Estado Mesas',
-          description: 'Ver estado de las mesas',
-          icon: 'pi pi-table',
-          isActive: false
-        },
-        {
-          id: 'serve-orders',
-          label: 'Servir Pedidos',
-          description: 'Marcar pedidos como servidos',
-          icon: 'pi pi-truck',
-          isActive: false
-        }
-      ]
-    });
-
-    // Cashier Worker Type
-    this.workerTypes.set('cashier', {
-      id: 'cashier',
-      name: 'Cajero',
-      description: 'Acceso a funciones de pago y facturación',
-      horizontalMenuOptions: [
-        {
-          id: 'process-payment',
-          label: 'Procesar Pago',
-          description: 'Procesar pagos de pedidos',
-          icon: 'pi pi-credit-card',
-          isActive: false
-        },
-        {
-          id: 'billing',
-          label: 'Facturación',
-          description: 'Generar facturas',
-          icon: 'pi pi-file',
-          isActive: false
-        },
-        {
-          id: 'daily-report',
-          label: 'Reporte Diario',
-          description: 'Ver reporte de ventas del día',
-          icon: 'pi pi-chart-line',
+          id: 'today-orders',
+          label: 'Órdenes del Día',
+          description: 'Ver órdenes del día (solo lectura)',
+          icon: 'pi pi-list',
           isActive: false
         }
       ]
@@ -150,20 +82,23 @@ export class WorkerConfigService {
           label: 'Tomar Pedido',
           description: 'Crear nuevo pedido',
           icon: 'pi pi-pencil',
+          isActive: false,
+          command: () => {
+            // Renderizar componente de creación de pedidos
+          }
+        },
+        {
+          id: 'day-menu',
+          label: 'Menú del Día',
+          description: 'Ver menú del día',
+          icon: 'pi pi-sun',
           isActive: false
         },
         {
-          id: 'table-status',
-          label: 'Estado Mesas',
-          description: 'Ver estado de las mesas',
-          icon: 'pi pi-table',
-          isActive: false
-        },
-        {
-          id: 'serve-orders',
-          label: 'Servir Pedidos',
-          description: 'Marcar pedidos como servidos',
-          icon: 'pi pi-truck',
+          id: 'today-orders',
+          label: 'Órdenes del Día',
+          description: 'Ver órdenes del día (solo lectura)',
+          icon: 'pi pi-list',
           isActive: false
         }
       ]

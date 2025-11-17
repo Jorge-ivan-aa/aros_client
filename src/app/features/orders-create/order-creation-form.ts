@@ -10,12 +10,13 @@ import { ProductService } from '@core/services/products/product-service';
 import { ProductListResponse } from '@app/shared/models/dto/products/product-list-response.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LoggingService } from '@app/core/services/logging/logging-service';
+import { AuthService } from '@app/core/services/authentication/auth-service';
 
 @Component({
   selector: 'app-order-creation-form',
   templateUrl: './order-creation-form.html',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink]
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class OrderCreationForm implements OnInit {
   private fb = inject(FormBuilder);
@@ -25,6 +26,7 @@ export class OrderCreationForm implements OnInit {
   private productService = inject(ProductService);
   private destroyRef = inject(DestroyRef);
   private loggingService = inject(LoggingService);
+  private authService = inject(AuthService);
 
   title = 'Crear pedido';
   description = 'Registra un nuevo pedido indicando la mesa y los productos para cada orden de cliente.';
@@ -98,24 +100,32 @@ export class OrderCreationForm implements OnInit {
       return;
     }
 
-  interface DetailFormValue { product: number | null; quantity: number; observations: string; subProducts: string }
-  interface ClientOrderFormValue { details: DetailFormValue[] }
+    interface DetailFormValue { product: number | null; quantity: number; observations: string; subProducts: string }
+    interface ClientOrderFormValue { details: DetailFormValue[] }
 
     const raw = this.form.getRawValue() as { table: number | null; clientOrders: ClientOrderFormValue[] };
 
-    // HARDCODED: Using user with document '1001' (Carlos Gómez) as responsible
-    // TODO: Get responsible from authenticated user or allow selection
+    // Get responsible from authenticated user
+    const userData = this.authService.getData();
+    const responsible = userData?.document || '';
+
+    if (!responsible) {
+      this.loggingService.error('OrderCreationForm: No user document available');
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo obtener la información del usuario.' });
+      return;
+    }
+
     const request: CreateOrderRequest = {
       table: Number(raw.table),
-      responsible: '1001',  // ⚠️ HARDCODED - User exists in database
+      responsible: responsible,
       clientOrders: raw.clientOrders.map((co) => ({
         details: co.details.map((d) => {
           const parsedSubProducts = (d.subProducts)
             ? (d.subProducts)
-                .split(',')
-                .map(s => s.trim())
-                .filter(s => s.length > 0 && !isNaN(Number(s)))
-                .map(n => Number(n))
+              .split(',')
+              .map(s => s.trim())
+              .filter(s => s.length > 0 && !isNaN(Number(s)))
+              .map(n => Number(n))
             : [];
 
           const trimmedObservations = d.observations?.trim();
@@ -135,7 +145,6 @@ export class OrderCreationForm implements OnInit {
       next: () => {
         this.loggingService.info('CreateOrder success');
         this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Pedido creado correctamente.' });
-        this.router.navigate(['/admin/orders']);
       },
       error: (err) => {
         this.loggingService.error('CreateOrder failed', err);

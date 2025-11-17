@@ -1,0 +1,81 @@
+<div class="p-6 bg-surface-50 dark:bg-surface-900 min-h-full">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8 text-center">
+      <h1 class="text-3xl font-bold text-surface-800 dark:text-surface-100 mb-2">Menú del Día</h1>
+      <p class="text-surface-600 dark:text-surface-400">Especialidades disponibles para hoy</p>
+    </div>
+
+    <!-- Loading State -->
+    @if (loading) {
+      <div class="text-center py-12">
+        <div class="text-surface-400 dark:text-surface-500 mb-4">
+          <i class="pi pi-spin pi-spinner text-4xl"></i>
+        </div>
+        <p class="text-surface-600 dark:text-surface-400">Cargando menú del día...</p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (error && !loading) {
+      <div class="text-center py-12">
+        <div class="text-surface-400 dark:text-surface-500 mb-4">
+          <i class="pi pi-exclamation-triangle text-4xl"></i>
+        </div>
+        <h3 class="text-xl font-medium text-surface-600 dark:text-surface-400 mb-2">
+          Error al cargar el menú
+        </h3>
+        <p class="text-surface-500 dark:text-surface-500 mb-4">
+          {{ error }}
+        </p>
+        <button
+          class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+          (click)="fetchDayMenu()">
+          Reintentar
+        </button>
+      </div>
+    }
+
+    <!-- Menu Items by Category -->
+    @if (!loading && !error && categories.length > 0) {
+      @for (category of categories; track category) {
+        <div class="mb-8">
+          <h2 class="text-2xl font-semibold text-surface-700 dark:text-surface-200 mb-4 pb-2 border-b border-surface-200 dark:border-surface-700">
+            {{ category }}
+          </h2>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          @for (item of groupedMenuItems[category]; track item.id) {
+            <div class="bg-surface-100 dark:bg-surface-800 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="text-lg font-medium text-surface-800 dark:text-surface-100">{{ item.name }}</h3>
+                <span class="text-primary-600 dark:text-primary-400 font-semibold">
+                  ${{ item.price | number }}
+                </span>
+              </div>
+              <p class="text-surface-600 dark:text-surface-400 text-sm leading-relaxed">
+                {{ item.description }}
+              </p>
+            </div>
+          }
+          </div>
+        </div>
+      }
+    }
+
+    <!-- Empty State -->
+    @if (!loading && !error && categories.length === 0) {
+      <div class="text-center py-12">
+        <div class="text-surface-400 dark:text-surface-500 mb-4">
+          <i class="pi pi-info-circle text-4xl"></i>
+        </div>
+        <h3 class="text-xl font-medium text-surface-600 dark:text-surface-400 mb-2">
+          No hay menú disponible
+        </h3>
+        <p class="text-surface-500 dark:text-surface-500">
+          El menú del día no está disponible en este momento.
+        </p>
+      </div>
+    }
+  </div>
+</div>

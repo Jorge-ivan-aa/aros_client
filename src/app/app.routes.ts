@@ -13,11 +13,9 @@ import { Tables } from '@features/admin/manage/tables/tables';
 import { Analytics } from '@features/admin/analytics/analytics';
 import { Login } from '@areas/login/login-area';
 import { AdminArea } from '@areas/admin/admin-area';
-import { KitchenArea } from '@areas/kitchen/kitchen-area';
-import { WaiterArea } from '@areas/waiter/waiter-area';
-import { BarArea } from '@areas/bar/bar-area';
+import { WorkerArea } from '@areas/worker/worker-area';
 import { Users } from './features/admin/manage/users/users';
-import { Kitchen } from '@features/admin/manage/kitchen/kitchen';
+
 
 export const routes: Routes = [
 
@@ -61,16 +59,12 @@ export const routes: Routes = [
           },
               {
                 path: 'orders-create',
-                loadComponent: () => import('./features/admin/manage/orders-create/order-creation-form').then(m => m.OrderCreationForm),
+                loadComponent: () => import('./features/orders-create/order-creation-form').then(m => m.OrderCreationForm),
               },
           {
             path: 'users',
             component: Users,
           },
-          {
-            path: 'kitchen',
-            component: Kitchen,
-          }
         ]
       },
       {
@@ -83,19 +77,10 @@ export const routes: Routes = [
       },
     ],
   },
+
   {
-    path: 'kitchen',
-    component: KitchenArea,
-    canActivate: [AuthGuard, RoleGuard],
-  },
-  {
-    path: 'waiter',
-    component: WaiterArea,
-    canActivate: [AuthGuard, RoleGuard],
-  },
-  {
-    path: 'bar',
-    component: BarArea,
+    path: 'worker',
+    component: WorkerArea,
     canActivate: [AuthGuard, RoleGuard],
   },
   {

@@ -9,20 +9,26 @@
   <!-- Main Layout Container -->
   <div class="flex pt-16 h-[100vh]">
     <!-- Sidebar -->
+    @if (!hideSidebar) {
     <app-sidebar [visible]="sidebarVisible" [isMobile]="isMobile" (visibleChange)="onSidebarVisibleChange($event)">
     </app-sidebar>
+    }
 
     <!-- Main Content Area -->
     <main
-      class="flex-1 lg:ml-4 lg:mb-3 w-full transition-all duration-300 ease-in-out border rounded-2xl border-surface-300 dark:border-surface-700"
+      class="flex-1 lg:ml-4 lg:mb-3 w-full transition-all duration-300 ease-in-out border rounded-2xl border-surface-300 dark:border-surface-700 lg:mr-4"
       [class]="{
-        'lg:mr-80': !isMobile
+        'lg:mr-80': !isMobile && !hideSidebar
       }">
 
       <!-- Content Container -->
       <div class="w-full h-full p-4 lg:p-6">
         <article class="h-full w-full overflow-auto">
-          <ng-content></ng-content>
+          @if (currentComponent) {
+            <ng-container *ngComponentOutlet="currentComponent"></ng-container>
+          } @else {
+            <ng-content></ng-content>
+          }
         </article>
       </div>
     </main>

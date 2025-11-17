@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { DarkModeButton } from '../dark-mode-button/dark-mode-button';
 import { MenuItem, MenuService } from '../../../core/services/menu/menu-service';
+import { AuthService } from '../../../core/services/authentication/auth-service';
 import { Subscription } from 'rxjs';
 import { Logo } from "../logo/logo";
 import { environment } from '@environments/environment';
@@ -32,6 +34,8 @@ export class Header implements OnInit, OnDestroy {
   private menuSubscription!: Subscription;
 
   private menuService = inject(MenuService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.menuSubscription = this.menuService.selectedMenuItem$.subscribe(item => {
@@ -43,6 +47,11 @@ export class Header implements OnInit, OnDestroy {
     if (this.menuSubscription) {
       this.menuSubscription.unsubscribe();
     }
+  }
+
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   onHorizontalOptionClick(option: HorizontalMenuOption): void {

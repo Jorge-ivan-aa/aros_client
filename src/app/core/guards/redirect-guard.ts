@@ -58,4 +58,6 @@ export class RedirectGuard implements CanActivate {
     this.loggingService.routing('User not authenticated, allowing access to login');
     return true;
   }
+
+
 }

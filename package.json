@@ -2,11 +2,11 @@
   "name": "client",
   "version": "0.0.0",
   "scripts": {
-    "brand": "node scripts/setup-brand.js",
+    "prebuild": "node scripts/pre-build.js",
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "start": "npm run prebuild && ng serve",
+    "build": "npm run prebuild && ng build",
+    "watch": "npm run prebuild && ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint --fix"
   },

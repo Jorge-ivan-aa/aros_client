@@ -1,0 +1,105 @@
+<div class="p-6 bg-surface-50 dark:bg-surface-900 min-h-full">
+  <div class="max-w-6xl mx-auto">
+
+
+    <!-- Loading State -->
+    @if (loading) {
+      <div class="text-center py-12">
+        <div class="text-surface-400 dark:text-surface-500 mb-4">
+          <i class="pi pi-spin pi-spinner text-4xl"></i>
+        </div>
+        <p class="text-surface-600 dark:text-surface-400">Cargando órdenes del día...</p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (error && !loading) {
+      <div class="text-center py-12">
+        <div class="text-surface-400 dark:text-surface-500 mb-4">
+          <i class="pi pi-exclamation-triangle text-4xl"></i>
+        </div>
+        <h3 class="text-xl font-medium text-surface-600 dark:text-surface-400 mb-2">
+          Error al cargar las órdenes
+        </h3>
+        <p class="text-surface-500 dark:text-surface-500 mb-4">
+          {{ error }}
+        </p>
+        <button
+          class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+          (click)="fetchTodayOrders()">
+          Reintentar
+        </button>
+      </div>
+    }
+
+    <!-- Orders List -->
+    @if (!loading && !error) {
+      <div class="space-y-4">
+        @for (order of todayOrders; track order.id) {
+          <div class="bg-surface-100 dark:bg-surface-800 rounded-lg p-6 shadow-sm border border-surface-200 dark:border-surface-700">
+            <!-- Order Header -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+              <div class="flex items-center space-x-4 mb-3 md:mb-0">
+                <div class="bg-surface-200 dark:bg-surface-700 rounded-lg px-3 py-1">
+                  <span class="font-mono text-sm font-medium text-surface-800 dark:text-surface-200">{{ order.id }}</span>
+                </div>
+                <div class="bg-surface-200 dark:bg-surface-700 rounded-lg px-3 py-1">
+                  <span class="text-sm font-medium text-surface-800 dark:text-surface-200">{{ order.table }}</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span [class]="'px-3 py-1 rounded-full text-xs font-medium ' + getStatusColor(order.status)">
+                    <i [class]="getStatusIcon(order.status) + ' mr-1'"></i>
+                    {{ order.status }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="text-right">
+                <p class="text-lg font-bold text-surface-800 dark:text-surface-100">${{ order.total | number }}</p>
+                <p class="text-sm text-surface-500 dark:text-surface-500">{{ order.timestamp }}</p>
+              </div>
+            </div>
+
+            <!-- Customer Info -->
+            <div class="mb-4">
+              <p class="text-sm text-surface-600 dark:text-surface-400">Cliente: <span class="font-medium text-surface-800 dark:text-surface-200">{{ order.customer }}</span></p>
+            </div>
+
+            <!-- Order Items -->
+            <div class="border-t border-surface-200 dark:border-surface-700 pt-4">
+              <h4 class="text-sm font-medium text-surface-600 dark:text-surface-400 mb-3">Items del Pedido:</h4>
+              <div class="space-y-2">
+                @for (item of order.items; track item.name) {
+                  <div class="flex justify-between items-center py-1">
+                    <div class="flex items-center space-x-3">
+                      <span class="bg-surface-200 dark:bg-surface-700 rounded-full w-6 h-6 flex items-center justify-center text-xs font-medium text-surface-700 dark:text-surface-300">
+                        {{ item.quantity }}
+                      </span>
+                      <span class="text-surface-700 dark:text-surface-300">{{ item.name }}</span>
+                    </div>
+                    <span class="text-surface-600 dark:text-surface-400 font-medium">${{ item.price | number }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Empty State -->
+      @if (todayOrders.length === 0) {
+        <div class="text-center py-12">
+          <div class="text-surface-400 dark:text-surface-500 mb-4">
+            <i class="pi pi-inbox text-4xl"></i>
+          </div>
+          <h3 class="text-xl font-medium text-surface-600 dark:text-surface-400 mb-2">
+            No hay órdenes hoy
+          </h3>
+          <p class="text-surface-500 dark:text-surface-500">
+            No se han registrado órdenes para el día de hoy.
+          </p>
+        </div>
+      }
+    }
+  </div>
+</div>

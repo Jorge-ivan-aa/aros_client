@@ -38,7 +38,7 @@ import { SelectModule } from 'primeng/select';
 })
 export class Menu {
   title = 'Menús del Día';
-  description = 'Historial y gestión de menús promocionales por día';
+  description = 'Creador de menu del dia';
 
   private fb = inject(FormBuilder);
   private dayMenuService = inject(DayMenuService);

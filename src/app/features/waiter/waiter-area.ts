@@ -18,7 +18,7 @@ import { RippleModule } from 'primeng/ripple';
     RippleModule
   ],
   template: `
-    <div class="p-4 min-h-screen bg-surface-50 dark:bg-surface-900">
+    <div class="min-h-screen bg-surface-50 dark:bg-surface-900">
       <!-- Header -->
       <div class="mb-6">
         <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-100 mb-2">
