@@ -100,8 +100,12 @@ export class OrderService {
   }
 
   getTotalSales(): Observable<number> {
-    return this.getOrdersByStatus('COMPLETED').pipe(
-      map(orders => orders.reduce((sum, order) => sum + order.totalPrice, 0))
+    return this.getTodayOrders().pipe(
+      map(orders =>
+        orders
+          .filter(order => order.status === 'COMPLETED')
+          .reduce((sum, order) => sum + order.totalPrice, 0)
+      )
     );
   }
 
